@@ -4,7 +4,7 @@ defwikiは，AIエージェント専用のナレッジベースを提供するMC
 記述を用語集の形式に制限することで，AIエージェントが持続的にナレッジベースを構築できます．
 
 人間が中身を確認するときは，`defwiki-export`スクリプトでMarkdownに書き出します．以下は，そうして書き出したサンプルです．
-- [examples/wiki.md](examples/wiki.md): AIの生成したWikiです．
+- [examples/wiki.md](examples/wiki.md): AIの生成した，656個の定義からなるWikiです．
 - [examples/todo.md](examples/todo.md): AIの生成した，Wikiに対するToDoリストです．
 
 以下は，サンプルのスクリーンショットです．
