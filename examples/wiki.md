@@ -62,7 +62,7 @@
 
 ## AS番号
 
-[自律システム](#8wkkrz)を一意に識別する番号．2オクテットまたは4オクテットの値をとる．64512から65534まで，および4200000000から4294967294まではプライベート用に予約され，[インターネット](#3qoztf)への[経路](#5433mk)の広告に用いない．4オクテットの値を扱えない[BGPスピーカー](#v9rnch)に対しては，[AS_PATH](#my3zbg)中の2オクテットに収まらない値を23456（AS_TRANS）に置き換え，元の値をAS4_PATH属性で伝える．
+[自律システム](#8wkkrz)を一意に識別する番号．2[オクテット](#yimp6h)または4[オクテット](#yimp6h)の値をとる．64512から65534まで，および4200000000から4294967294まではプライベート用に予約され，[インターネット](#3qoztf)への[経路](#5433mk)の広告に用いない．4[オクテット](#yimp6h)の値を扱えない[BGPスピーカー](#v9rnch)に対しては，[AS_PATH](#my3zbg)中の2[オクテット](#yimp6h)に収まらない値を23456（AS_TRANS）に置き換え，元の値をAS4_PATH属性で伝える．
 
 <a id="z1q1fs"></a>
 
@@ -186,7 +186,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## Amazon DynamoDB
 
-[キーバリューストア](#trahzf)および[ドキュメントストア](#rw3kg0)を[サーバーレス](#vnbuyu)で提供する[AWSサービス](#40hiw9)．テーブルの項目は[DynamoDBの主キー](#7ckf0e)で識別される．
+[キーバリューストア](#trahzf)および[ドキュメントストア](#rw3kg0)を[サーバーレス](#vnbuyu)で提供する[AWSサービス](#40hiw9)．テーブルの項目は[主キー](#7ckf0e)で識別される．
 
 <a id="sxdluo"></a>
 
@@ -216,7 +216,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## Amazon Elastic Kubernetes Service
 
-[Kubernetesコントロールプレーン](#b8ign2)を[Amazon Web Services](#totant)が運用する[AWSサービス](#40hiw9)．[Pod](#k4ef3z)を[EC2インスタンス](#0d2awr)または[AWS Fargate](#tt9c6l)上で実行する．
+[コントロールプレーン](#b8ign2)を[Amazon Web Services](#totant)が運用する[AWSサービス](#40hiw9)．[Pod](#k4ef3z)を[EC2インスタンス](#0d2awr)または[AWS Fargate](#tt9c6l)上で実行する．
 
 <a id="f6a76h"></a>
 
@@ -308,7 +308,7 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 ## BGP/MPLS IP VPN
 
-[マルチプロトコル拡張](#hz8j1v)で顧客ごとの[経路](#5433mk)を交換し，[IPパケット](#w9btgk)をラベルの付加と交換により転送するMPLSで運んで，顧客の拠点の間を事業者網上で他の顧客から隔離して接続する方式．顧客ごとの[経路](#5433mk)を[VRF](#3a4xlv)に保持し，[経路識別子](#dlraom)で区別し，[経路ターゲット](#4z8ok7)で取り込み先を定める．
+[マルチプロトコル拡張](#hz8j1v)で顧客ごとの[経路](#5433mk)を交換し，[IPパケット](#w9btgk)を[MPLS](#bqd0v7)で運んで，顧客の拠点の間を事業者網上で他の顧客から隔離して接続する方式．顧客ごとの[経路](#5433mk)を[VRF](#3a4xlv)に保持し，[経路識別子](#dlraom)で区別し，[経路ターゲット](#4z8ok7)で取り込み先を定める．
 
 <a id="y1mii1"></a>
 
@@ -332,7 +332,7 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 ## BGPメッセージ
 
-[BGPセッション](#s9mnt1)で交換する単位．マーカー，長さ，型からなる19オクテットのヘッダをもつ．
+[BGPセッション](#s9mnt1)で交換する単位．マーカー，長さ，型からなる19[オクテット](#yimp6h)のヘッダをもつ．
 
 <a id="gci3lp"></a>
 
@@ -344,7 +344,7 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 ## BGP識別子
 
-[BGPスピーカー](#v9rnch)に割り当てる4オクテットの値．同じ[自律システム](#8wkkrz)内で一意である．
+[BGPスピーカー](#v9rnch)に割り当てる4[オクテット](#yimp6h)の値．同じ[自律システム](#8wkkrz)内で一意である．
 
 <a id="3svuh5"></a>
 
@@ -364,6 +364,18 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 各頂点が複数のキーと子をもち，全ての葉が同じ深さにある[平衡探索木](#duers5)．1つの頂点を記憶装置の1つの[ブロック](#k60l5g)に対応させ，操作あたりの[ブロック](#k60l5g)の読み書きを減らす．記憶装置上の[インデックス](#c5u142)の実現に用いられる．
 
+<a id="drl0oo"></a>
+
+## C++
+
+変数が[データ型](#w7t735)をもち，[ガベージコレクション](#6exqbl)をもたない[プログラミング言語](#nw9j2i)．
+
+<a id="txuqj9"></a>
+
+## C++オブジェクト
+
+[C++](#drl0oo)のプログラムが作成，参照，破棄するメモリの領域で，[データ型](#w7t735)と，作成から破棄までの寿命をもつもの．
+
 <a id="yio0lk"></a>
 
 ## CAP定理
@@ -380,7 +392,7 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 ## CNAMEレコード
 
-所有者の[ドメイン名](#d8xx9q)が別名であることを示し，その正規の[ドメイン名](#d8xx9q)を示す[資源レコード](#syx2b4)．これをもつ[ドメイン名](#d8xx9q)は，[DNSSEC](#roxnj7)に関わるもの以外の[資源レコード](#syx2b4)をもたない．[DNSの名前解決](#tpx3c2)は正規の[ドメイン名](#d8xx9q)について続けられる．
+所有者の[ドメイン名](#d8xx9q)が別名であることを示し，その正規の[ドメイン名](#d8xx9q)を示す[資源レコード](#syx2b4)．これをもつ[ドメイン名](#d8xx9q)は，[DNSSEC](#roxnj7)に関わるもの以外の[資源レコード](#syx2b4)をもたない．[名前解決](#tpx3c2)は正規の[ドメイン名](#d8xx9q)について続けられる．
 
 <a id="yli8gq"></a>
 
@@ -408,20 +420,6 @@ Googleが主導して開発する，オープンソースの[Webブラウザ](#g
 
 ToDo: [66](todo.md#todo-66)
 
-<a id="2xz9pb"></a>
-
-## Chromiumのサンドボックス
-
-[Chromium](#2aag3y)が子の[プロセス](#lm3iq5)に適用する[サンドボックス](#94k6ba)．[ブラウザプロセス](#ejqo3w)を[ブローカー](#9c98zu)とする．[Windows NT](#jzpnq4)では[制限付きトークン](#pjlcj6)，[ジョブオブジェクト](#mmivp1)，低い[整合性レベル](#79uj26)を，[Linux](#eh8l2u)では[Linux名前空間](#rmoy1r)による隔離と[seccomp-BPF](#x4wvbi)を，[macOS](#0ml2dc)では[Seatbelt](#w8962q)を用いる．
-
-ToDo: [65](todo.md#todo-65)
-
-<a id="8ytqi4"></a>
-
-## Chromiumのサービス
-
-[Chromium](#2aag3y)において，[Mojoインターフェース](#q1r1b6)を通じてのみ他から利用される機能の単位．利用者はそれが動作する[プロセス](#lm3iq5)に依存しない．
-
 <a id="ckmh8m"></a>
 
 ## Cinder
@@ -432,13 +430,13 @@ ToDo: [65](todo.md#todo-65)
 
 ## ClusterRole
 
-[Role](#3kkitq)と同じ形式の権限を[Kubernetes名前空間](#6bdul4)に属さずに定める[Kubernetesオブジェクト](#8ot6zr)．[Kubernetes名前空間](#6bdul4)に属さない種類の[Kubernetesオブジェクト](#8ot6zr)にも適用できる．
+[Role](#3kkitq)と同じ形式の権限を[名前空間](#6bdul4)に属さずに定める[オブジェクト](#8ot6zr)．[名前空間](#6bdul4)に属さない種類の[オブジェクト](#8ot6zr)にも適用できる．
 
 <a id="e37fh9"></a>
 
 ## ClusterRoleBinding
 
-[ClusterRole](#4hf4xa)の権限を，[Kubernetesクラスタ](#dx7pxd)全体の範囲で[主体](#pyjgmb)に与える[Kubernetesオブジェクト](#8ot6zr)．
+[ClusterRole](#4hf4xa)の権限を，[クラスタ](#dx7pxd)全体の範囲で[主体](#pyjgmb)に与える[オブジェクト](#8ot6zr)．
 
 <a id="gyxatn"></a>
 
@@ -450,7 +448,7 @@ ToDo: [65](todo.md#todo-65)
 
 ## ConfigMap
 
-機密でない設定データをキーと値の組として保持し，[Pod](#k4ef3z)に環境変数，コマンド引数，[Kubernetesボリューム](#0zbizc)内のファイルとして渡す[Kubernetesオブジェクト](#8ot6zr)．
+機密でない設定データをキーと値の組として保持し，[Pod](#k4ef3z)に環境変数，コマンド引数，[ボリューム](#0zbizc)内のファイルとして渡す[オブジェクト](#8ot6zr)．
 
 <a id="kccq14"></a>
 
@@ -480,7 +478,13 @@ ToDo: [65](todo.md#todo-65)
 
 ## CustomResourceDefinition
 
-[カスタムリソース](#xo9y6e)の種類を[kube-apiserver](#yv6kx0)に追加する[Kubernetesオブジェクト](#8ot6zr)．
+[カスタムリソース](#xo9y6e)の種類を[kube-apiserver](#yv6kx0)に追加する[オブジェクト](#8ot6zr)．
+
+<a id="lxov83"></a>
+
+## DEPSファイル
+
+[gclient](#djvjxt)が読む，リポジトリの依存先を記すファイル．Pythonの文法で書かれ，依存先ごとに配置先のパスと，取得するリポジトリと版を定める．同期の後に実行するコマンドも記す．
 
 <a id="x5u5e6"></a>
 
@@ -492,7 +496,7 @@ ToDo: [65](todo.md#todo-65)
 
 ## DNS
 
-[ドメイン名](#d8xx9q)と[資源レコード](#syx2b4)の対応を，[DNSゾーン](#2eh0s0)に分割して[権威DNSサーバー](#9es8da)に分散して保持し，[DNSの名前解決](#tpx3c2)で参照する体系．メッセージは[UDP](#7mvj8m)または[TCP](#cndtkv)の[ポート番号](#avetpx)53で運ばれる．
+[ドメイン名](#d8xx9q)と[資源レコード](#syx2b4)の対応を，[DNSゾーン](#2eh0s0)に分割して[権威DNSサーバー](#9es8da)に分散して保持し，[名前解決](#tpx3c2)で参照する体系．メッセージは[UDP](#7mvj8m)または[TCP](#cndtkv)の[ポート番号](#avetpx)53で運ばれる．
 
 <a id="7wsrt3"></a>
 
@@ -506,17 +510,17 @@ ToDo: [65](todo.md#todo-65)
 
 [資源レコード](#syx2b4)セットに[電子署名](#wr3566)を付し，応答の発信元と完全性を検証可能にする[DNS](#v0yvpo)の拡張．署名は[RRSIGレコード](#m4w5n1)に，[公開鍵](#7xb1uk)は[DNSKEYレコード](#7wsrt3)に置き，親の[DNSゾーン](#2eh0s0)は子の[DSレコード](#1hq998)を保持して署名する．検証者は[DNSルートサーバー](#p77v01)が保持する[DNSゾーン](#2eh0s0)の[公開鍵](#7xb1uk)を起点とし，[DNS委任](#dmv9zd)を辿る[信頼の連鎖](#l7b2yn)により下位の[DNSゾーン](#2eh0s0)の[公開鍵](#7xb1uk)を信頼する．応答を[暗号化](#e382sn)しない．
 
-<a id="tpx3c2"></a>
-
-## DNSの名前解決
-
-[DNS](#v0yvpo)における[名前解決](#3or1pp)．[ドメイン名](#d8xx9q)と型を与えて，対応する[資源レコード](#syx2b4)を得る．
-
 <a id="2eh0s0"></a>
 
 ## DNSゾーン
 
 [ドメイン名](#d8xx9q)の[名前空間](#m7lbe4)がなす[木](#dj2zcx)のうち，1つの管理者が[権威DNSサーバー](#9es8da)で管理する連結な部分．その根の[ドメイン名](#d8xx9q)に[SOAレコード](#sktwnj)と[NSレコード](#3qy5m1)をもつ．
+
+<a id="7siuzh"></a>
+
+## DNSラベル
+
+[DNS](#v0yvpo)の階層的な[名前空間](#m7lbe4)がなす[木](#dj2zcx)の各頂点に付く，63[オクテット](#yimp6h)以下の名前．同じ親をもつ頂点の間で互いに異なり，根のものは空である．
 
 <a id="p77v01"></a>
 
@@ -546,19 +550,13 @@ ToDo: [65](todo.md#todo-65)
 
 ## DaemonSet
 
-条件に合う全ての[Kubernetesノード](#6qrxi1)で，それぞれ1つの[Pod](#k4ef3z)を実行する[ワークロードリソース](#qg1bbv)．
+条件に合う全ての[ノード](#6qrxi1)で，それぞれ1つの[Pod](#k4ef3z)を実行する[ワークロードリソース](#qg1bbv)．
 
 <a id="fv5438"></a>
 
 ## Deployment
 
 [ReplicaSet](#9nbpfp)を介して[Pod](#k4ef3z)を管理する[ワークロードリソース](#qg1bbv)．テンプレートの変更を，既定では新旧の[ReplicaSet](#9nbpfp)の[Pod](#k4ef3z)の数を段階的に入れ替えるローリングアップデートで反映し，ロールバックのため旧[ReplicaSet](#9nbpfp)を保持する．
-
-<a id="7ckf0e"></a>
-
-## DynamoDBの主キー
-
-[Amazon DynamoDB](#knkcrh)のテーブルの[主キー](#vgslfx)．パーティションキーのみ，またはパーティションキーとソートキーの組からなる．パーティションキーの値の[ハッシュ関数](#fnegr1)の値により，項目を格納する[シャーディング](#1upnid)の分割単位が定まる．
 
 <a id="4320z7"></a>
 
@@ -576,7 +574,7 @@ ToDo: [65](todo.md#todo-65)
 
 ## EC2インスタンス
 
-[Amazon Elastic Compute Cloud](#y42e2r)が提供する計算環境で，[仮想マシン](#uwly1k)，または[ハイパーバイザ](#dt1rv7)を介さない物理計算機である[AWSリソース](#78qg7h)．1つの[VPCのサブネット](#oygsrp)に起動され，[インスタンスタイプ](#h08bfc)と[Amazon Machine Image](#f6a76h)により構成が定まる．
+[Amazon Elastic Compute Cloud](#y42e2r)が提供する計算環境で，[仮想マシン](#uwly1k)，または[ハイパーバイザ](#dt1rv7)を介さない物理計算機である[AWSリソース](#78qg7h)．1つの[サブネット](#oygsrp)に起動され，[インスタンスタイプ](#h08bfc)と[Amazon Machine Image](#f6a76h)により構成が定まる．
 
 <a id="kqfpq2"></a>
 
@@ -600,13 +598,13 @@ ToDo: [65](todo.md#todo-65)
 
 ## Elastic Network Interface
 
-[VPCのサブネット](#oygsrp)に属する仮想的な[ネットワークインターフェース](#cufd0s)．その[VPCのサブネット](#oygsrp)の[IPプレフィックス](#6rwn5e)に属する[IPv4](#un6pgt)の[IPアドレス](#3ksnfe)をもち，[セキュリティグループ](#zgzyka)が関連付けられる．
+[サブネット](#oygsrp)に属する仮想的な[ネットワークインターフェース](#cufd0s)．その[サブネット](#oygsrp)の[IPプレフィックス](#6rwn5e)に属する[IPv4](#un6pgt)の[IPアドレス](#3ksnfe)をもち，[セキュリティグループ](#zgzyka)が関連付けられる．
 
 <a id="n5mrfc"></a>
 
 ## EndpointSlice
 
-[Service](#3bb8t3)の[通信先](#b2znuk)の集合を保持する[Kubernetesオブジェクト](#8ot6zr)．属する[Service](#3bb8t3)は[Kubernetesラベル](#zugz1v)kubernetes.io/service-nameで示される．保持する[通信先](#b2znuk)は，全て同じ形式（[IPv4](#un6pgt)の[IPアドレス](#3ksnfe)，[IPv6](#4elryy)の[IPアドレス](#3ksnfe)，[ドメイン名](#d8xx9q)のいずれか）のアドレスをもち，[ポート番号](#avetpx)，[トランスポートプロトコル](#dayw7g)（[TCP](#cndtkv)，[UDP](#7mvj8m)，[SCTP](#m38dhg)のいずれか），[Service](#3bb8t3)の対応するポートの名前の組の集合を共有する．各[通信先](#b2znuk)はアドレスと，ready，serving，terminatingの状態をもつ．servingは通信を受け付けられること，terminatingは終了処理中であること，readyはservingかつterminatingでないことを示す．[ラベルセレクタ](#x5w385)をもつ[Service](#3bb8t3)では[Kubernetesコントローラ](#pboh16)が自動で更新する．
+[Service](#3bb8t3)の[通信先](#b2znuk)の集合を保持する[オブジェクト](#8ot6zr)．属する[Service](#3bb8t3)は[ラベル](#zugz1v)kubernetes.io/service-nameで示される．保持する[通信先](#b2znuk)は，全て同じ形式（[IPv4](#un6pgt)の[IPアドレス](#3ksnfe)，[IPv6](#4elryy)の[IPアドレス](#3ksnfe)，[ドメイン名](#d8xx9q)のいずれか）のアドレスをもち，[ポート番号](#avetpx)，[トランスポートプロトコル](#dayw7g)（[TCP](#cndtkv)，[UDP](#7mvj8m)，[SCTP](#m38dhg)のいずれか），[Service](#3bb8t3)の対応するポートの名前の組の集合を共有する．各[通信先](#b2znuk)はアドレスと，ready，serving，terminatingの状態をもつ．servingは通信を受け付けられること，terminatingは終了処理中であること，readyはservingかつterminatingでないことを示す．[ラベルセレクタ](#x5w385)をもつ[Service](#3bb8t3)では[コントローラ](#pboh16)が自動で更新する．
 
 <a id="le0zgf"></a>
 
@@ -618,7 +616,7 @@ ToDo: [65](todo.md#todo-65)
 
 ## FrameTreeNode
 
-[contentモジュール](#e7u8nm)において，[フレーム](#mtx2pq)の[木](#dj2zcx)の頂点を表し，[ナビゲーション](#day4yo)を越えて存続するオブジェクト．現在の[RenderFrameHost](#xir7fh)を保持する．
+[contentモジュール](#e7u8nm)において，[フレーム](#mtx2pq)の[木](#dj2zcx)の頂点を表し，[ナビゲーション](#day4yo)を越えて存続する[C++オブジェクト](#txuqj9)．現在の[RenderFrameHost](#xir7fh)を保持する．
 
 <a id="bo0w3o"></a>
 
@@ -672,7 +670,7 @@ ETSIが策定した，第2世代の[セルラー通信](#fibo1z)の規格．
 
 ## HorizontalPodAutoscaler
 
-[Pod](#k4ef3z)の[資源](#k7gc81)の使用量等の観測値と目標値の比に基づき，[Pod](#k4ef3z)の数を指定する[ワークロードリソース](#qg1bbv)のその数を自動で増減する[Kubernetesオブジェクト](#8ot6zr)．
+[Pod](#k4ef3z)の[資源](#k7gc81)の使用量等の観測値と目標値の比に基づき，[Pod](#k4ef3z)の数を指定する[ワークロードリソース](#qg1bbv)のその数を自動で増減する[オブジェクト](#8ot6zr)．
 
 <a id="2wuacp"></a>
 
@@ -782,7 +780,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## Ingress
 
-[Kubernetesクラスタ](#dx7pxd)外からの[HTTP](#31abh6)の要求を，対象の[ホスト](#0qt5x4)とパスに基づいて[Service](#3bb8t3)へ振り分ける規則を記述する[Kubernetesオブジェクト](#8ot6zr)．規則を実現するのはIngressコントローラであり，それが動作していなければ効果をもたない．
+[クラスタ](#dx7pxd)外からの[HTTP](#31abh6)の要求を，対象の[ホスト](#0qt5x4)とパスに基づいて[Service](#3bb8t3)へ振り分ける規則を記述する[オブジェクト](#8ot6zr)．規則を実現するのはIngressを監視する[コントローラ](#pboh16)であり，それが動作していなければ効果をもたない．
 
 <a id="ntrf3f"></a>
 
@@ -824,85 +822,7 @@ ECMAScriptとして標準化された，変数でなく値が[データ型](#w7t
 
 ## Kubernetes
 
-[Kubernetesオブジェクト](#8ot6zr)として宣言された望ましい状態に，[Kubernetesコントローラ](#pboh16)の[調整ループ](#gibl6s)により[コンテナ](#uds0ak)の実行状態を一致させ続ける[コンテナオーケストレーション](#ldx08d)のシステム．[Kubernetesクラスタ](#dx7pxd)を単位として動作する．
-
-<a id="w2fhil"></a>
-
-## Kubernetes UID
-
-[Kubernetesオブジェクト](#8ot6zr)の作成時に[kube-apiserver](#yv6kx0)が割り当てる，[Kubernetesクラスタ](#dx7pxd)の存続期間を通じて一意な識別子．同じ名前で作り直した[Kubernetesオブジェクト](#8ot6zr)は別のものをもつ．
-
-<a id="3x9bon"></a>
-
-## Kubernetesのガベージコレクタ
-
-[kube-controller-manager](#9xikob)で動作し，[所有者参照](#zktekl)の指す所有者が存在しない[Kubernetesオブジェクト](#8ot6zr)を削除する[Kubernetesコントローラ](#pboh16)．
-
-<a id="t6j8bt"></a>
-
-## Kubernetesアノテーション
-
-[Kubernetesオブジェクト](#8ot6zr)に付けるキーと値の組で，選択には用いられず，ツールや[Kubernetesコントローラ](#pboh16)が参照する情報を保持するもの．
-
-<a id="1ipr3r"></a>
-
-## Kubernetesアフィニティ
-
-[Pod](#k4ef3z)の配置先を，[Kubernetesノード](#6qrxi1)の[Kubernetesラベル](#zugz1v)，または既に配置された他の[Pod](#k4ef3z)の[Kubernetesラベル](#zugz1v)に基づいて，必須または優先の条件として制約する指定．後者には，同じ配置を避ける反アフィニティがある．
-
-<a id="8ot6zr"></a>
-
-## Kubernetesオブジェクト
-
-[kube-apiserver](#yv6kx0)が管理する永続的な実体で，[Kubernetesクラスタ](#dx7pxd)の望ましい状態または実際の状態を表す．種類，名前，[Kubernetesラベル](#zugz1v)，[Kubernetesアノテーション](#t6j8bt)，[所有者参照](#zktekl)を[メタデータ](#f7of70)としてもち，多くは望ましい状態を記したspecと，観測された状態を記したstatusをもつ．
-
-<a id="qtnfg6"></a>
-
-## Kubernetesオペレータ
-
-[CustomResourceDefinition](#b5ztot)で追加した種類の[Kubernetesオブジェクト](#8ot6zr)を監視する[Kubernetesコントローラ](#pboh16)により，特定のアプリケーションの運用操作を自動化する方式．
-
-<a id="dx7pxd"></a>
-
-## Kubernetesクラスタ
-
-[Kubernetesコントロールプレーン](#b8ign2)と，[Pod](#k4ef3z)を実行する1つ以上の[Kubernetesノード](#6qrxi1)からなる，[Kubernetes](#t6cr2a)の管理単位．
-
-<a id="pboh16"></a>
-
-## Kubernetesコントローラ
-
-[kube-apiserver](#yv6kx0)を介して[Kubernetesオブジェクト](#8ot6zr)を監視し，そのspecを望ましい状態とする[調整ループ](#gibl6s)．
-
-<a id="b8ign2"></a>
-
-## Kubernetesコントロールプレーン
-
-[Kubernetesクラスタ](#dx7pxd)の状態を保持し，[Pod](#k4ef3z)の配置と[Kubernetesオブジェクト](#8ot6zr)の調整を行う構成要素の集合．[kube-apiserver](#yv6kx0)，[etcd](#c0gd56)，[kube-scheduler](#62x28a)，[kube-controller-manager](#9xikob)を含む．
-
-<a id="6qrxi1"></a>
-
-## Kubernetesノード
-
-[Kubernetesクラスタ](#dx7pxd)において[Pod](#k4ef3z)を実行する計算機．[仮想マシン](#uwly1k)または物理計算機であり，[kubelet](#zh69qe)と[コンテナランタイム](#nl5o0m)を動かす．
-
-<a id="0zbizc"></a>
-
-## Kubernetesボリューム
-
-[Pod](#k4ef3z)内の[コンテナ](#uds0ak)の[ファイルシステム](#pp17bd)に[マウント](#96n6sj)されるディレクトリで，[コンテナ](#uds0ak)の再起動を越えて内容が保たれるもの．emptyDirのように[Pod](#k4ef3z)と寿命を共にするものと，[PersistentVolumeClaim](#3b8umf)を介して[Pod](#k4ef3z)より長く存続するものがある．
-
-<a id="zugz1v"></a>
-
-## Kubernetesラベル
-
-[Kubernetesオブジェクト](#8ot6zr)に付けるキーと値の組で，[ラベルセレクタ](#x5w385)による選択に用いられるもの．
-
-<a id="6bdul4"></a>
-
-## Kubernetes名前空間
-
-[Kubernetesクラスタ](#dx7pxd)内の[Kubernetesオブジェクト](#8ot6zr)の名前を種類ごとに分ける[名前空間](#m7lbe4)．これに属さない種類の[Kubernetesオブジェクト](#8ot6zr)の名前は，[Kubernetesクラスタ](#dx7pxd)の中で種類ごとに一意である．[Role](#3kkitq)と[ResourceQuota](#4192cj)の適用単位となる．
+[オブジェクト](#8ot6zr)として宣言された望ましい状態に，[コントローラ](#pboh16)の[調整ループ](#gibl6s)により[コンテナ](#uds0ak)の実行状態を一致させ続ける[コンテナオーケストレーション](#ldx08d)のシステム．[クラスタ](#dx7pxd)を単位として動作する．
 
 <a id="3vn37b"></a>
 
@@ -984,6 +904,18 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 隣接する[自律システム](#8wkkrz)に対し，複数の接続点のうち望ましい入口を示すオプション非推移の[パス属性](#q885vr)．値が小さいものを優先する．標準の手順では，同じ隣接[自律システム](#8wkkrz)から受信した[経路](#5433mk)の間でのみ比較し，受信した[自律システム](#8wkkrz)の外部へは伝えない．
 
+<a id="bqd0v7"></a>
+
+## MPLS
+
+パケットに[MPLSラベル](#9vqomq)を付加し，通過する各[ルータ](#5f2okm)が[MPLSラベル](#9vqomq)を付け替えて[中継](#zgr0mv)する転送方式．
+
+<a id="9vqomq"></a>
+
+## MPLSラベル
+
+[MPLS](#bqd0v7)でパケットに付加され，転送先の決定に用いられる20ビットの値．
+
 <a id="n3w9i9"></a>
 
 ## MXレコード
@@ -994,7 +926,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## MiraclePtr
 
-[Chromium](#2aag3y)において，参照されている間に解放された領域を[PartitionAlloc](#8ahx0c)が再利用せずに隔離することで，[解放後使用](#onqz9u)の悪用を防ぐ仕組み．C++のポインタの[データ型](#w7t735)raw_ptrとして用いられる．
+[Chromium](#2aag3y)において，参照されている間に解放された領域を[PartitionAlloc](#8ahx0c)が再利用せずに隔離することで，[解放後使用](#onqz9u)の悪用を防ぐ仕組み．[C++](#drl0oo)のポインタの[データ型](#w7t735)raw_ptrとして用いられる．
 
 <a id="n32mlc"></a>
 
@@ -1030,7 +962,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## NATゲートウェイ
 
-[プライベートサブネット](#vds2br)の[Elastic Network Interface](#f5pqfi)から[VPC](#4ln6ld)外への接続を[NAPT](#9mze5p)で[中継](#zgr0mv)し，外部からの接続の開始を受け付けない[AWSリソース](#78qg7h)．1つの[VPCのサブネット](#oygsrp)に置かれる．
+[プライベートサブネット](#vds2br)の[Elastic Network Interface](#f5pqfi)から[VPC](#4ln6ld)外への接続を[NAPT](#9mze5p)で[中継](#zgr0mv)し，外部からの接続の開始を受け付けない[AWSリソース](#78qg7h)．1つの[サブネット](#oygsrp)に置かれる．
 
 <a id="2js4sd"></a>
 
@@ -1090,7 +1022,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## NetworkPolicy
 
-[ラベルセレクタ](#x5w385)で選んだ[Pod](#k4ef3z)について，許可する入出力の通信を，相手の[Pod](#k4ef3z)，[Kubernetes名前空間](#6bdul4)，[IPプレフィックス](#6rwn5e)と[ポート番号](#avetpx)で指定する[Kubernetesオブジェクト](#8ot6zr)．ある方向についていずれかのNetworkPolicyに選ばれた[Pod](#k4ef3z)には，その方向の通信に，それを選ぶ全てのNetworkPolicyによる[許可加算評価](#kirdkx)が適用される．実施は[Container Network Interface](#kccq14)のプラグインが担い，対応しないプラグインでは効果をもたない．
+[ラベルセレクタ](#x5w385)で選んだ[Pod](#k4ef3z)について，許可する入出力の通信を，相手の[Pod](#k4ef3z)，[名前空間](#6bdul4)，[IPプレフィックス](#6rwn5e)と[ポート番号](#avetpx)で指定する[オブジェクト](#8ot6zr)．ある方向についていずれかのNetworkPolicyに選ばれた[Pod](#k4ef3z)には，その方向の通信に，それを選ぶ全てのNetworkPolicyによる[許可加算評価](#kirdkx)が適用される．実施は[Container Network Interface](#kccq14)のプラグインが担い，対応しないプラグインでは効果をもたない．
 
 <a id="rjpynz"></a>
 
@@ -1150,7 +1082,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## Oilpan
 
-[Blink](#3svuh5)のC++のオブジェクトを管理する[ガベージコレクション](#6exqbl)の仕組み．[V8](#4qyfuw)の[ガベージコレクション](#6exqbl)と連携し，[JavaScript](#y8ql3q)と[DOM](#mtrvw2)の間の参照を辿る．
+[Blink](#3svuh5)の[C++オブジェクト](#txuqj9)を管理する[ガベージコレクション](#6exqbl)の仕組み．[V8](#4qyfuw)の[ガベージコレクション](#6exqbl)と連携し，[JavaScript](#y8ql3q)と[DOM](#mtrvw2)の間の参照を辿る．
 
 <a id="pnydk7"></a>
 
@@ -1180,19 +1112,19 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## PartitionAlloc
 
-[Chromium](#2aag3y)の[メモリアロケータ](#4lrgjh)．領域を用途と大きさごとの区画に分けて割り当て，[解放後使用](#onqz9u)による別の[データ型](#w7t735)のオブジェクトの上書きを難しくする．
+[Chromium](#2aag3y)の[メモリアロケータ](#4lrgjh)．領域を用途と大きさごとの区画に分けて割り当て，[解放後使用](#onqz9u)による別の[データ型](#w7t735)の[C++オブジェクト](#txuqj9)の上書きを難しくする．
 
 <a id="6ftomm"></a>
 
 ## PersistentVolume
 
-[Kubernetesクラスタ](#dx7pxd)の[記憶域](#kltl5m)の一単位を表し，[Pod](#k4ef3z)と独立した寿命をもつ[Kubernetesオブジェクト](#8ot6zr)．管理者が事前に作成するか，[StorageClass](#scppoj)に基づいて動的に作成される．
+[クラスタ](#dx7pxd)の[記憶域](#kltl5m)の一単位を表し，[Pod](#k4ef3z)と独立した寿命をもつ[オブジェクト](#8ot6zr)．管理者が事前に作成するか，[StorageClass](#scppoj)に基づいて動的に作成される．
 
 <a id="3b8umf"></a>
 
 ## PersistentVolumeClaim
 
-容量と，利用できる範囲と読み書きの可否を示すアクセスモードとを指定した[記憶域](#kltl5m)の要求を表す[Kubernetesオブジェクト](#8ot6zr)．条件を満たす[PersistentVolume](#6ftomm)と1対1に結び付けられ，[Pod](#k4ef3z)はこれを[Kubernetesボリューム](#0zbizc)として参照する．
+容量と，利用できる範囲と読み書きの可否を示すアクセスモードとを指定した[記憶域](#kltl5m)の要求を表す[オブジェクト](#8ot6zr)．条件を満たす[PersistentVolume](#6ftomm)と1対1に結び付けられ，[Pod](#k4ef3z)はこれを[ボリューム](#0zbizc)として参照する．
 
 <a id="g55hns"></a>
 
@@ -1204,7 +1136,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## Pod
 
-[Kubernetes](#t6cr2a)が配置する最小の単位で，同じ[Kubernetesノード](#6qrxi1)上で実行され，[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)の空間および[Kubernetesボリューム](#0zbizc)を共有する1つ以上の[コンテナ](#uds0ak)の集まり．[IPアドレス](#3ksnfe)は[Container Network Interface](#kccq14)のプラグインが割り当てる．配置された[Kubernetesノード](#6qrxi1)から移動せず，置き換えは別のPodの作成による．
+[Kubernetes](#t6cr2a)が配置する最小の単位で，同じ[ノード](#6qrxi1)上で実行され，[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)の空間および[ボリューム](#0zbizc)を共有する1つ以上の[コンテナ](#uds0ak)の集まり．[IPアドレス](#3ksnfe)は[Container Network Interface](#kccq14)のプラグインが割り当てる．配置された[ノード](#6qrxi1)から移動せず，置き換えは別のPodの作成による．
 
 <a id="uaym9q"></a>
 
@@ -1216,7 +1148,9 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## QoSクラス
 
-[Pod](#k4ef3z)の[資源要求と制限](#le79r6)の指定から決まる分類．全ての[コンテナ](#uds0ak)がCPUとメモリの要求と制限を等しい値で指定するものはGuaranteed，いずれの[コンテナ](#uds0ak)もCPUとメモリの要求と制限を指定しないものはBestEffort，それ以外はBurstableである．[Kubernetesノード](#6qrxi1)のメモリが逼迫したとき，BestEffort，Burstable，Guaranteedの順に強制終了されやすい．
+[Pod](#k4ef3z)の[資源要求と制限](#le79r6)の指定から決まる分類．全ての[コンテナ](#uds0ak)がCPUとメモリの要求と制限を等しい値で指定するものはGuaranteed，いずれの[コンテナ](#uds0ak)もCPUとメモリの要求と制限を指定しないものはBestEffort，それ以外はBurstableである．[ノード](#6qrxi1)のメモリが逼迫したとき，BestEffort，Burstable，Guaranteedの順に強制終了されやすい．
+
+ToDo: [72](todo.md#todo-72)
 
 <a id="1bon32"></a>
 
@@ -1276,7 +1210,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## RenderFrameHost
 
-[contentモジュール](#e7u8nm)において，[ブラウザプロセス](#ejqo3w)の側で，[レンダラープロセス](#53ckw6)内の1つの[フレーム](#mtx2pq)の[Web文書](#qbtpp4)を表すオブジェクト．
+[contentモジュール](#e7u8nm)において，[ブラウザプロセス](#ejqo3w)の側で，[レンダラープロセス](#53ckw6)内の1つの[フレーム](#mtx2pq)の[Web文書](#qbtpp4)を表す[C++オブジェクト](#txuqj9)．
 
 <a id="9nbpfp"></a>
 
@@ -1288,19 +1222,19 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## ResourceQuota
 
-1つの[Kubernetes名前空間](#6bdul4)に[資源制限](#g9mkrr)を課す[Kubernetesオブジェクト](#8ot6zr)．上限の対象は[資源要求と制限](#le79r6)の合計と[Kubernetesオブジェクト](#8ot6zr)の個数である．
+1つの[名前空間](#6bdul4)に[資源制限](#g9mkrr)を課す[オブジェクト](#8ot6zr)．上限の対象は[資源要求と制限](#le79r6)の合計と[オブジェクト](#8ot6zr)の個数である．
 
 <a id="3kkitq"></a>
 
 ## Role
 
-1つの[Kubernetes名前空間](#6bdul4)内の[Kubernetesオブジェクト](#8ot6zr)の種類ごとに，許可する操作の集合を定める[Kubernetesオブジェクト](#8ot6zr)．
+1つの[名前空間](#6bdul4)内の[オブジェクト](#8ot6zr)の種類ごとに，許可する操作の集合を定める[オブジェクト](#8ot6zr)．
 
 <a id="mg2ixb"></a>
 
 ## RoleBinding
 
-[Role](#3kkitq)または[ClusterRole](#4hf4xa)の権限を，1つの[Kubernetes名前空間](#6bdul4)の範囲で[主体](#pyjgmb)に与える[Kubernetesオブジェクト](#8ot6zr)．
+[Role](#3kkitq)または[ClusterRole](#4hf4xa)の権限を，1つの[名前空間](#6bdul4)の範囲で[主体](#pyjgmb)に与える[オブジェクト](#8ot6zr)．
 
 <a id="vondey"></a>
 
@@ -1362,25 +1296,13 @@ ToDo: [67](todo.md#todo-67)
 
 ## SQL
 
-[リレーショナルデータベース](#ev8ocv)の[データベース管理システム](#wn1pbv)に対し，[SQLの表](#iuztvu)の定義，問合せ，更新，[トランザクション](#v5hhix)の制御を記述する宣言的な言語．ISOとIECにより標準化されている．
-
-<a id="rylgay"></a>
-
-## SQLの行
-
-[SQLの表](#iuztvu)の要素で，各列に1つの値をもつもの．[リレーショナルモデル](#7y7vys)のタプルに当たる．
-
-<a id="iuztvu"></a>
-
-## SQLの表
-
-[SQL](#v61vr0)において，同じ列の並びをもつ[SQLの行](#rylgay)の集まり．[リレーショナルモデル](#7y7vys)のリレーションに当たるが，同じ[SQLの行](#rylgay)の重複を許す．
+[リレーショナルデータベース](#ev8ocv)の[データベース管理システム](#wn1pbv)に対し，[表](#iuztvu)の定義，問合せ，更新，[トランザクション](#v5hhix)の制御を記述する宣言的な言語．ISOとIECにより標準化されている．
 
 <a id="2c4um1"></a>
 
 ## SSID
 
-[Wi-Fi](#r9it7l)において，[アクセスポイント](#tzn2n7)が収容する[ネットワーク](#uy18d2)を示す，32オクテット以下の名前．
+[Wi-Fi](#r9it7l)において，[アクセスポイント](#tzn2n7)が収容する[ネットワーク](#uy18d2)を示す，32[オクテット](#yimp6h)以下の名前．
 
 <a id="w8962q"></a>
 
@@ -1392,19 +1314,19 @@ ToDo: [67](todo.md#todo-67)
 
 ## Secret
 
-機密データを保持し，[ConfigMap](#3x7wht)と同じ方法で[Pod](#k4ef3z)に渡す[Kubernetesオブジェクト](#8ot6zr)．値は文字列への可逆な符号化のみを施され，既定では[etcd](#c0gd56)に[暗号化](#e382sn)されずに格納される．
+機密データを保持し，[ConfigMap](#3x7wht)と同じ方法で[Pod](#k4ef3z)に渡す[オブジェクト](#8ot6zr)．値は文字列への可逆な符号化のみを施され，既定では[etcd](#c0gd56)に[暗号化](#e382sn)されずに格納される．
 
 <a id="3bb8t3"></a>
 
 ## Service
 
-[通信先](#b2znuk)の集合に，安定した名前による到達手段を与える[Kubernetesオブジェクト](#8ot6zr)．[通信先](#b2znuk)は[EndpointSlice](#n5mrfc)に保持され，[ラベルセレクタ](#x5w385)をもつServiceではそれが選ぶ[Pod](#k4ef3z)である．種類に，[Kubernetesクラスタ](#dx7pxd)内からのみ到達できる仮想的な[IPアドレス](#3ksnfe)を与えるClusterIP，それに加えて各[Kubernetesノード](#6qrxi1)の固定の[ポート番号](#avetpx)で公開するNodePort，それに加えて外部の[ロードバランサー](#v7r0tg)で公開するLoadBalancer，外部の[ドメイン名](#d8xx9q)への別名を[CNAMEレコード](#dsbf8s)で与えるExternalNameがある．
+[通信先](#b2znuk)の集合に，安定した名前による到達手段を与える[オブジェクト](#8ot6zr)．[通信先](#b2znuk)は[EndpointSlice](#n5mrfc)に保持され，[ラベルセレクタ](#x5w385)をもつServiceではそれが選ぶ[Pod](#k4ef3z)である．種類に，[クラスタ](#dx7pxd)内からのみ到達できる仮想的な[IPアドレス](#3ksnfe)を与えるClusterIP，それに加えて各[ノード](#6qrxi1)の固定の[ポート番号](#avetpx)で公開するNodePort，それに加えて外部の[ロードバランサー](#v7r0tg)で公開するLoadBalancer，外部の[ドメイン名](#d8xx9q)への別名を[CNAMEレコード](#dsbf8s)で与えるExternalNameがある．
 
 <a id="856hn3"></a>
 
 ## ServiceAccount
 
-[Pod](#k4ef3z)内の処理が[kube-apiserver](#yv6kx0)に[認証](#l2zofw)される際の[主体](#pyjgmb)を表し，[Kubernetes名前空間](#6bdul4)に属する[Kubernetesオブジェクト](#8ot6zr)．
+[Pod](#k4ef3z)内の処理が[kube-apiserver](#yv6kx0)に[認証](#l2zofw)される際の[主体](#pyjgmb)を表し，[名前空間](#6bdul4)に属する[オブジェクト](#8ot6zr)．
 
 <a id="41yxh0"></a>
 
@@ -1440,7 +1362,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## StorageClass
 
-[PersistentVolume](#6ftomm)の動的な作成を担うプログラムであるプロビジョナと，それに渡すパラメータを指定する[Kubernetesオブジェクト](#8ot6zr)．
+[PersistentVolume](#6ftomm)の動的な作成を担うプログラムであるプロビジョナと，それに渡すパラメータを指定する[オブジェクト](#8ot6zr)．
 
 <a id="6t597t"></a>
 
@@ -1474,6 +1396,12 @@ ToDo: [67](todo.md#todo-67)
 
 接続を確立せず，到達と順序を保証しないデータグラムを運ぶ[トランスポートプロトコル](#dayw7g)．
 
+<a id="w2fhil"></a>
+
+## UID
+
+[オブジェクト](#8ot6zr)の作成時に[kube-apiserver](#yv6kx0)が割り当てる，[クラスタ](#dx7pxd)の存続期間を通じて一意な識別子．同じ名前で作り直した[オブジェクト](#8ot6zr)は別のものをもつ．
+
 <a id="zq6ytz"></a>
 
 ## UMTS
@@ -1502,25 +1430,13 @@ ToDo: [67](todo.md#todo-67)
 
 ## VPC
 
-[Amazon Virtual Private Cloud](#mkyn41)が提供する，[リージョン](#1df8fw)内の[仮想ネットワーク](#cos7bu)である[AWSリソース](#78qg7h)．[IPv4](#un6pgt)の[IPプレフィックス](#6rwn5e)を1つ以上もち，[VPCのサブネット](#oygsrp)に分割される．
-
-<a id="oygsrp"></a>
-
-## VPCのサブネット
-
-[VPC](#4ln6ld)の[サブネット](#e9v7rv)．[VPC](#4ln6ld)の[IPプレフィックス](#6rwn5e)に含まれる[IPプレフィックス](#6rwn5e)をもち，1つの[アベイラビリティゾーン](#zb3vp3)に属する．1つの[VPCの経路表](#4m7c9r)と1つの[ネットワークACL](#eqsq3o)が関連付けられる．
-
-<a id="4m7c9r"></a>
-
-## VPCの経路表
-
-[VPCのサブネット](#oygsrp)に関連付けられる[経路表](#dw7079)．
+[Amazon Virtual Private Cloud](#mkyn41)が提供する，[リージョン](#1df8fw)内の[仮想ネットワーク](#cos7bu)である[AWSリソース](#78qg7h)．[IPv4](#un6pgt)の[IPプレフィックス](#6rwn5e)を1つ以上もち，[サブネット](#oygsrp)に分割される．
 
 <a id="pguegu"></a>
 
 ## VPCエンドポイント
 
-[VPC](#4ln6ld)から[インターネットゲートウェイ](#qmmwja)を経ずに[AWSサービス](#40hiw9)等へ私的に接続する[AWSリソース](#78qg7h)．ゲートウェイ型は[VPCの経路表](#4m7c9r)の転送先として働き，インターフェース型は[VPCのサブネット](#oygsrp)に[Elastic Network Interface](#f5pqfi)を作成する．
+[VPC](#4ln6ld)から[インターネットゲートウェイ](#qmmwja)を経ずに[AWSサービス](#40hiw9)等へ私的に接続する[AWSリソース](#78qg7h)．ゲートウェイ型は[経路表](#4m7c9r)の転送先として働き，インターフェース型は[サブネット](#oygsrp)に[Elastic Network Interface](#f5pqfi)を作成する．
 
 <a id="z6xphd"></a>
 
@@ -1550,7 +1466,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## WebContents
 
-[contentモジュール](#e7u8nm)において，1つの[タブ](#u7pfjr)の内容である[フレーム](#mtx2pq)の[木](#dj2zcx)と，その[ナビゲーション](#day4yo)の履歴を保持するオブジェクト．
+[contentモジュール](#e7u8nm)において，1つの[タブ](#u7pfjr)の内容である[フレーム](#mtx2pq)の[木](#dj2zcx)と，その[ナビゲーション](#day4yo)の履歴を保持する[C++オブジェクト](#txuqj9)．
 
 <a id="gcly3z"></a>
 
@@ -1652,7 +1568,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## contentモジュール
 
-[Chromium](#2aag3y)のソースのうち，[Chromiumのサンドボックス](#2xz9pb)と複数の[プロセス](#lm3iq5)からなる[Webブラウザ](#gcly3z)の中核を実装し，Google Chrome固有の機能を含まない層．埋め込み側にContent [API](#9e509k)を提供する．Electronはこれを用いる．
+[Chromium](#2aag3y)のソースのうち，[サンドボックス](#2xz9pb)と複数の[プロセス](#lm3iq5)からなる[Webブラウザ](#gcly3z)の中核を実装し，Google Chrome固有の機能を含まない層．埋め込み側にContent [API](#9e509k)を提供する．Electronはこれを用いる．
 
 <a id="aqu8xq"></a>
 
@@ -1670,13 +1586,13 @@ ToDo: [66](todo.md#todo-66)
 
 ## etcd
 
-[Raft](#hkmz80)により[レプリケーション](#rv2ppc)される，[分散システム](#6cc980)をなす[キーバリューストア](#trahzf)．[Kubernetes](#t6cr2a)では[Kubernetesクラスタ](#dx7pxd)の全ての[Kubernetesオブジェクト](#8ot6zr)を格納する．
+[Raft](#hkmz80)により[レプリケーション](#rv2ppc)される，[分散システム](#6cc980)をなす[キーバリューストア](#trahzf)．[Kubernetes](#t6cr2a)では[クラスタ](#dx7pxd)の全ての[オブジェクト](#8ot6zr)を格納する．
 
 <a id="djvjxt"></a>
 
 ## gclient
 
-[Chromium](#2aag3y)のソースと，DEPSファイルに記された依存先のリポジトリを取得し，同期するツール．depot_toolsに含まれる．
+[Chromium](#2aag3y)のソースと，[DEPSファイル](#lxov83)に記された依存先のリポジトリを取得し，同期するツール．depot_toolsに含まれる．
 
 <a id="f6yd97"></a>
 
@@ -1694,37 +1610,39 @@ ToDo: [66](todo.md#todo-66)
 
 ## iptables
 
-[Netfilter](#feag1h)に規則を設定する手段．規則を，目的ごとのテーブル（filter，nat，mangle，raw，security）に属するチェインに並べる．組込みのチェインは[Netfilterフック](#ljpkdd)に対応する．規則は先頭から照合し，一致した規則のターゲットを適用する．照合を終えるターゲットを適用せずに組込みのチェインの末尾に達すると，そのチェインに定めた既定のターゲット（ACCEPTまたはDROP）を適用する．
+[Netfilter](#feag1h)に規則を設定する手段．規則を，目的ごとのテーブル（filter，nat，mangle，raw，security）に属する[チェイン](#0jljvq)に並べる．組込みの[チェイン](#0jljvq)は[Netfilterフック](#ljpkdd)に結び付く．規則は先頭から照合し，一致した規則のターゲットを適用する．照合を終えるターゲットを適用せずに組込みの[チェイン](#0jljvq)の末尾に達すると，その[チェイン](#0jljvq)に定めた既定のターゲット（ACCEPTまたはDROP）を適用する．
+
+ToDo: [72](todo.md#todo-72)
 
 <a id="yv6kx0"></a>
 
 ## kube-apiserver
 
-[Kubernetesオブジェクト](#8ot6zr)の作成，読取り，更新，削除，監視を受け付ける[HTTP](#31abh6)の[API](#9e509k)を提供する[Kubernetesコントロールプレーン](#b8ign2)の構成要素．要求に[認証](#l2zofw)，[認可](#8esn53)，[アドミッションコントロール](#w88wo5)を順に適用し，結果を[etcd](#c0gd56)に永続化する．[etcd](#c0gd56)と直接通信する唯一の構成要素である．
+[オブジェクト](#8ot6zr)の作成，読取り，更新，削除，監視を受け付ける[HTTP](#31abh6)の[API](#9e509k)を提供する[コントロールプレーン](#b8ign2)の構成要素．要求に[認証](#l2zofw)，[認可](#8esn53)，[アドミッションコントロール](#w88wo5)を順に適用し，結果を[etcd](#c0gd56)に永続化する．[etcd](#c0gd56)と直接通信する唯一の構成要素である．
 
 <a id="9xikob"></a>
 
 ## kube-controller-manager
 
-組込みの[Kubernetesコントローラ](#pboh16)群を1つの[プロセス](#lm3iq5)として実行する[Kubernetesコントロールプレーン](#b8ign2)の構成要素．
+組込みの[コントローラ](#pboh16)群を1つの[プロセス](#lm3iq5)として実行する[コントロールプレーン](#b8ign2)の構成要素．
 
 <a id="r7qr24"></a>
 
 ## kube-proxy
 
-[Kubernetesノード](#6qrxi1)上で動作し，[Service](#3bb8t3)の仮想的な[IPアドレス](#3ksnfe)への通信を[通信先](#b2znuk)の[Pod](#k4ef3z)へ転送する規則を，[iptables](#134vyo)，[IPVS](#ofv8m2)，[nftables](#6nsmli)のいずれかによりその[Kubernetesノード](#6qrxi1)に設定する構成要素．
+[ノード](#6qrxi1)上で動作し，[Service](#3bb8t3)の仮想的な[IPアドレス](#3ksnfe)への通信を[通信先](#b2znuk)の[Pod](#k4ef3z)へ転送する規則を，[iptables](#134vyo)，[IPVS](#ofv8m2)，[nftables](#6nsmli)のいずれかによりその[ノード](#6qrxi1)に設定する構成要素．
 
 <a id="62x28a"></a>
 
 ## kube-scheduler
 
-[Kubernetesノード](#6qrxi1)が未割当ての[Pod](#k4ef3z)ごとに，[資源要求と制限](#le79r6)，[テイント](#r85zs1)，[Kubernetesアフィニティ](#1ipr3r)の制約を満たす[Kubernetesノード](#6qrxi1)のうち評価の最も高いものを選び，割り当てる[Kubernetesコントロールプレーン](#b8ign2)の構成要素．
+[ノード](#6qrxi1)が未割当ての[Pod](#k4ef3z)ごとに，[資源要求と制限](#le79r6)，[テイント](#r85zs1)，[アフィニティ](#1ipr3r)の制約を満たす[ノード](#6qrxi1)のうち評価の最も高いものを選び，割り当てる[コントロールプレーン](#b8ign2)の構成要素．
 
 <a id="zh69qe"></a>
 
 ## kubelet
 
-各[Kubernetesノード](#6qrxi1)で動作し，その[Kubernetesノード](#6qrxi1)に割り当てられた[Pod](#k4ef3z)の[コンテナ](#uds0ak)を[Container Runtime Interface](#ttawc3)を介して[コンテナランタイム](#nl5o0m)に実行させ，[コンテナプローブ](#xj5eeh)を行い，状態を[kube-apiserver](#yv6kx0)に報告するエージェント．
+各[ノード](#6qrxi1)で動作し，その[ノード](#6qrxi1)に割り当てられた[Pod](#k4ef3z)の[コンテナ](#uds0ak)を[Container Runtime Interface](#ttawc3)を介して[コンテナランタイム](#nl5o0m)に実行させ，[コンテナプローブ](#xj5eeh)を行い，状態を[kube-apiserver](#yv6kx0)に報告するエージェント．
 
 <a id="0ml2dc"></a>
 
@@ -1736,7 +1654,9 @@ Appleが開発する，XNUを[カーネル](#cktjwx)とする[オペレーティ
 
 ## nftables
 
-[iptables](#134vyo)の後継として，[Netfilter](#feag1h)に規則を設定する手段．テーブル，チェイン，規則を全て利用者が定義し，規則を[カーネル](#cktjwx)内の[インタプリタ](#8e4tig)が実行する[バイトコード](#47l5g8)に変換する．[IPv4](#un6pgt)と[IPv6](#4elryy)を1つの体系で扱う．
+[iptables](#134vyo)の後継として，[Netfilter](#feag1h)に規則を設定する手段．テーブル，[チェイン](#0jljvq)，規則を全て利用者が定義し，規則を[カーネル](#cktjwx)内の[インタプリタ](#8e4tig)が実行する[バイトコード](#47l5g8)に変換する．[IPv4](#un6pgt)と[IPv6](#4elryy)を1つの体系で扱う．
+
+ToDo: [72](todo.md#todo-72)
 
 <a id="z6nvth"></a>
 
@@ -1766,7 +1686,7 @@ Appleが開発する，XNUを[カーネル](#cktjwx)とする[オペレーティ
 
 ## viz
 
-[Chromium](#2aag3y)において，[レンダラープロセス](#53ckw6)と[ブラウザプロセス](#ejqo3w)から受けた[CompositorFrame](#gyxatn)を集めて[合成](#mbw8ar)し，画面に表示する[Chromiumのサービス](#8ytqi4)．[GPUプロセス](#4hdszd)で動作する．
+[Chromium](#2aag3y)において，[レンダラープロセス](#53ckw6)と[ブラウザプロセス](#ejqo3w)から受けた[CompositorFrame](#gyxatn)を集めて[合成](#mbw8ar)し，画面に表示する[サービス](#8ytqi4)．[GPUプロセス](#4hdszd)で動作する．
 
 <a id="bhf8md"></a>
 
@@ -1824,7 +1744,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## アドミッションコントロール
 
-[kube-apiserver](#yv6kx0)が[認証](#l2zofw)と[認可](#8esn53)の後，[etcd](#c0gd56)への永続化の前に，[Kubernetesオブジェクト](#8ot6zr)の作成，更新，削除の要求を変更または拒否する処理．変更を行うmutatingの段階の後に，検証を行うvalidatingの段階が続く．各段階で，要求を外部の[HTTP](#31abh6)の[サーバー](#uteg7y)に送り，その応答により変更または拒否を決めることもできる．
+[kube-apiserver](#yv6kx0)が[認証](#l2zofw)と[認可](#8esn53)の後，[etcd](#c0gd56)への永続化の前に，[オブジェクト](#8ot6zr)の作成，更新，削除の要求を変更または拒否する処理．変更を行うmutatingの段階の後に，検証を行うvalidatingの段階が続く．各段階で，要求を外部の[HTTP](#31abh6)の[サーバー](#uteg7y)に送り，その応答により変更または拒否を決めることもできる．
 
 <a id="zeoy6t"></a>
 
@@ -1837,6 +1757,18 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 ## アドレス空間
 
 [プロセス](#lm3iq5)が参照できるアドレスの集合．
+
+<a id="t6j8bt"></a>
+
+## アノテーション
+
+[オブジェクト](#8ot6zr)に付けるキーと値の組で，選択には用いられず，ツールや[コントローラ](#pboh16)が参照する情報を保持するもの．
+
+<a id="1ipr3r"></a>
+
+## アフィニティ
+
+[Pod](#k4ef3z)の配置先を，[ノード](#6qrxi1)の[ラベル](#zugz1v)，または既に配置された他の[Pod](#k4ef3z)の[ラベル](#zugz1v)に基づいて，必須または優先の条件として制約する指定．後者には，同じ配置を避ける反アフィニティがある．
 
 <a id="zb3vp3"></a>
 
@@ -1922,11 +1854,23 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 作成した[ZooKeeperセッション](#z4pzpk)の終了時に自動で削除される[znode](#xus9ny)．子をもてない．
 
+<a id="yimp6h"></a>
+
+## オクテット
+
+8ビットからなるデータの単位．
+
+<a id="8ot6zr"></a>
+
+## オブジェクト
+
+[kube-apiserver](#yv6kx0)が管理する永続的な実体で，[クラスタ](#dx7pxd)の望ましい状態または実際の状態を表す．種類，名前，[ラベル](#zugz1v)，[アノテーション](#t6j8bt)，[所有者参照](#zktekl)を[メタデータ](#f7of70)としてもち，多くは望ましい状態を記したspecと，観測された状態を記したstatusをもつ．
+
 <a id="k4obt0"></a>
 
 ## オブジェクトストレージ
 
-データを，キーで識別されるオブジェクトとして，階層をもたない[名前空間](#m7lbe4)に格納する[記憶域](#kltl5m)の提供形態．キーからオブジェクトを得る点で，[キーバリューストア](#trahzf)と同じ[データモデル](#7qyeyy)をもつ．
+データを，キーで識別される単位で，階層をもたない[名前空間](#m7lbe4)に格納する[記憶域](#kltl5m)の提供形態．キーからデータを得る点で，[キーバリューストア](#trahzf)と同じ[データモデル](#7qyeyy)をもつ．
 
 <a id="6onm6b"></a>
 
@@ -1945,6 +1889,12 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 ## オブジェクト名前空間
 
 [オブジェクトマネージャ](#qwhtqy)が管理する，[カーネルオブジェクト](#4d5j7r)の階層的な[名前空間](#m7lbe4)．[オブジェクトマネージャ](#qwhtqy)はこの中の名前から[カーネルオブジェクト](#4d5j7r)への[名前解決](#3or1pp)を行う．
+
+<a id="qtnfg6"></a>
+
+## オペレータ
+
+[CustomResourceDefinition](#b5ztot)で追加した種類の[オブジェクト](#8ot6zr)を監視する[コントローラ](#pboh16)により，特定のアプリケーションの運用操作を自動化する方式．
 
 <a id="c8v8vw"></a>
 
@@ -1968,7 +1918,7 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 ## カスタムリソース
 
-[CustomResourceDefinition](#b5ztot)により追加された種類の[Kubernetesオブジェクト](#8ot6zr)．
+[CustomResourceDefinition](#b5ztot)により追加された種類の[オブジェクト](#8ot6zr)．
 
 <a id="cktjwx"></a>
 
@@ -1999,6 +1949,12 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 ## ガベージコレクション
 
 プログラムから到達できなくなったメモリの領域を自動で検出し，回収する仕組み．
+
+<a id="3x9bon"></a>
+
+## ガベージコレクタ
+
+[kube-controller-manager](#9xikob)で動作し，[所有者参照](#zktekl)の指す所有者が存在しない[オブジェクト](#8ot6zr)を削除する[コントローラ](#pboh16)．
 
 <a id="kj4w0z"></a>
 
@@ -2042,11 +1998,17 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [クラウドコンピューティング](#yy3buk)の基盤が提供する，[API](#9e509k)で操作される機能の単位．
 
+<a id="dx7pxd"></a>
+
+## クラスタ
+
+[コントロールプレーン](#b8ign2)と，[Pod](#k4ef3z)を実行する1つ以上の[ノード](#6qrxi1)からなる，[Kubernetes](#t6cr2a)の管理単位．
+
 <a id="8rb2lo"></a>
 
 ## クラスタID
 
-[経路リフレクタ](#iz5p1h)のクラスタを識別する4オクテットの値．
+[経路反射クラスタ](#of0ehz)を識別する4[オクテット](#yimp6h)の値．
 
 <a id="ypg0zz"></a>
 
@@ -2082,7 +2044,7 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 ## コミュニティ
 
-[経路](#5433mk)に付す4オクテットのタグの集合を表すオプション推移の[パス属性](#q885vr)．[ルーティングポリシー](#4bwmon)の適用条件に用いる．周知の値NO_EXPORTを付したものは[自律システム](#8wkkrz)の外部へ広告せず，NO_ADVERTISEを付したものはいずれの[ピア](#7wmnel)へも広告しない．
+[経路](#5433mk)に付す4[オクテット](#yimp6h)のタグの集合を表すオプション推移の[パス属性](#q885vr)．[ルーティングポリシー](#4bwmon)の適用条件に用いる．周知の値NO_EXPORTを付したものは[自律システム](#8wkkrz)の外部へ広告せず，NO_ADVERTISEを付したものはいずれの[ピア](#7wmnel)へも広告しない．
 
 <a id="uds0ak"></a>
 
@@ -2120,11 +2082,23 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 コンテンツを利用者の近くの拠点に[キャッシュ](#kj4w0z)して配信し，遅延と配信元の負荷を減らす[ネットワーク](#uy18d2)．
 
+<a id="pboh16"></a>
+
+## コントローラ
+
+[kube-apiserver](#yv6kx0)を介して[オブジェクト](#8ot6zr)を監視し，そのspecを望ましい状態とする[調整ループ](#gibl6s)．
+
 <a id="xy6h7u"></a>
 
 ## コントローラ参照
 
-controllerフィールドが真である[所有者参照](#zktekl)で，1つの[Kubernetesオブジェクト](#8ot6zr)につき最大1つ存在する．[ラベルセレクタ](#x5w385)をもつ[ワークロードリソース](#qg1bbv)を調整する[Kubernetesコントローラ](#pboh16)は，その[ラベルセレクタ](#x5w385)に一致しコントローラ参照をもたない[Kubernetesオブジェクト](#8ot6zr)に，その[ワークロードリソース](#qg1bbv)を指すコントローラ参照を追加し（採用），一致しなくなった[Kubernetesオブジェクト](#8ot6zr)からこれを削除する（解放）．
+controllerフィールドが真である[所有者参照](#zktekl)で，1つの[オブジェクト](#8ot6zr)につき最大1つ存在する．[ラベルセレクタ](#x5w385)をもつ[ワークロードリソース](#qg1bbv)を調整する[コントローラ](#pboh16)は，その[ラベルセレクタ](#x5w385)に一致しコントローラ参照をもたない[オブジェクト](#8ot6zr)に，その[ワークロードリソース](#qg1bbv)を指すコントローラ参照を追加し（採用），一致しなくなった[オブジェクト](#8ot6zr)からこれを削除する（解放）．
+
+<a id="b8ign2"></a>
+
+## コントロールプレーン
+
+[クラスタ](#dx7pxd)の状態を保持し，[Pod](#k4ef3z)の配置と[オブジェクト](#8ot6zr)の調整を行う構成要素の集合．[kube-apiserver](#yv6kx0)，[etcd](#c0gd56)，[kube-scheduler](#62x28a)，[kube-controller-manager](#9xikob)を含む．
 
 <a id="a2nw9z"></a>
 
@@ -2150,11 +2124,25 @@ controllerフィールドが真である[所有者参照](#zktekl)で，1つの[
 
 [ネットワーク](#uy18d2)を分割した区画のうち，1つの[IPプレフィックス](#6rwn5e)を割り当てられたもの．区画内の[IPアドレス](#3ksnfe)はその[IPプレフィックス](#6rwn5e)に属する．
 
+<a id="oygsrp"></a>
+
+## サブネット
+
+[VPC](#4ln6ld)の[サブネット](#e9v7rv)．[VPC](#4ln6ld)の[IPプレフィックス](#6rwn5e)に含まれる[IPプレフィックス](#6rwn5e)をもち，1つの[アベイラビリティゾーン](#zb3vp3)に属する．1つの[経路表](#4m7c9r)と1つの[ネットワークACL](#eqsq3o)が関連付けられる．
+
 <a id="y825lm"></a>
 
 ## サブルーチン
 
 プログラム中で名前により呼び出され，処理の後に呼び出し元へ制御を戻す命令の列．引数を受け取り，値を返しうる．同じ引数に同じ値を返すとは限らない点で[関数](#egp00x)と異なる．
+
+<a id="2xz9pb"></a>
+
+## サンドボックス
+
+[Chromium](#2aag3y)が子の[プロセス](#lm3iq5)に適用する[サンドボックス](#94k6ba)．[ブラウザプロセス](#ejqo3w)を[ブローカー](#9c98zu)とする．[Windows NT](#jzpnq4)では[制限付きトークン](#pjlcj6)，[ジョブオブジェクト](#mmivp1)，低い[整合性レベル](#79uj26)を，[Linux](#eh8l2u)では[Linux名前空間](#rmoy1r)による隔離と[seccomp-BPF](#x4wvbi)を，[macOS](#0ml2dc)では[Seatbelt](#w8962q)を用いる．
+
+ToDo: [65](todo.md#todo-65)
 
 <a id="94k6ba"></a>
 
@@ -2173,6 +2161,12 @@ controllerフィールドが真である[所有者参照](#zktekl)で，1つの[
 ## サーバーレス
 
 利用者が[サーバー](#uteg7y)の用意，容量の計画，保守を行わずに機能を利用する[クラウドコンピューティング](#yy3buk)の形態．
+
+<a id="8ytqi4"></a>
+
+## サービス
+
+[Chromium](#2aag3y)において，[Mojoインターフェース](#q1r1b6)を通じてのみ他から利用される機能の単位．利用者はそれが動作する[プロセス](#lm3iq5)に依存しない．
 
 <a id="stc42v"></a>
 
@@ -2256,7 +2250,7 @@ controllerフィールドが真である[所有者参照](#zktekl)で，1つの[
 
 ## スタブリゾルバ
 
-[DNS委任](#dmv9zd)を自身では辿らず，[フルリゾルバ](#0n86br)に最終的な結果を返すよう求める再帰的な問合せを送って[DNSの名前解決](#tpx3c2)の結果を得る[クライアント](#xv4m3d)．
+[DNS委任](#dmv9zd)を自身では辿らず，[フルリゾルバ](#0n86br)に最終的な結果を返すよう求める再帰的な問合せを送って[名前解決](#tpx3c2)の結果を得る[クライアント](#xv4m3d)．
 
 <a id="wmv9lk"></a>
 
@@ -2282,7 +2276,9 @@ ToDo: [67](todo.md#todo-67)
 
 ## スレッド優先度
 
-[Windows NT](#jzpnq4)において，[スケジューラ](#wpudzb)が[スレッド](#ou7dup)の選択に用いる0から31の整数．16から31の範囲は実時間優先度と呼ばれ，[スケジューラ](#wpudzb)が値を変えない．1から15の範囲は可変優先度と呼ばれ，[スケジューラ](#wpudzb)が入出力の完了等の際に一時的に引き上げる．0は解放済みの物理メモリを零で初期化する[スレッド](#ou7dup)のみが用いる．
+[Windows NT](#jzpnq4)において，[スケジューラ](#wpudzb)が[スレッド](#ou7dup)の選択に用いる0から31の整数．16から31の範囲は実時間優先度と呼ばれ，[スケジューラ](#wpudzb)が値を変えない．1から15の範囲は可変優先度と呼ばれ，[スケジューラ](#wpudzb)が入出力の完了等の際に一時的に引き上げる．0は解放済みの[物理メモリ](#svua87)を零で初期化する[スレッド](#ou7dup)のみが用いる．
+
+ToDo: [72](todo.md#todo-72)
 
 <a id="zgzyka"></a>
 
@@ -2380,11 +2376,17 @@ ToDo: [67](todo.md#todo-67)
 
 [トランザクション](#v5hhix)が，他の[トランザクション](#v5hhix)のコミットされていない書き込みを読む異常．
 
+<a id="0jljvq"></a>
+
+## チェイン
+
+[Netfilter](#feag1h)に設定する規則を並べた列．[Netfilterフック](#ljpkdd)に結び付けたチェインは，そのフックを通る[IPパケット](#w9btgk)に規則を適用する．
+
 <a id="r85zs1"></a>
 
 ## テイント
 
-[Kubernetesノード](#6qrxi1)に付けるキー，値，効果の組で，一致する[トレラーション](#ey9zls)をもたない[Pod](#k4ef3z)を，効果に応じて新たな配置の禁止，配置の回避，実行中のものの削除により拒むもの．
+[ノード](#6qrxi1)に付けるキー，値，効果の組で，一致する[トレラーション](#ey9zls)をもたない[Pod](#k4ef3z)を，効果に応じて新たな配置の禁止，配置の回避，実行中のものの削除により拒むもの．
 
 <a id="2zr71h"></a>
 
@@ -2470,7 +2472,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## トレラーション
 
-[Pod](#k4ef3z)に付ける指定で，一致する[テイント](#r85zs1)をもつ[Kubernetesノード](#6qrxi1)への配置を許すもの．その[Kubernetesノード](#6qrxi1)への配置を強制しない．
+[Pod](#k4ef3z)に付ける指定で，一致する[テイント](#r85zs1)をもつ[ノード](#6qrxi1)への配置を許すもの．その[ノード](#6qrxi1)への配置を強制しない．
 
 <a id="rw3kg0"></a>
 
@@ -2482,7 +2484,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## ドメイン名
 
-[DNS](#v0yvpo)の階層的な[名前空間](#m7lbe4)がなす[木](#dj2zcx)において，頂点を指す名前．頂点から根までのラベルを順にドットで区切って表記する．ラベルは63オクテット以下，ドメイン名全体は255オクテット以下であり，大文字と小文字を区別せずに比較される．根のラベルは空である．
+[DNS](#v0yvpo)の階層的な[名前空間](#m7lbe4)がなす[木](#dj2zcx)において，頂点を指す名前．頂点から根までの[DNSラベル](#7siuzh)を順にドットで区切って表記する．全体は255[オクテット](#yimp6h)以下であり，大文字と小文字を区別せずに比較される．
 
 <a id="u4t3xd"></a>
 
@@ -2512,7 +2514,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## ネットワークACL
 
-[VPCのサブネット](#oygsrp)に関連付けられ，規則番号の順の[先頭一致評価](#xwqhlo)で通信の可否を決めるステートレスな[ファイアウォール](#x6zoh6)．
+[サブネット](#oygsrp)に関連付けられ，規則番号の順の[先頭一致評価](#xwqhlo)で通信の可否を決めるステートレスな[ファイアウォール](#x6zoh6)．
 
 <a id="cufd0s"></a>
 
@@ -2524,7 +2526,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## ネットワークサービス
 
-[Chromium](#2aag3y)において，[HTTP](#31abh6)等による通信と，[Cookie](#jhdprm)と[キャッシュ](#kj4w0z)の管理を行う[Chromiumのサービス](#8ytqi4)．[ユーティリティプロセス](#0lze03)または[ブラウザプロセス](#ejqo3w)で動作する．
+[Chromium](#2aag3y)において，[HTTP](#31abh6)等による通信と，[Cookie](#jhdprm)と[キャッシュ](#kj4w0z)の管理を行う[サービス](#8ytqi4)．[ユーティリティプロセス](#0lze03)または[ブラウザプロセス](#ejqo3w)で動作する．
 
 ToDo: [66](todo.md#todo-66)
 
@@ -2532,7 +2534,13 @@ ToDo: [66](todo.md#todo-66)
 
 ## ノンリピータブルリード
 
-[トランザクション](#v5hhix)が同じ[SQLの行](#rylgay)を再び読み取り，その間にコミットされた他の[トランザクション](#v5hhix)の更新により異なる値を得る異常．
+[トランザクション](#v5hhix)が同じ[行](#rylgay)を再び読み取り，その間にコミットされた他の[トランザクション](#v5hhix)の更新により異なる値を得る異常．
+
+<a id="6qrxi1"></a>
+
+## ノード
+
+[クラスタ](#dx7pxd)において[Pod](#k4ef3z)を実行する計算機．[仮想マシン](#uwly1k)または物理計算機であり，[kubelet](#zh69qe)と[コンテナランタイム](#nl5o0m)を動かす．
 
 <a id="dt1rv7"></a>
 
@@ -2612,7 +2620,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## パブリックサブネット
 
-[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を[VPCの経路表](#4m7c9r)にもつ[VPCのサブネット](#oygsrp)．
+[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を[経路表](#4m7c9r)にもつ[サブネット](#oygsrp)．
 
 <a id="8rrdgi"></a>
 
@@ -2654,7 +2662,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## ファントムリード
 
-[トランザクション](#v5hhix)が同じ条件で再び検索し，その間にコミットされた他の[トランザクション](#v5hhix)の挿入または削除により異なる[SQLの行](#rylgay)の集合を得る異常．
+[トランザクション](#v5hhix)が同じ条件で再び検索し，その間にコミットされた他の[トランザクション](#v5hhix)の挿入または削除により異なる[行](#rylgay)の集合を得る異常．
 
 <a id="gd0lzy"></a>
 
@@ -2678,7 +2686,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## フルリゾルバ
 
-[DNSの名前解決](#tpx3c2)を代行し，[DNSルートサーバー](#p77v01)から[DNS委任](#dmv9zd)を順に辿って，[権威DNSサーバー](#9es8da)に自身の保持する応答または委任先のみを返させる反復的な問合せを行い，得た[資源レコード](#syx2b4)をTTLの間[キャッシュ](#kj4w0z)する[サーバー](#uteg7y)．
+[名前解決](#tpx3c2)を代行し，[DNSルートサーバー](#p77v01)から[DNS委任](#dmv9zd)を順に辿って，[権威DNSサーバー](#9es8da)に自身の保持する応答または委任先のみを返させる反復的な問合せを行い，得た[資源レコード](#syx2b4)をTTLの間[キャッシュ](#kj4w0z)する[サーバー](#uteg7y)．
 
 <a id="mtx2pq"></a>
 
@@ -2690,7 +2698,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## ブラウザプロセス
 
-[Chromium](#2aag3y)において，最初に起動し，[Chromiumのサンドボックス](#2xz9pb)の外で動作する[プロセス](#lm3iq5)．他の[プロセス](#lm3iq5)を起動・管理し，それらの[ブローカー](#9c98zu)となる．[ウィンドウ](#zbv6hc)と[タブ](#u7pfjr)を管理し，[ナビゲーション](#day4yo)の要求を開始して，応答を受けた後に[Web文書](#qbtpp4)を処理させる[レンダラープロセス](#53ckw6)を決める．
+[Chromium](#2aag3y)において，最初に起動し，[サンドボックス](#2xz9pb)の外で動作する[プロセス](#lm3iq5)．他の[プロセス](#lm3iq5)を起動・管理し，それらの[ブローカー](#9c98zu)となる．[ウィンドウ](#zbv6hc)と[タブ](#u7pfjr)を管理し，[ナビゲーション](#day4yo)の要求を開始して，応答を受けた後に[Web文書](#qbtpp4)を処理させる[レンダラープロセス](#53ckw6)を決める．
 
 <a id="k60l5g"></a>
 
@@ -2722,7 +2730,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## プライベートサブネット
 
-[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を[VPCの経路表](#4m7c9r)にもたない[VPCのサブネット](#oygsrp)．
+[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を[経路表](#4m7c9r)にもたない[サブネット](#oygsrp)．
 
 <a id="t8ujsy"></a>
 
@@ -2762,6 +2770,8 @@ ToDo: [68](todo.md#todo-68)，[65](todo.md#todo-65)
 
 命令の列を読み出し，順に実行する装置．
 
+ToDo: [72](todo.md#todo-72)
+
 <a id="4ofscj"></a>
 
 ## ヘルスチェック
@@ -2784,7 +2794,7 @@ ToDo: [68](todo.md#todo-68)，[65](todo.md#todo-65)
 
 ## ページファイル
 
-[Windows NT](#jzpnq4)において，ファイルに対応付けられていない[ページ](#05by8w)の内容を，物理メモリから取り除いた後に保持するファイル．
+[Windows NT](#jzpnq4)において，ファイルに対応付けられていない[ページ](#05by8w)の内容を，[物理メモリ](#svua87)から取り除いた後に保持するファイル．
 
 <a id="0qt5x4"></a>
 
@@ -2797,6 +2807,12 @@ ToDo: [68](todo.md#todo-68)，[65](todo.md#todo-65)
 ## ホールドタイム
 
 [KEEPALIVEメッセージ](#niq3ho)または[UPDATEメッセージ](#zqwllr)を受信しないまま経過すると[BGPセッション](#s9mnt1)を閉じる時間．両[ピア](#7wmnel)の[OPENメッセージ](#x55k1n)の値の小さい方を用いる．値は0または3秒以上であり，0のときは満了しない．
+
+<a id="0zbizc"></a>
+
+## ボリューム
+
+[Pod](#k4ef3z)内の[コンテナ](#uds0ak)の[ファイルシステム](#pp17bd)に[マウント](#96n6sj)されるディレクトリで，[コンテナ](#uds0ak)の再起動を越えて内容が保たれるもの．emptyDirのように[Pod](#k4ef3z)と寿命を共にするものと，[PersistentVolumeClaim](#3b8umf)を介して[Pod](#k4ef3z)より長く存続するものがある．
 
 <a id="um9c12"></a>
 
@@ -2932,7 +2948,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## ユーティリティプロセス
 
-[Chromium](#2aag3y)において，[Chromiumのサービス](#8ytqi4)を[ブラウザプロセス](#ejqo3w)から分離して実行する[プロセス](#lm3iq5)．[Chromiumのサービス](#8ytqi4)ごとに[Chromiumのサンドボックス](#2xz9pb)の制限の程度が定まる．
+[Chromium](#2aag3y)において，[サービス](#8ytqi4)を[ブラウザプロセス](#ejqo3w)から分離して実行する[プロセス](#lm3iq5)．[サービス](#8ytqi4)ごとに[サンドボックス](#2xz9pb)の制限の程度が定まる．
 
 <a id="odhunt"></a>
 
@@ -2946,17 +2962,23 @@ ToDo: [68](todo.md#todo-68)
 
 [ディスプレイリスト](#2zr71h)を画素の[配列](#06enpz)に変換する処理．
 
+<a id="zugz1v"></a>
+
+## ラベル
+
+[オブジェクト](#8ot6zr)に付けるキーと値の組で，[ラベルセレクタ](#x5w385)による選択に用いられるもの．
+
 <a id="x5w385"></a>
 
 ## ラベルセレクタ
 
-[Kubernetesラベル](#zugz1v)に対する条件で，それを満たす[Kubernetesオブジェクト](#8ot6zr)の集合を指定するもの．等価に基づく条件と集合に基づく条件がある．
+[ラベル](#zugz1v)に対する条件で，それを満たす[オブジェクト](#8ot6zr)の集合を指定するもの．等価に基づく条件と集合に基づく条件がある．
 
 <a id="g603fn"></a>
 
 ## ラージコミュニティ
 
-広告者の[AS番号](#wvk6j6)を格納する4オクテットのグローバル管理者の欄と，その[自律システム](#8wkkrz)が意味を定める4オクテットのローカルデータの欄2つとからなる，12オクテットのタグで表す[コミュニティ](#ib4lx9)の拡張．
+広告者の[AS番号](#wvk6j6)を格納する4[オクテット](#yimp6h)のグローバル管理者の欄と，その[自律システム](#8wkkrz)が意味を定める4[オクテット](#yimp6h)のローカルデータの欄2つとからなる，12[オクテット](#yimp6h)のタグで表す[コミュニティ](#ib4lx9)の拡張．
 
 <a id="z6oh15"></a>
 
@@ -3058,7 +3080,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## レンダラープロセス
 
-[Chromium](#2aag3y)において，[Blink](#3svuh5)と[V8](#4qyfuw)を実行して[Web文書](#qbtpp4)を処理する[プロセス](#lm3iq5)．[Chromiumのサンドボックス](#2xz9pb)内で動作し，他の[プロセス](#lm3iq5)を介してのみ外部の[資源](#k7gc81)にアクセスする．
+[Chromium](#2aag3y)において，[Blink](#3svuh5)と[V8](#4qyfuw)を実行して[Web文書](#qbtpp4)を処理する[プロセス](#lm3iq5)．[サンドボックス](#2xz9pb)内で動作し，他の[プロセス](#lm3iq5)を介してのみ外部の[資源](#k7gc81)にアクセスする．
 
 <a id="8wjced"></a>
 
@@ -3100,13 +3122,13 @@ ToDo: [68](todo.md#todo-68)
 
 ## ワーキングセット
 
-[Windows NT](#jzpnq4)において，[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)の[ページ](#05by8w)のうち，物理メモリに存在し参照可能なものの集合．
+[Windows NT](#jzpnq4)において，[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)の[ページ](#05by8w)のうち，[物理メモリ](#svua87)に存在し参照可能なものの集合．
 
 <a id="qg1bbv"></a>
 
 ## ワークロードリソース
 
-[Pod](#k4ef3z)のテンプレートを保持し，それに従って[Pod](#k4ef3z)を，直接または他のワークロードリソースを介して作成，管理する[Kubernetesオブジェクト](#8ot6zr)．作成した[Pod](#k4ef3z)は[ラベルセレクタ](#x5w385)と[コントローラ参照](#xy6h7u)で識別される．
+[Pod](#k4ef3z)のテンプレートを保持し，それに従って[Pod](#k4ef3z)を，直接または他のワークロードリソースを介して作成，管理する[オブジェクト](#8ot6zr)．作成した[Pod](#k4ef3z)は[ラベルセレクタ](#x5w385)と[コントローラ参照](#xy6h7u)で識別される．
 
 <a id="qp3v5d"></a>
 
@@ -3127,6 +3149,12 @@ ToDo: [68](todo.md#todo-68)
 受信した通信を[通信先](#b2znuk)へ向けて送り出すこと．中継するものは，通信を終端して自らを端点とする別の通信で送り出すか，通信の端点を変えずに送り出す．前者では，[通信先](#b2znuk)から見た通信の相手は中継するものである．
 
 ToDo: [67](todo.md#todo-67)
+
+<a id="7ckf0e"></a>
+
+## 主キー
+
+[Amazon DynamoDB](#knkcrh)のテーブルの[主キー](#vgslfx)．パーティションキーのみ，またはパーティションキーとソートキーの組からなる．パーティションキーの値の[ハッシュ関数](#fnegr1)の値により，項目を格納する[シャーディング](#1upnid)の分割単位が定まる．
 
 <a id="vgslfx"></a>
 
@@ -3198,7 +3226,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 仮想記憶
 
-[アドレス空間](#rygcc4)のアドレスを，[ページ](#05by8w)を単位として物理メモリの位置に対応付ける機構．
+[アドレス空間](#rygcc4)のアドレスを，[ページ](#05by8w)を単位として[物理メモリ](#svua87)の位置に対応付ける機構．
 
 <a id="zyyhvv"></a>
 
@@ -3282,7 +3310,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 共有メモリ
 
-複数の[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)に対応付けられた，同一の物理メモリの区域．[プロセス間通信](#vjg5ws)の手段となる．
+複数の[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)に対応付けられた，同一の[物理メモリ](#svua87)の区域．[プロセス間通信](#vjg5ws)の手段となる．
 
 <a id="sie28z"></a>
 
@@ -3324,7 +3352,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 削除の伝播方針
 
-[Kubernetesオブジェクト](#8ot6zr)の削除時に指定する，それを[所有者参照](#zktekl)で指す[Kubernetesオブジェクト](#8ot6zr)の扱い．Orphanはそれらの[所有者参照](#zktekl)を除いて残し，Backgroundは所有者を直ちに削除してそれらを[Kubernetesのガベージコレクタ](#3x9bon)に削除させ，ForegroundはblockOwnerDeletionをもつものの削除を待ってから所有者を削除する．
+[オブジェクト](#8ot6zr)の削除時に指定する，それを[所有者参照](#zktekl)で指す[オブジェクト](#8ot6zr)の扱い．Orphanはそれらの[所有者参照](#zktekl)を除いて残し，Backgroundは所有者を直ちに削除してそれらを[ガベージコレクタ](#3x9bon)に削除させ，ForegroundはblockOwnerDeletionをもつものの削除を待ってから所有者を削除する．
 
 <a id="owu45r"></a>
 
@@ -3336,7 +3364,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 割り込み要求レベル
 
-[Windows NT](#jzpnq4)において，[プロセッサ](#4ad6s1)ごとに設定される優先度．現在の値以下の[割り込み](#owu45r)は遮断される．0をPASSIVE_LEVEL，1をAPC_LEVEL，2をDISPATCH_LEVELと呼び，3以上の値はハードウェアの[割り込み](#owu45r)に用いられる．APC_LEVEL以上では[非同期プロシージャ呼び出し](#zlguzf)の実行が遮断される．DISPATCH_LEVEL以上では[スケジューラ](#wpudzb)による[スレッド](#ou7dup)の切り替えが起こらず，物理メモリに存在しない[ページ](#05by8w)を参照できない．
+[Windows NT](#jzpnq4)において，[プロセッサ](#4ad6s1)ごとに設定される優先度．現在の値以下の[割り込み](#owu45r)は遮断される．0をPASSIVE_LEVEL，1をAPC_LEVEL，2をDISPATCH_LEVELと呼び，3以上の値はハードウェアの[割り込み](#owu45r)に用いられる．APC_LEVEL以上では[非同期プロシージャ呼び出し](#zlguzf)の実行が遮断される．DISPATCH_LEVEL以上では[スケジューラ](#wpudzb)による[スレッド](#ou7dup)の切り替えが起こらず，[物理メモリ](#svua87)に存在しない[ページ](#05by8w)を参照できない．
 
 <a id="uo5htx"></a>
 
@@ -3380,17 +3408,29 @@ ToDo: [67](todo.md#todo-67)
 
 [Webブラウザ](#gcly3z)が，[Web文書](#qbtpp4)中の[JavaScript](#y8ql3q)に，異なる[オリジン](#3f4vd8)の[Web文書](#qbtpp4)と応答の内容の読み取りを既定で許さない規則．
 
+<a id="6bdul4"></a>
+
+## 名前空間
+
+[クラスタ](#dx7pxd)内の[オブジェクト](#8ot6zr)の名前を種類ごとに分ける[名前空間](#m7lbe4)．これに属さない種類の[オブジェクト](#8ot6zr)の名前は，[クラスタ](#dx7pxd)の中で種類ごとに一意である．[Role](#3kkitq)と[ResourceQuota](#4192cj)の適用単位となる．
+
 <a id="m7lbe4"></a>
 
 ## 名前空間
 
-その中で各名前が高々1つの対象を指す，名前の範囲．階層的な名前空間では，名前空間自体が上位の名前空間の対象となって[木](#dj2zcx)をなし，対象は根からの名前の列で指される．
+その中で各名前が高々1つの対象を指す，名前の範囲．階層的なものでは，それ自体が上位のものの対象となって[木](#dj2zcx)をなし，対象は根からの名前の列で指される．
 
 <a id="3or1pp"></a>
 
 ## 名前解決
 
 [名前空間](#m7lbe4)における名前から，それが指す対象を得る手続き．
+
+<a id="tpx3c2"></a>
+
+## 名前解決
+
+[DNS](#v0yvpo)における[名前解決](#3or1pp)．[ドメイン名](#d8xx9q)と型を与えて，対応する[資源レコード](#syx2b4)を得る．
 
 <a id="utnq9w"></a>
 
@@ -3438,7 +3478,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 所有者参照
 
-[Kubernetesオブジェクト](#8ot6zr)の[メタデータ](#f7of70)に含まれ，所有者である他の[Kubernetesオブジェクト](#8ot6zr)を種類，名前，[Kubernetes UID](#w2fhil)で指す参照．[Kubernetes名前空間](#6bdul4)に属する[Kubernetesオブジェクト](#8ot6zr)の所有者は，同じ[Kubernetes名前空間](#6bdul4)に属するか，[Kubernetes名前空間](#6bdul4)に属さない．所有者が削除されたとき，[削除の伝播方針](#ood9pc)がOrphanでなければ，これをもつ[Kubernetesオブジェクト](#8ot6zr)も削除される．
+[オブジェクト](#8ot6zr)の[メタデータ](#f7of70)に含まれ，所有者である他の[オブジェクト](#8ot6zr)を種類，名前，[UID](#w2fhil)で指す参照．[名前空間](#6bdul4)に属する[オブジェクト](#8ot6zr)の所有者は，同じ[名前空間](#6bdul4)に属するか，[名前空間](#6bdul4)に属さない．所有者が削除されたとき，[削除の伝播方針](#ood9pc)がOrphanでなければ，これをもつ[オブジェクト](#8ot6zr)も削除される．
 
 <a id="wxs2uf"></a>
 
@@ -3462,7 +3502,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 拡張コミュニティ
 
-型の欄をもつ8オクテットのタグで表す[コミュニティ](#ib4lx9)の拡張．
+型の欄をもつ8[オクテット](#yimp6h)のタグで表す[コミュニティ](#ib4lx9)の拡張．
 
 <a id="jp0l0f"></a>
 
@@ -3594,6 +3634,14 @@ ToDo: [68](todo.md#todo-68)
 
 [LVM](#9tfla3)が初期化して管理下に置いた[ブロックデバイス](#1frbzb)．[物理エクステント](#six0ds)に分割される．
 
+<a id="svua87"></a>
+
+## 物理メモリ
+
+[プロセッサ](#4ad6s1)が命令とデータを直接読み書きする記憶装置．
+
+ToDo: [72](todo.md#todo-72)
+
 <a id="uk5ihn"></a>
 
 ## 特権モード
@@ -3610,7 +3658,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## 登録可能ドメイン
 
-[ドメイン名](#d8xx9q)の末尾に一致する最長の[公開接尾辞](#vs10rb)に，その直前のラベルを1つ加えた[ドメイン名](#d8xx9q)．
+[ドメイン名](#d8xx9q)の末尾に一致する最長の[公開接尾辞](#vs10rb)に，その直前の[DNSラベル](#7siuzh)を1つ加えた[ドメイン名](#d8xx9q)．
 
 <a id="p0wpt2"></a>
 
@@ -3682,7 +3730,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## 経路リフレクタ
 
-[iBGP](#f6yd97)の[ピア](#7wmnel)のうち反射の対象として設定したものから学習した[経路](#5433mk)を全ての[iBGP](#f6yd97)の[ピア](#7wmnel)へ，それ以外の[iBGP](#f6yd97)の[ピア](#7wmnel)から学習した[経路](#5433mk)を反射の対象へ再広告する[BGPスピーカー](#v9rnch)．これと反射の対象の集まりをクラスタと呼ぶ．再広告する[経路](#5433mk)に[ORIGINATOR_ID](#rrbnra)と[CLUSTER_LIST](#1r0j49)を付して広告の循環を防ぐ．
+[iBGP](#f6yd97)の[ピア](#7wmnel)のうち反射の対象として設定したものから学習した[経路](#5433mk)を全ての[iBGP](#f6yd97)の[ピア](#7wmnel)へ，それ以外の[iBGP](#f6yd97)の[ピア](#7wmnel)から学習した[経路](#5433mk)を反射の対象へ再広告する[BGPスピーカー](#v9rnch)．再広告する[経路](#5433mk)に[ORIGINATOR_ID](#rrbnra)と[CLUSTER_LIST](#1r0j49)を付して広告の循環を防ぐ．
 
 <a id="6kzc5c"></a>
 
@@ -3690,11 +3738,23 @@ ToDo: [68](todo.md#todo-68)
 
 [自律システム](#8wkkrz)が受信した[経路](#5433mk)を，[トランジット](#mcggb8)や[AS間ピアリング](#z1q1fs)の関係が想定する範囲を超えて他の[自律システム](#8wkkrz)へ広告すること．
 
+<a id="of0ehz"></a>
+
+## 経路反射クラスタ
+
+1つ以上の[経路リフレクタ](#iz5p1h)と，それらが反射の対象とする[iBGP](#f6yd97)の[ピア](#7wmnel)の集まり．[クラスタID](#8rb2lo)で識別される．
+
 <a id="476yxv"></a>
 
 ## 経路発生源検証
 
 [ROA](#xmhp27)に基づき[経路](#5433mk)を分類する手順．その[IPプレフィックス](#6rwn5e)を包含する[ROA](#xmhp27)がなければNotFound，包含しプレフィックス長が最大プレフィックス長以下である[ROA](#xmhp27)のいずれかの[AS番号](#wvk6j6)が[AS_PATH](#my3zbg)の示す発生源に一致すればValid，それ以外はInvalidとする．
+
+<a id="4m7c9r"></a>
+
+## 経路表
+
+[サブネット](#oygsrp)に関連付けられる[経路表](#dw7079)．
 
 <a id="dw7079"></a>
 
@@ -3706,7 +3766,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## 経路識別子
 
-[IPプレフィックス](#6rwn5e)の前に付す8オクテットの値で，異なる[VRF](#3a4xlv)の重複する[IPプレフィックス](#6rwn5e)を区別する．これを付した[IPプレフィックス](#6rwn5e)は，[マルチプロトコル拡張](#hz8j1v)で専用の[アドレスファミリー](#zeoy6t)として交換される．
+[IPプレフィックス](#6rwn5e)の前に付す8[オクテット](#yimp6h)の値で，異なる[VRF](#3a4xlv)の重複する[IPプレフィックス](#6rwn5e)を区別する．これを付した[IPプレフィックス](#6rwn5e)は，[マルチプロトコル拡張](#hz8j1v)で専用の[アドレスファミリー](#zeoy6t)として交換される．
 
 <a id="ofoz7i"></a>
 
@@ -3725,6 +3785,18 @@ ToDo: [68](todo.md#todo-68)
 ## 自律システム
 
 外部に対して一貫した[ルーティングポリシー](#4bwmon)の下で運用される[ルータ](#5f2okm)と[IPプレフィックス](#6rwn5e)の集合．[AS番号](#wvk6j6)で識別される．
+
+<a id="rylgay"></a>
+
+## 行
+
+[表](#iuztvu)の要素で，各列に1つの値をもつもの．[リレーショナルモデル](#7y7vys)のタプルに当たる．
+
+<a id="iuztvu"></a>
+
+## 表
+
+[SQL](#v61vr0)において，同じ列の並びをもつ[行](#rylgay)の集まり．[リレーショナルモデル](#7y7vys)のリレーションに当たるが，同じ[行](#rylgay)の重複を許す．
 
 <a id="onqz9u"></a>
 
@@ -3838,7 +3910,9 @@ ToDo: [68](todo.md#todo-68)
 
 ## 資源要求と制限
 
-[コンテナ](#uds0ak)ごとに指定する[資源](#k7gc81)の量．要求は[kube-scheduler](#62x28a)が[Kubernetesノード](#6qrxi1)の選択に用い，制限は[cgroup](#rh5dah)により実行時に課される．メモリの制限を超えた[コンテナ](#uds0ak)は強制終了され，CPUの制限を超える使用は抑制される．
+[コンテナ](#uds0ak)ごとに指定する[資源](#k7gc81)の量．要求は[kube-scheduler](#62x28a)が[ノード](#6qrxi1)の選択に用い，制限は[cgroup](#rh5dah)により実行時に課される．メモリの制限を超えた[コンテナ](#uds0ak)は強制終了され，CPUの制限を超える使用は抑制される．
+
+ToDo: [72](todo.md#todo-72)
 
 <a id="aesepi"></a>
 

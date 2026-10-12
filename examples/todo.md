@@ -1,3 +1,9 @@
+<a id="todo-72"></a>
+
+## 72
+
+未定義語の点検の残り．[QoSクラス](wiki.md#dz190z)と[資源要求と制限](wiki.md#le79r6)の「CPU」「メモリ」（[プロセッサ](wiki.md#4ad6s1)，[物理メモリ](wiki.md#svua87)との関係），[iptables](wiki.md#134vyo)と[nftables](wiki.md#6nsmli)の「テーブル」「ターゲット」を定義するか検討する．また[スレッド優先度](wiki.md#4dqyyj)の「入出力の完了等」は範囲をぼかす「等」であり書き切る．
+
 <a id="todo-68"></a>
 
 ## 68
@@ -20,4 +26,4 @@
 
 ## 65
 
-確信がなく書かなかった事柄を確かめる．[Chromiumのサンドボックス](wiki.md#2xz9pb)が[Windows NT](wiki.md#jzpnq4)でAppContainerを用いる[プロセス](wiki.md#lm3iq5)の範囲と，[Linux](wiki.md#eh8l2u)のsetuidサンドボックスの現在の位置付け．
+確信がなく書かなかった事柄を確かめる．[サンドボックス](wiki.md#2xz9pb)が[Windows NT](wiki.md#jzpnq4)でAppContainerを用いる[プロセス](wiki.md#lm3iq5)の範囲と，[Linux](wiki.md#eh8l2u)のsetuidサンドボックスの現在の位置付け．
