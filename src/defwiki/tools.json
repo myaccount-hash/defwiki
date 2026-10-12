@@ -337,7 +337,7 @@
   },
   {
     "name": "rename",
-    "description": "定義の用語を変更する．運用規則への違反の疑いがあれば，警告を返す．",
+    "description": "定義の用語を変更する．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -398,7 +398,7 @@
   },
   {
     "name": "check",
-    "description": "Wiki全体を点検し，運用規則への違反の疑いを返す．isolatedは参照も被参照もない定義，duplicate_descriptionsは説明が同じ定義の組，unlinkedは他の定義の用語が説明に参照なしで現れる定義，externalは外部への参照を含む定義．各項目はlimit件までであり，countsは各項目の全件数である．",
+    "description": "Wiki全体を点検し，運用規則への違反の疑いを返す．isolatedは参照も被参照もない定義，duplicate_descriptionsは説明が同じ定義の組，externalは外部への参照を含む定義．各項目はlimit件までであり，countsは各項目の全件数である．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -453,43 +453,6 @@
             }
           }
         },
-        "unlinked": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "term": {
-                "type": "string"
-              },
-              "mentions": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "term": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "term"
-                  ]
-                }
-              }
-            },
-            "required": [
-              "id",
-              "term",
-              "mentions"
-            ]
-          }
-        },
         "external": {
           "type": "array",
           "items": {
@@ -517,9 +480,6 @@
             "duplicate_descriptions": {
               "type": "integer"
             },
-            "unlinked": {
-              "type": "integer"
-            },
             "external": {
               "type": "integer"
             }
@@ -527,7 +487,6 @@
           "required": [
             "isolated",
             "duplicate_descriptions",
-            "unlinked",
             "external"
           ]
         }
@@ -535,7 +494,6 @@
       "required": [
         "isolated",
         "duplicate_descriptions",
-        "unlinked",
         "external",
         "counts"
       ]

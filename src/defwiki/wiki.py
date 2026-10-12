@@ -221,47 +221,6 @@ def _own_length(stored: str) -> int:
     return len(stored) - sum(r.end - r.start for r in refs)
 
 
-def _char_class(c: str) -> str | None:
-    """語の境界の判定に用いる文字の種別．英数字とカタカナ以外は None．"""
-    if c.isascii() and (c.isalnum() or c == "_"):
-        return "ascii"
-    if "\u30a1" <= c <= "\u30fa" or c in "ーヽヾ":
-        return "katakana"
-    return None
-
-
-def _same_class(a: str, b: str) -> bool:
-    return _char_class(a) is not None and _char_class(a) == _char_class(b)
-
-
-def _plain_terms(stored: str, index: dict[str, list[str]]) -> list[str]:
-    """参照とコードスパンの外側に現れる用語を，最長一致で左から順に取り出す．
-
-    先頭または末尾が英数字またはカタカナの用語は，同じ種別の文字に隣接する位置では一致としない．
-    一致としなかった箇所は，より短い用語を探さずに読み飛ばす．
-    """
-    refs, codes, _ = _scan(stored, stored=True)
-    found: dict[str, None] = {}
-    skips = sorted([(r.start, r.end) for r in refs] + codes)
-    bounds = [0] + [x for span in skips for x in span] + [len(stored)]
-    for start, end in zip(bounds[::2], bounds[1::2]):
-        seg = stored[start:end]
-        i = 0
-        while i < len(seg):
-            for term in index.get(seg[i], ()):
-                j = i + len(term)
-                if not seg.startswith(term, i):
-                    continue
-                if not (i > 0 and _same_class(term[0], seg[i - 1])
-                        or j < len(seg) and _same_class(term[-1], seg[j])):
-                    found[term] = None
-                i = j
-                break
-            else:
-                i += 1
-    return list(found)
-
-
 # ---------------------------------------------------------------- 点検
 
 
@@ -274,22 +233,6 @@ def _groups(rows, col: int) -> list[list[str]]:
     return [g for g in groups.values() if len(g) > 1]
 
 
-def _unlinked(rows) -> dict[str, list[str]]:
-    """定義ごとに，説明に参照なしで現れる用語を持つ他の定義．"""
-    by_term: dict[str, list[str]] = {}
-    for id, term, _ in rows:
-        by_term.setdefault(term, []).append(id)
-    index: dict[str, list[str]] = {}
-    for term in sorted(by_term, key=len, reverse=True):
-        index.setdefault(term[0], []).append(term)
-    out = {}
-    for id, _, stored in rows:
-        ids = [i for t in _plain_terms(stored, index) for i in by_term[t] if i != id]
-        if ids:
-            out[id] = ids
-    return out
-
-
 class _Audit:
     """ある時点の wiki 全体についての，運用規則への違反の疑い．"""
 
@@ -297,7 +240,6 @@ class _Audit:
         self.terms = {id: term for id, term, _ in rows}
         self.isolated = isolated
         self.same_descriptions = _groups(rows, 2)
-        self.unlinked = _unlinked(rows)
         self.external = {id: m.group() for id, _, stored in rows if (m := _EXTERNAL.search(stored))}
 
     def _listed(self, ids) -> str:
@@ -312,33 +254,22 @@ class _Audit:
         items = {
             "isolated": [d(i) for i in self.isolated],
             "duplicate_descriptions": [[d(i) for i in g] for g in self.same_descriptions],
-            "unlinked": [{**d(i), "mentions": [d(m) for m in ms]} for i, ms in self.unlinked.items()],
             "external": [d(i) for i in self.external],
         }
         return {**{k: v[:limit] for k, v in items.items()}, "counts": {k: len(v) for k, v in items.items()}}
 
-    def warnings(self, id: str, term_changed: bool, description_changed: bool, created: bool = False) -> list[str]:
-        """書き込んだ定義についての疑いを返す．
+    def warnings(self, id: str, created: bool = False) -> list[str]:
+        """説明を書き込んだ定義についての疑いを返す．
 
         作った定義には，参照も被参照もないことを警告しない．書いた時点で自明だからである．
         """
-
-        def others(groups):
-            return [i for g in groups if id in g for i in g if i != id]
-
         out = []
-        if term_changed:
-            if srcs := [i for i, ms in self.unlinked.items() if id in ms]:
-                out.append(f"この用語が参照なしで現れる定義がある: {self._listed(srcs)}")
-        if description_changed:
-            if id in self.isolated and not created:
-                out.append("参照も被参照もない．")
-            if id in self.unlinked:
-                out.append(f"既存の定義の用語が参照なしで現れる: {self._listed(self.unlinked[id])}")
-            if same := others(self.same_descriptions):
-                out.append(f"説明が同一の定義がある: {self._listed(same)}")
-            if id in self.external:
-                out.append(f"外部への参照を含む: `{self.external[id]}`")
+        if id in self.isolated and not created:
+            out.append("参照も被参照もない．")
+        if same := [i for g in self.same_descriptions if id in g for i in g if i != id]:
+            out.append(f"説明が同一の定義がある: {self._listed(same)}")
+        if id in self.external:
+            out.append(f"外部への参照を含む: `{self.external[id]}`")
         return out
 
 
@@ -604,7 +535,7 @@ class Wiki:
             warnings = [
                 f"{_link(id, d['term'])}: {w}"
                 for id, d in zip(ids, defs)
-                for w in audit.warnings(id, True, True, created=True)
+                for w in audit.warnings(id, created=True)
             ]
             if dry_run:
                 for i, (id, d) in enumerate(zip(ids, defs)):
@@ -626,7 +557,7 @@ class Wiki:
                 (stored,) = self.db.execute("SELECT description FROM defs WHERE id=?", (id,)).fetchone()
                 description = _apply_edits(self._render(stored)[0], edits)
             self._set_description(id, *self._parse_input(description))
-            return self._audit().warnings(id, False, True)
+            return self._audit().warnings(id)
 
     def rename(self, id: str, term: str) -> list[str]:
         with self._tx():
@@ -634,7 +565,7 @@ class Wiki:
             if errs := term_errors(term):
                 raise WikiError(errs)
             self.db.execute("UPDATE defs SET term=? WHERE id=?", (term, id))
-            return self._audit().warnings(id, True, False)
+            return []
 
     def delete(self, id: str) -> list[str]:
         with self._tx():
@@ -669,7 +600,7 @@ class Wiki:
             self._retarget_todos(id, f"[[{into}]]")
             self._remove(id)
             audit = self._audit()
-            warnings = [f"{_link(s, audit.terms[s])}: {w}" for s in srcs for w in audit.warnings(s, False, True)]
+            warnings = [f"{_link(s, audit.terms[s])}: {w}" for s in srcs for w in audit.warnings(s)]
             return warnings + self._newly_isolated(before | set(srcs))
 
     # ---- ToDo．本文は参照を含んでよい．ToDo からの参照は，被参照に数えず，削除を妨げない

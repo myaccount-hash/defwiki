@@ -199,7 +199,6 @@ def test_warnings_on_create(w):
     assert r["warnings"] == []
     r = mk(w, "トークン", "モデルが処理する単位．https://example.com/a を見よ．")
     assert r["warnings"] == [
-        f"[[{r['id']}|トークン]]: 既存の定義の用語が参照なしで現れる: [[{m}|モデル]]",
         f"[[{r['id']}|トークン]]: 外部への参照を含む: `https://example.com/a`",
     ]
     assert w.update(r["id"], f"[[{m}|モデル]]が処理する単位．") == []
@@ -212,13 +211,13 @@ def test_warnings_on_create(w):
 def test_create_dry_run(w):
     m = mk(w, "モデル", "")["id"]
     defs = [
-        {"key": "a", "term": "A", "description": "モデルの一種．"},
+        {"key": "a", "term": "A", "description": "https://example.com/a の一種．"},
         {"term": "A", "description": "[[$a|A]]の別名．"},
     ]
     r = w.create(defs, dry_run=True)
     assert r == {
         "warnings": [
-            f"defs[0] `A`: 既存の定義の用語が参照なしで現れる: [[{m}|モデル]]",
+            "defs[0] `A`: 外部への参照を含む: `https://example.com/a`",
         ]
     }
     assert w.ids() == [m]
@@ -233,7 +232,7 @@ def test_create_dry_run(w):
 def test_warnings_on_rename_and_delete(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]とCの組．")["id"]
-    assert w.rename(a, "C") == [f"この用語が参照なしで現れる定義がある: [[{b}|B]]"]
+    assert w.rename(a, "C") == []
     assert w.delete(b) == [f"参照も被参照もなくなった定義がある: [[{a}|C]]"]
 
 
@@ -294,20 +293,6 @@ def test_server_merge(w):
     assert call(w, "merge", {"id": b}).is_error
 
 
-def test_plain_terms_longest_match_and_word_boundary(w):
-    m = mk(w, "モデル", "")["id"]
-    lm = mk(w, "言語モデル", f"[[{m}|モデル]]")["id"]
-    mk(w, "id", f"[[{m}|モデル]]")
-    t = mk(w, "トライ", f"[[{m}|モデル]]")["id"]
-    x = mk(w, "x", f"言語モデルとidentifierとvalidとストライプ．[[{m}|モデル]]")
-    assert x["warnings"] == [f"[[{x['id']}|x]]: 既存の定義の用語が参照なしで現れる: [[{lm}|言語モデル]]"]
-    mk(w, "資源", f"[[{m}|モデル]]")
-    mk(w, "資源レコード", f"[[{m}|モデル]]")
-    assert mk(w, "z", f"`言語モデル`と``トライ` ``．[[{m}|モデル]]")["warnings"] == []
-    y = mk(w, "y", f"トライと資源レコードセット．[[{m}|モデル]]")
-    assert y["warnings"] == [f"[[{y['id']}|y]]: 既存の定義の用語が参照なしで現れる: [[{t}|トライ]]"]
-
-
 def test_check(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", "Aを含む．")["id"]
@@ -316,8 +301,7 @@ def test_check(w):
     assert r["isolated"] == [{"id": b, "term": "B"}]
     assert "duplicate_terms" not in r
     assert r["duplicate_descriptions"] == [] and r["external"] == []
-    assert r["unlinked"] == [{"id": b, "term": "B", "mentions": [{"id": a, "term": "A"}]}]
-    assert r["counts"] == {"isolated": 1, "duplicate_descriptions": 0, "unlinked": 1, "external": 0}
+    assert r["counts"] == {"isolated": 1, "duplicate_descriptions": 0, "external": 0}
     mk(w, "D", "")
     r = w.check(limit=1)
     assert r["isolated"] == [{"id": b, "term": "B"}] and r["counts"]["isolated"] == 2
