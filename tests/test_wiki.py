@@ -1,0 +1,492 @@
+import pytest
+
+from defwiki.server import call
+from defwiki.wiki import EXCERPT_LEN, Wiki, WikiError
+
+
+@pytest.fixture
+def w(tmp_path):
+    wiki = Wiki(tmp_path / "w.db")
+    yield wiki
+    wiki.close()
+
+
+def mk(w, term, description):
+    r = w.create([{"term": term, "description": description}])
+    return {"id": r["defs"][0]["id"], "warnings": r["warnings"]}
+
+
+def test_create_get_and_reference(w):
+    m = mk(w, "モデル", "")["id"]
+    t = mk(w, "トークン", f"[[{m}|モデル]]が処理する文字列の単位．")["id"]
+    assert w.get([t, m]) == f"# [[{t}]] トークン\n[[{m}|モデル]]が処理する文字列の単位．\n\n# [[{m}]] モデル"
+    stored = w.db.execute("SELECT description FROM defs WHERE id=?", (t,)).fetchone()[0]
+    assert stored == f"[[{m}]]が処理する文字列の単位．"
+
+
+def test_rename_reflects_in_referrers(w):
+    m = mk(w, "モデル", "")["id"]
+    t = mk(w, "トークン", f"[[{m}|モデル]]の単位")["id"]
+    w.rename(m, "言語モデル")
+    assert w.get([t]).endswith(f"[[{m}|言語モデル]]の単位")
+    with pytest.raises(WikiError) as e:
+        w.update(t, f"[[{m}|モデル]]")
+    assert "現在の用語は`言語モデル`" in str(e.value)
+
+
+def test_reference_errors(w):
+    with pytest.raises(WikiError, match="存在しない"):
+        mk(w, "a", "[[zzzzzz|x]]")
+    for bad in ["[[abc", "[[ABCDEF|x]]", "[[abcdef]]", "[[[abcdef|x]]", "[[abcdef|x", "`[[abc", "``[[abc`", "\\[[abc"]:
+        with pytest.raises(WikiError, match="形でない"):
+            mk(w, "a", bad)
+    assert w.db.execute("SELECT count(*) FROM defs").fetchone()[0] == 0
+
+
+def test_multiple_errors_reported_together(w):
+    with pytest.raises(WikiError) as e:
+        mk(w, "a", "[[aaaaaa|x]] [[bbbbbb|y]]")
+    assert len(e.value.errors) == 2
+
+
+def test_escape(w):
+    d = "`[[not a ref]]` と `` [[abcdef]]` `` と\n```\n[[\n```\nと ``` と `"
+    i = mk(w, "esc", d)["id"]
+    assert w.get([i]) == f"# [[{i}]] esc\n{d}"
+    assert w.references(i) == {"referrers": [], "truncated": False}
+
+
+def test_create_cyclic_batch(w):
+    m = mk(w, "モデル", "")["id"]
+    r = w.create(
+        [
+            {"key": "a", "term": "A", "description": f"[[$b|B]]と[[{m}|モデル]]の組．"},
+            {"key": "b", "term": "B", "description": "[[$a|A]]の対．[[$b|B]]"},
+        ]
+    )
+    a, b = (d["id"] for d in r["defs"])
+    assert r["defs"] == [{"id": a, "term": "A", "key": "a"}, {"id": b, "term": "B", "key": "b"}]
+    assert r["warnings"] == []
+    assert w.get([a, b]) == f"# [[{a}]] A\n[[{b}|B]]と[[{m}|モデル]]の組．\n\n# [[{b}]] B\n[[{a}|A]]の対．[[{b}|B]]"
+    assert {x["id"] for x in w.references(b)["referrers"]} == {a, b}
+
+
+def test_create_batch_is_atomic(w):
+    with pytest.raises(WikiError) as e:
+        w.create(
+            [
+                {"key": "a", "term": "A", "description": "[[$b|X]] [[$c|C]]"},
+                {"key": "b", "term": "B", "description": "[[zzzzzz|x]]"},
+            ]
+        )
+    assert e.value.errors == [
+        "defs[0] `A`: `[[$b|X]]`: 用語が参照先の現在の用語と一致しない．現在の用語は`B`．",
+        "defs[0] `A`: `[[$c|C]]`: 仮名`$c`の定義はこの呼び出しにない．",
+        "defs[1] `B`: `[[zzzzzz|x]]`: 識別子`zzzzzz`の定義は存在しない．",
+    ]
+    with pytest.raises(WikiError, match="重複"):
+        w.create([{"key": "a", "term": "A", "description": ""}, {"key": "a", "term": "B", "description": ""}])
+    assert w.db.execute("SELECT count(*) FROM defs").fetchone()[0] == 0
+    a = mk(w, "A", "")["id"]
+    with pytest.raises(WikiError, match="この呼び出しにない"):
+        w.update(a, "[[$a|A]]")
+
+
+def test_term_after_ref_bracket(w):
+    m = mk(w, "x", "")["id"]
+    i = mk(w, "y", f"[[{m}|x]]]")["id"]
+    assert w.get([i]).endswith(f"[[{m}|x]]]")
+
+
+@pytest.mark.parametrize("term", ["", " a", "a ", "a\nb", "a[[b", "a]]b", "a]", "a`b", "a　"])
+def test_term_rules(w, term):
+    with pytest.raises(WikiError):
+        mk(w, term, "")
+
+
+def test_description_blank_lines_trimmed(w):
+    i = mk(w, "a", "\n\n  \nline1\n\nline2\n \n\n")["id"]
+    assert w.get([i]) == f"# [[{i}]] a\nline1\n\nline2"
+
+
+def test_self_and_cyclic_reference(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", f"[[{a}|A]]")["id"]
+    w.update(a, f"[[{b}|B]] [[{a}|A]]")
+    assert {r["id"] for r in w.references(a)["referrers"]} == {a, b}
+    with pytest.raises(WikiError, match="参照元"):
+        w.delete(a)
+    w.update(b, "")
+    w.delete(a)  # 自己参照のみなら削除できる
+    assert w.references(b) == {"referrers": [], "truncated": False}
+
+
+def test_delete_blocked_then_allowed(w):
+    m = mk(w, "m", "")["id"]
+    t = mk(w, "t", f"[[{m}|m]]")["id"]
+    with pytest.raises(WikiError, match=t):
+        w.delete(m)
+    w.delete(t)
+    w.delete(m)
+    with pytest.raises(WikiError, match="存在しない"):
+        w.get([m])
+
+
+def test_search(w):
+    m = mk(w, "モデル", "")["id"]
+    ids = [mk(w, f"語{i}", f"[[{m}|モデル]]の説明{i}")["id"] for i in range(5)]
+    r, r4, none = w.search(["モデル", "説明4", "ない"], limit=3)["results"]
+    assert r["query"] == "モデル" and r["truncated"] is True and len(r["hits"]) == 3
+    assert r["hits"][0]["id"] == m
+    assert [h["id"] for h in r4["hits"]] == [ids[4]] and r4["truncated"] is False
+    assert none == {"query": "ない", "hits": [], "truncated": False}
+    for i in range(6):
+        mk(w, f"モデル{i}", "")
+    assert len(call(w, "search", {"queries": ["モデル"]}).structured_content["results"][0]["hits"]) == 10
+
+
+def test_longest(w):
+    m = mk(w, "とても長い用語", "")["id"]
+    a = mk(w, "a", f"[[{m}|とても長い用語]]あい")["id"]
+    b = mk(w, "b", "あいう\n`[[x]]`")["id"]
+    c = mk(w, "c", "かき")["id"]
+    assert w.longest()["defs"] == [
+        {"id": b, "term": "b", "length": 11},
+        {"id": a, "term": "a", "length": 2},
+        {"id": c, "term": "c", "length": 2},
+        {"id": m, "term": "とても長い用語", "length": 0},
+    ]
+    assert [d["id"] for d in w.longest(limit=1)["defs"]] == [b]
+    assert w.longest(limit=1)["truncated"] is True and w.longest(limit=4)["truncated"] is False
+    assert call(w, "longest", {}).structured_content["defs"][0]["id"] == b
+    assert call(w, "longest", {"limit": 0}).is_error
+    assert w.longest(limit=2, with_description=True)["defs"] == [
+        {"id": b, "term": "b", "length": 11, "description": "あいう\n`[[x]]`"},
+        {"id": a, "term": "a", "length": 2, "description": f"[[{m}|とても長い用語]]あい"},
+    ]
+    for i in range(5):
+        mk(w, f"d{i}", "")
+    assert len(call(w, "longest", {"with_description": True}).structured_content["defs"]) == 5
+    assert len(call(w, "longest", {}).structured_content["defs"]) == 9
+
+
+def test_excerpt_does_not_cut_reference(w):
+    m = mk(w, "とても長い用語" * 5, "")["id"]
+    d = "あ" * 70 + f"[[{m}|{'とても長い用語' * 5}]]" + "い" * 50
+    i = mk(w, "x", d)["id"]
+    ex = w.search(["x"])["results"][0]["hits"][0]["excerpt"]
+    assert ex == "あ" * 70 + f"[[{m}|{'とても長い用語' * 5}]]…"
+
+
+def test_server_call(w):
+    r = call(w, "create", {"defs": [{"term": "a", "description": ""}]})
+    assert r.structured_content["defs"] == [{"id": (i := r.structured_content["defs"][0]["id"]), "term": "a"}]
+    assert len(i) == 6
+    assert call(w, "create", {"defs": []}).is_error
+    assert call(w, "create", {"defs": [{"key": "A", "term": "a", "description": ""}]}).is_error
+    assert call(w, "get", {"ids": [i]}).content[0].text == f"# [[{i}]] a"
+    assert call(w, "get", {"ids": ["BAD"]}).is_error
+    assert call(w, "search", {"queries": ["a"], "extra": 1}).is_error
+    assert call(w, "search", {"query": "a"}).is_error
+    assert call(w, "search", {"queries": ["a"]}).structured_content["results"][0]["hits"][0]["id"] == i
+    assert call(w, "rename", {"id": i, "term": "b"}).content[0].text == "ok"
+    assert call(w, "delete", {"id": "zzzzzz"}).is_error
+
+
+def test_warnings_on_create(w):
+    r = mk(w, "モデル", "")
+    m = r["id"]
+    assert r["warnings"] == []
+    r = mk(w, "トークン", "モデルが処理する単位．https://example.com/a を見よ．")
+    assert r["warnings"] == [
+        f"[[{r['id']}|トークン]]: 既存の定義の用語が参照なしで現れる: [[{m}|モデル]]",
+        f"[[{r['id']}|トークン]]: 外部への参照を含む: `https://example.com/a`",
+    ]
+    assert w.update(r["id"], f"[[{m}|モデル]]が処理する単位．") == []
+    r = mk(w, "モデル", f"[[{m}|モデル]]が処理する単位．")
+    assert r["warnings"] == [
+        f"[[{r['id']}|モデル]]: 説明が同一の定義がある: [[{w.search(['トークン'])['results'][0]['hits'][0]['id']}|トークン]]",
+    ]
+
+
+def test_create_dry_run(w):
+    m = mk(w, "モデル", "")["id"]
+    defs = [
+        {"key": "a", "term": "A", "description": "モデルの一種．"},
+        {"term": "A", "description": "[[$a|A]]の別名．"},
+    ]
+    r = w.create(defs, dry_run=True)
+    assert r == {
+        "warnings": [
+            f"defs[0] `A`: 既存の定義の用語が参照なしで現れる: [[{m}|モデル]]",
+        ]
+    }
+    assert w.ids() == [m]
+    with pytest.raises(WikiError, match="存在しない"):
+        w.create([{"term": "B", "description": "[[zzzzzz|x]]"}], dry_run=True)
+    r = call(w, "create", {"defs": defs, "dry_run": True})
+    assert "defs" not in r.structured_content and len(r.structured_content["warnings"]) == 1
+    assert w.ids() == [m]
+    assert len(w.create(defs)["defs"]) == 2
+
+
+def test_warnings_on_rename_and_delete(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", f"[[{a}|A]]とCの組．")["id"]
+    assert w.rename(a, "C") == [f"この用語が参照なしで現れる定義がある: [[{b}|B]]"]
+    assert w.delete(b) == [f"参照も被参照もなくなった定義がある: [[{a}|C]]"]
+
+
+def test_merge(w):
+    a = mk(w, "モデル", "")["id"]
+    b = mk(w, "言語モデル", "")["id"]
+    t = mk(w, "トークン", f"[[{a}|モデル]]の単位．`[[{a}]]`と[[{a}|モデル]]")["id"]
+    u = mk(w, "文脈", f"[[{a}|モデル]]と[[{b}|言語モデル]]")["id"]
+    assert w.merge(a, b) == []
+    with pytest.raises(WikiError, match="存在しない"):
+        w.get([a])
+    assert w.get([t, u]) == (
+        f"# [[{t}]] トークン\n[[{b}|言語モデル]]の単位．`[[{a}]]`と[[{b}|言語モデル]]\n\n"
+        f"# [[{u}]] 文脈\n[[{b}|言語モデル]]と[[{b}|言語モデル]]"
+    )
+    assert w.references(b) == {"referrers": [{"id": t, "term": "トークン"}, {"id": u, "term": "文脈"}], "truncated": False}
+    assert w.references(b, limit=1) == {"referrers": [{"id": t, "term": "トークン"}], "truncated": True}
+    assert call(w, "references", {"id": b, "limit": 101}).is_error
+    assert w.db.execute("SELECT count(*) FROM refs WHERE src=? OR dst=?", (a, a)).fetchone()[0] == 0
+
+
+def test_merge_errors(w):
+    a = mk(w, "A", "")["id"]
+    with pytest.raises(WikiError, match="それ自身"):
+        w.merge(a, a)
+    with pytest.raises(WikiError, match="存在しない"):
+        w.merge(a, "zzzzzz")
+    with pytest.raises(WikiError, match="存在しない"):
+        w.merge("zzzzzz", a)
+    assert w.get([a]) == f"# [[{a}]] A"
+
+
+def test_warnings_on_merge(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", f"[[{a}|A]]")["id"]
+    # 統合先が統合元を参照していれば自己参照になり，他との参照がなければ孤立する
+    assert w.merge(a, b) == [f"[[{b}|B]]: 参照も被参照もない．"]
+    assert w.get([b]) == f"# [[{b}]] B\n[[{b}|B]]"
+
+    c = mk(w, "C", f"[[{b}|B]]")["id"]
+    d = mk(w, "D", f"[[{c}|C]]の例．")["id"]
+    e = mk(w, "E", f"[[{b}|B]]の例．")["id"]
+    f = mk(w, "F", "")["id"]
+    w.update(c, f"[[{f}|F]]")
+    # 統合元だけが参照していた定義は孤立し，書き換えた説明は他と同一になりうる
+    assert w.merge(c, b) == [
+        f"[[{d}|D]]: 説明が同一の定義がある: [[{e}|E]]",
+        f"参照も被参照もなくなった定義がある: [[{f}|F]]",
+    ]
+
+
+def test_server_merge(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", "")["id"]
+    mk(w, "C", f"[[{a}|A]]と[[{b}|B]]")
+    assert call(w, "merge", {"id": a, "into": b}).content[0].text == "ok"
+    assert call(w, "merge", {"id": a, "into": b}).is_error
+    assert call(w, "merge", {"id": b}).is_error
+
+
+def test_plain_terms_longest_match_and_word_boundary(w):
+    m = mk(w, "モデル", "")["id"]
+    lm = mk(w, "言語モデル", f"[[{m}|モデル]]")["id"]
+    mk(w, "id", f"[[{m}|モデル]]")
+    t = mk(w, "トライ", f"[[{m}|モデル]]")["id"]
+    x = mk(w, "x", f"言語モデルとidentifierとvalidとストライプ．[[{m}|モデル]]")
+    assert x["warnings"] == [f"[[{x['id']}|x]]: 既存の定義の用語が参照なしで現れる: [[{lm}|言語モデル]]"]
+    mk(w, "資源", f"[[{m}|モデル]]")
+    mk(w, "資源レコード", f"[[{m}|モデル]]")
+    assert mk(w, "z", f"`言語モデル`と``トライ` ``．[[{m}|モデル]]")["warnings"] == []
+    y = mk(w, "y", f"トライと資源レコードセット．[[{m}|モデル]]")
+    assert y["warnings"] == [f"[[{y['id']}|y]]: 既存の定義の用語が参照なしで現れる: [[{t}|トライ]]"]
+
+
+def test_check(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", "Aを含む．")["id"]
+    c = mk(w, "B", f"[[{a}|A]]")["id"]
+    r = w.check()
+    assert r["isolated"] == [{"id": b, "term": "B"}]
+    assert "duplicate_terms" not in r
+    assert r["duplicate_descriptions"] == [] and r["external"] == []
+    assert r["unlinked"] == [{"id": b, "term": "B", "mentions": [{"id": a, "term": "A"}]}]
+    assert r["counts"] == {"isolated": 1, "duplicate_descriptions": 0, "unlinked": 1, "external": 0}
+    mk(w, "D", "")
+    r = w.check(limit=1)
+    assert r["isolated"] == [{"id": b, "term": "B"}] and r["counts"]["isolated"] == 2
+    assert call(w, "check", {"limit": 0}).is_error
+
+
+def test_server_rules_and_warnings(w):
+    from defwiki.server import RULES
+
+    assert call(w, "rules", {}).content[0].text == RULES
+    r = call(w, "create", {"defs": [{"term": "a", "description": ""}]})
+    i = r.structured_content["defs"][0]["id"]
+    assert r.structured_content["warnings"] == []
+    assert call(w, "update", {"id": i, "description": "x"}).content[0].text == "ok\n警告: 参照も被参照もない．"
+    assert call(w, "check", {}).structured_content["isolated"] == [{"id": i, "term": "a"}]
+
+
+def test_export_markdown(w):
+    from defwiki.export import wiki_markdown
+
+    assert wiki_markdown(w) == ""
+    m = mk(w, "a]b", "")["id"]
+    t = mk(w, "トークン", f"[[{m}|a]b]]が処理する`[[x]]`．")["id"]
+    assert wiki_markdown(w) == (
+        f'<a id="{m}"></a>\n\n## a]b\n\n'
+        f'<a id="{t}"></a>\n\n## トークン\n\n[a\\]b](#{m})が処理する`[[x]]`．\n'
+    )
+
+
+def test_export_todo(w):
+    from defwiki.export import todo_markdown
+
+    assert todo_markdown(w) == ""
+    m = mk(w, "a]b", "")["id"]
+    a = w.todo_add("a")["id"]
+    b = w.todo_add(f"[[{m}|a]b]]を直す．\n2行目")["id"]
+    assert todo_markdown(w) == (
+        f'<a id="todo-{b}"></a>\n\n## {b}\n\n[a\\]b](wiki.md#{m})を直す．\n2行目\n\n'
+        f'<a id="todo-{a}"></a>\n\n## {a}\n\na\n'
+    )
+
+
+def test_export_todo_backrefs(w):
+    from defwiki.export import wiki_markdown
+
+    m = mk(w, "m", "")["id"]
+    t = mk(w, "t", f"[[{m}|m]]の単位．")["id"]
+    a = w.todo_add(f"[[{m}|m]]と[[{m}|m]]")["id"]
+    w.todo_add("x")
+    b = w.todo_add(f"[[{t}|t]]と[[{m}|m]]")["id"]
+    assert wiki_markdown(w) == (
+        f'<a id="{m}"></a>\n\n## m\n\nToDo: [{b}](todo.md#todo-{b})，[{a}](todo.md#todo-{a})\n\n'
+        f'<a id="{t}"></a>\n\n## t\n\n[m](#{m})の単位．\n\nToDo: [{b}](todo.md#todo-{b})\n'
+    )
+
+
+def test_export_files(w, tmp_path):
+    from defwiki.export import export, todo_markdown, wiki_markdown
+
+    mk(w, "a", "")
+    w.todo_add("b")
+    out = tmp_path / "x" / "y"
+    export(w, out)
+    assert (out / "wiki.md").read_text(encoding="utf-8") == wiki_markdown(w)
+    assert (out / "todo.md").read_text(encoding="utf-8") == todo_markdown(w)
+
+
+def test_todo_stack_and_defer(w):
+    a = w.todo_add("a")["id"]
+    b = w.todo_add("b")["id"]
+    c = w.todo_add("c")["id"]
+    assert [t["text"] for t in w.todo_list()["todos"]] == ["c", "b", "a"]
+    assert w.todo_defer(c) == "c"
+    assert [t["id"] for t in w.todo_list()["todos"]] == [b, a, c]
+    assert w.todo_remove(a) == "a"
+    d = w.todo_add("d")["id"]
+    assert d not in (a, b, c)
+    assert [t["text"] for t in w.todo_list()["todos"]] == ["d", "b", "c"]
+    with pytest.raises(WikiError, match="存在しない"):
+        w.todo_remove(a)
+    with pytest.raises(WikiError, match="空"):
+        w.todo_add(" ")
+    assert w.todo_list(limit=2) == {"todos": [{"id": d, "text": "d"}, {"id": b, "text": "b"}], "truncated": True}
+    assert w.todo_list(limit=3)["truncated"] is False
+
+
+def test_todo_references(w):
+    m = mk(w, "モデル", "")["id"]
+    t = mk(w, "トークン", "")["id"]
+    with pytest.raises(WikiError, match="現在の用語は`モデル`"):
+        w.todo_add(f"[[{m}|トークン]]を見直す")
+    with pytest.raises(WikiError, match="存在しない"):
+        w.todo_add("[[zzzzzz|モデル]]を見直す")
+    assert w.todo_list() == {"todos": [], "truncated": False}
+    n = w.todo_add(f"[[{m}|モデル]]と[[{t}|トークン]]を見直す．`[[{m}]]`")["id"]
+    # ToDoからの参照は被参照に数えない
+    assert w.references(m) == {"referrers": [], "truncated": False}
+    assert {d["id"] for d in w.check()["isolated"]} == {m, t}
+    w.rename(m, "言語モデル")
+    assert w.todo_list()["todos"][0]["text"] == f"[[{m}|言語モデル]]と[[{t}|トークン]]を見直す．`[[{m}]]`"
+    w.merge(t, m)
+    assert w.todo_list()["todos"][0]["text"] == f"[[{m}|言語モデル]]と[[{m}|言語モデル]]を見直す．`[[{m}]]`"
+    w.delete(m)
+    assert w.todo_remove(n) == f"言語モデルと言語モデルを見直す．`[[{m}]]`"
+
+
+def test_todo_reference_to_deleted_term_with_bracket(w):
+    a = mk(w, "a[", "")["id"]
+    w.todo_add(f"[[{a}|a[]][b")
+    w.delete(a)
+    assert w.todo_list()["todos"][0]["text"] == "`a[`[b"
+
+
+def test_migrate_todos(tmp_path):
+    w = Wiki(tmp_path / "old.db")
+    m = mk(w, "モデル", "")["id"]
+    old = [f"[[{m}|モデル]]を見直す", f"[[{m}|トークン]]と[[zzzzzz|文書]]", "[[壊れた参照", "参照なし"]
+    w.db.executemany("INSERT INTO todos (text, pos) VALUES (?, ?)", list(zip(old, range(4))))
+    w.db.execute("PRAGMA user_version = 0")
+    w.close()
+    w = Wiki(tmp_path / "old.db")
+    assert [t["text"] for t in w.todo_list()["todos"]] == [f"[[{m}|モデル]]を見直す", "トークンと文書", "[ [壊れた参照", "参照なし"]
+    w.close()
+    w = Wiki(tmp_path / "old.db")
+    assert len(w.todo_list()["todos"]) == 4
+    w.close()
+
+
+def test_server_todo(w):
+    r = call(w, "todo_add", {"text": "\nx\n"}).structured_content
+    assert r == {"id": (i := r["id"]), "text": "x"}
+    assert call(w, "todo_list", {}).structured_content == {"todos": [{"id": i, "text": "x"}], "truncated": False}
+    assert call(w, "todo_defer", {"id": i}).structured_content == {"text": "x"}
+    assert call(w, "todo_remove", {"id": i}).structured_content == {"text": "x"}
+    assert call(w, "todo_remove", {"id": i}).is_error
+    assert call(w, "todo_add", {"text": ""}).is_error
+    assert call(w, "todo_add", {"text": "[[zzzzzz|x]]"}).is_error
+    assert call(w, "todo_defer", {"id": "1"}).is_error
+    assert call(w, "todo_list", {"limit": 101}).is_error
+
+
+def test_excerpt_around_match(w):
+    m = mk(w, "モデル", "")["id"]
+    d = "あ" * 30 + f"[[{m}|モデル]]" + "い" * 10 + "目印" + "う" * 100
+    i = mk(w, "x", d)["id"]
+    ex = w.search(["目印"])["results"][0]["hits"][0]["excerpt"]
+    assert ex == "…" + f"[[{m}|モデル]]" + "い" * 10 + "目印" + "う" * (EXCERPT_LEN - 22) + "…"
+    # 用語で一致した定義は先頭から切る
+    assert w.search(["x"])["results"][0]["hits"][0]["excerpt"] == d[:EXCERPT_LEN] + "…"
+    # 一致が長ければ一致の終わりまで延ばす
+    q = "う" * 100
+    assert w.search([q])["results"][0]["hits"][0]["excerpt"] == "…" + f"[[{m}|モデル]]" + "い" * 10 + "目印" + q
+
+
+def test_update_edits(w):
+    m = mk(w, "モデル", "")["id"]
+    i = mk(w, "x", f"[[{m}|モデル]]が処理するあ．いあ．")["id"]
+    w.update(i, edits=[{"old": "処理する", "new": "扱う"}, {"old": "いあ", "new": "う"}])
+    assert w.get([i]) == f"# [[{i}]] x\n[[{m}|モデル]]が扱うあ．う．"
+    # 参照も提示形式で照合し，置換の結果を検証する
+    w.update(i, edits=[{"old": f"[[{m}|モデル]]が", "new": ""}])
+    assert w.references(m) == {"referrers": [], "truncated": False}
+    with pytest.raises(WikiError, match="現在の用語は`モデル`"):
+        w.update(i, edits=[{"old": "扱う", "new": f"[[{m}|x]]"}])
+    with pytest.raises(WikiError) as e:
+        w.update(i, edits=[{"old": "あ", "new": "あ"}, {"old": "ない", "new": ""}, {"old": "う", "new": "あ"}])
+    assert e.value.errors == ["edits[1]: `old`が説明に現れない．", "edits[2]: `old`が説明に2回現れる．一意に定まるよう前後を含める．"]
+    assert w.get([i]) == f"# [[{i}]] x\n扱うあ．う．"
+    assert call(w, "update", {"id": i, "edits": [{"old": "．う", "new": "．え"}]}).content[0].text.startswith("ok")
+    assert call(w, "update", {"id": i}).is_error
+    assert call(w, "update", {"id": i, "description": "", "edits": [{"old": "a", "new": ""}]}).is_error
+    assert call(w, "update", {"id": i, "edits": [{"old": "", "new": "a"}]}).is_error

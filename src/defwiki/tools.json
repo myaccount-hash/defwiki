@@ -1,0 +1,676 @@
+[
+  {
+    "name": "rules",
+    "description": "運用規則の全文を返す．Wikiに書き込む前に読む．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get",
+    "description": "識別子で定義を取得する．提示形式の文字列を返す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{6}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "ids"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "search",
+    "description": "文字列ごとに，それを用語または説明に含む定義を探す．excerptは説明の抜粋であり，説明だけが一致した定義では一致の周辺を示す．作る予定の用語をまとめて渡せば，既存の定義との重複を1回で確かめられる．limitは文字列ごとの上限である．truncatedがtrueなら，該当がlimitを超えている．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "queries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10
+        }
+      },
+      "required": [
+        "queries"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              },
+              "hits": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "term": {
+                      "type": "string"
+                    },
+                    "excerpt": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "term",
+                    "excerpt"
+                  ]
+                }
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "query",
+              "hits",
+              "truncated"
+            ]
+          }
+        }
+      },
+      "required": [
+        "results"
+      ]
+    }
+  },
+  {
+    "name": "longest",
+    "description": "説明の長い順に定義を返す．長さは説明の文字数であり，参照は0文字と数える．保守で，他の定義に分散させる候補を探すのに用いる．with_descriptionをtrueにすると，提示形式の説明も返す．そのときlimitの既定は5である．truncatedがtrueなら，定義がlimitを超えている．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        },
+        "with_description": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "defs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              },
+              "length": {
+                "type": "integer"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "term",
+              "length"
+            ]
+          }
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "defs",
+        "truncated"
+      ]
+    }
+  },
+  {
+    "name": "references",
+    "description": "指定した定義を参照している定義を返す．truncatedがtrueなら，該当がlimitを超えている．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]{6}$"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "referrers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "term"
+            ]
+          }
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "referrers",
+        "truncated"
+      ]
+    }
+  },
+  {
+    "name": "create",
+    "description": "定義をまとめて作成し，割り当てた識別子を用語と仮名とともにdefsで返す．説明中の参照は[[識別子|用語]]と書く．同じ呼び出しで作る定義は，keyに仮名を与えて[[$仮名|用語]]と書けば参照できる．循環参照する定義群は1回で作成する．1件でも違反があれば，どれも作成しない．warningsは運用規則への違反の疑いである．dry_runをtrueにすると，作成せずに違反とwarningsだけを返す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "defs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "term": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "term",
+              "description"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "dry_run": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "defs"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "defs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              },
+              "key": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "term"
+            ]
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "warnings"
+      ]
+    }
+  },
+  {
+    "name": "update",
+    "description": "定義の説明を書き換える．descriptionで全文を置き換えるか，editsで一部を置き換える．editsは提示形式の説明に対し，oldをnewに先頭から順に置き換える．oldはその時点の説明にちょうど1回現れなければならない．1件でも失敗すれば何も変えない．説明中の参照は[[識別子|用語]]と書く．運用規則への違反の疑いがあれば，警告を返す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]{6}$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "edits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "old": {
+                "type": "string",
+                "minLength": 1
+              },
+              "new": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "old",
+              "new"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "rename",
+    "description": "定義の用語を変更する．運用規則への違反の疑いがあれば，警告を返す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]{6}$"
+        },
+        "term": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "term"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "delete",
+    "description": "定義を削除する．参照されている定義は削除できない．運用規則への違反の疑いがあれば，警告を返す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]{6}$"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "merge",
+    "description": "定義idを定義intoに統合する．idへの参照を全てintoへの参照に置き換え，idを削除する．idの用語と説明は捨てる．運用規則への違反の疑いがあれば，警告を返す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]{6}$"
+        },
+        "into": {
+          "type": "string",
+          "pattern": "^[a-z0-9]{6}$"
+        }
+      },
+      "required": [
+        "id",
+        "into"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "check",
+    "description": "Wiki全体を点検し，運用規則への違反の疑いを返す．isolatedは参照も被参照もない定義，duplicate_descriptionsは説明が同じ定義の組，unlinkedは他の定義の用語が説明に参照なしで現れる定義，externalは外部への参照を含む定義．各項目はlimit件までであり，countsは各項目の全件数である．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "isolated": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "term"
+            ]
+          }
+        },
+        "duplicate_descriptions": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "term": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "term"
+              ]
+            }
+          }
+        },
+        "unlinked": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              },
+              "mentions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "term": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "term"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "term",
+              "mentions"
+            ]
+          }
+        },
+        "external": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "term"
+            ]
+          }
+        },
+        "counts": {
+          "type": "object",
+          "properties": {
+            "isolated": {
+              "type": "integer"
+            },
+            "duplicate_descriptions": {
+              "type": "integer"
+            },
+            "unlinked": {
+              "type": "integer"
+            },
+            "external": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "isolated",
+            "duplicate_descriptions",
+            "unlinked",
+            "external"
+          ]
+        }
+      },
+      "required": [
+        "isolated",
+        "duplicate_descriptions",
+        "unlinked",
+        "external",
+        "counts"
+      ]
+    }
+  },
+  {
+    "name": "todo_add",
+    "description": "ToDoを先頭に積み，割り当てた番号と本文を返す．作業中に気づいた別の問題を，失わないよう記録する．本文中の参照は[[識別子|用語]]と書く．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ]
+    }
+  },
+  {
+    "name": "todo_list",
+    "description": "ToDoを上から順に返す．truncatedがtrueなら，ToDoがlimitを超えている．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text"
+            ]
+          }
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "todos",
+        "truncated"
+      ]
+    }
+  },
+  {
+    "name": "todo_remove",
+    "description": "ToDoを消し，消した本文を返す．終えたToDoは消す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ]
+    }
+  },
+  {
+    "name": "todo_defer",
+    "description": "ToDoを末尾に送り，送った本文を返す．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ]
+    }
+  }
+]
