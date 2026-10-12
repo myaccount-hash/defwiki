@@ -84,7 +84,7 @@ defwikiは，データ形式に加えて，AIエージェントが従う運用�
 リポジトリを取得し，そのディレクトリで依存関係をインストールします．
 
 ```bash
-git clone <リポジトリのURL> /path/to/defwiki
+git clone https://github.com/myaccount-hash/defwiki.git /path/to/defwiki
 cd /path/to/defwiki
 uv sync
 ```
