@@ -1,4 +1,4 @@
-# rule.md
+# rules.md
 
 ## Wikiについて
 - Wikiは概念を整理し，LLMが作業に用いる概念体系を保持する．
