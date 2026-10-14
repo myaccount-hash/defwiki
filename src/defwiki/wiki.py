@@ -374,15 +374,15 @@ class Wiki:
                 return id
 
     @contextmanager
-    def _tx(self, commit: bool = True):
-        """書込みのトランザクション．例外で抜けるか，commit が偽であれば取り消す．"""
+    def _tx(self):
+        """書込みのトランザクション．例外で抜ければ取り消す．"""
         self.db.execute("BEGIN IMMEDIATE")
         try:
             yield
         except BaseException:
             self.db.execute("ROLLBACK")
             raise
-        self.db.execute("COMMIT" if commit else "ROLLBACK")
+        self.db.execute("COMMIT")
 
     def _set_description(self, id: str, stored: str, dsts: set[str]) -> None:
         self.db.execute("UPDATE defs SET description=? WHERE id=?", (stored, id))
@@ -485,10 +485,9 @@ class Wiki:
             )
         return {"results": results}
 
-    def create(self, defs: list[dict], dry_run: bool = False) -> dict:
+    def create(self, defs: list[dict]) -> dict:
         """定義をまとめて作成する．1件でも違反があれば，どれも作成しない．
 
-        dry_run が真であれば，検証だけを行い，作成せずに空のオブジェクトを返す．
         """
 
         def name(i):
@@ -507,7 +506,7 @@ class Wiki:
             local_terms[term] = ""
         if errs:
             raise WikiError(errs)
-        with self._tx(commit=not dry_run):
+        with self._tx():
             # 循環参照を解決できるよう，説明を検証する前に全件の識別子を割り当てる
             ids = []
             for d in defs:
@@ -521,20 +520,17 @@ class Wiki:
                     errs += [label(i) + m for m in e.errors]
             if errs:
                 raise WikiError(errs)
-            if dry_run:
-                return {}
             created = [
                 {"id": id, "term": d["term"]}
                 for id, d in zip(ids, defs)
             ]
             return {"defs": created}
 
-    def update(self, updates: list[dict], dry_run: bool = False) -> dict:
+    def update(self, updates: list[dict]) -> dict:
         """説明をまとめて書き換える．1件でも失敗すれば，どれも書き換えない．
 
         各要素は識別子と，description か edits のどちらか一方を持つ．description は説明を置き換え，
         edits は提示形式の説明に置換を順に施す．
-        dry_run が真であれば，検証だけを行い，書き換えない．以下の書込みも同じ．
         """
         ids = [u["id"] for u in updates]
 
@@ -548,11 +544,11 @@ class Wiki:
                 description = _apply_edits(self._render(stored)[0], u["edits"])
             self._set_description(u["id"], *self._parse_input(description))
 
-        with self._tx(commit=not dry_run):
+        with self._tx():
             _each("updates", updates, one, _duplicated(ids))
             return {}
 
-    def rename(self, renames: list[dict], dry_run: bool = False) -> dict:
+    def rename(self, renames: list[dict]) -> dict:
         """用語をまとめて変える．1件でも失敗すれば，どれも変えない．"""
 
         def one(r):
@@ -561,11 +557,11 @@ class Wiki:
                 raise WikiError(errs)
             self.db.execute("UPDATE defs SET term=? WHERE id=?", (r["term"], r["id"]))
 
-        with self._tx(commit=not dry_run):
+        with self._tx():
             _each("renames", renames, one, _duplicated([r["id"] for r in renames]))
             return {}
 
-    def delete(self, ids: list[str], dry_run: bool = False) -> dict:
+    def delete(self, ids: list[str]) -> dict:
         """定義をまとめて削除する．削除する定義の外から参照されている定義は削除できない．"""
 
         def check(id):
@@ -575,7 +571,7 @@ class Wiki:
                 listed = ", ".join(_link(i, terms[i]) for i in others)
                 raise WikiError(f"参照されている定義は削除できない．参照元: {listed}")
 
-        with self._tx(commit=not dry_run):
+        with self._tx():
             _each("ids", ids, check)
             for id in ids:
                 self._retarget_todos(id, self._terms([id])[id])
@@ -583,7 +579,7 @@ class Wiki:
                 self._remove(id)
             return {}
 
-    def merge(self, merges: list[dict], dry_run: bool = False) -> dict:
+    def merge(self, merges: list[dict]) -> dict:
         """統合を順に施す．統合は id への参照を全て into への参照に置き換え，id を削除する．
 
         1件でも失敗すれば，どれも施さない．
@@ -604,7 +600,7 @@ class Wiki:
             self._retarget_todos(id, f"[[{into}]]")
             self._remove(id)
 
-        with self._tx(commit=not dry_run):
+        with self._tx():
             _each("merges", merges, one)
             return {}
 

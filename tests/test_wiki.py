@@ -218,22 +218,6 @@ def test_check_after_create(w):
     assert report["duplicate_descriptions"] == [[{"id": t, "term": "トークン"}, {"id": other, "term": "モデル"}]]
 
 
-def test_create_dry_run(w):
-    m = mk(w, "モデル", "")["id"]
-    defs = [
-        {"term": "A", "description": "https://example.com/a の一種．"},
-        {"term": "B", "description": "[[A]]の別名．"},
-    ]
-    r = w.create(defs, dry_run=True)
-    assert r == {}
-    assert w.ids() == [m]
-    with pytest.raises(WikiError, match="存在しない"):
-        w.create([{"term": "B", "description": "[[zzzzzz|x]]"}], dry_run=True)
-    r = call(w, "create", {"defs": defs, "dry_run": True})
-    assert r.structured_content == {}
-    assert w.ids() == [m]
-    assert len(w.create(defs)["defs"]) == 2
-
 
 def test_check_after_rename_and_delete(w):
     a = mk(w, "A", "")["id"]
@@ -572,21 +556,6 @@ def test_references_batch(w):
         w.references([a, "zzzzzz"])
 
 
-def test_dry_run_on_all_writes(w):
-    a = mk(w, "A", "")["id"]
-    b = mk(w, "B", f"[[{a}|A]]")["id"]
-    before = shown(w, [a, b])
-    assert w.update([{"id": b, "description": "https://example.com/x"}], dry_run=True) == {}
-    assert w.rename([{"id": a, "term": "C"}], dry_run=True) == {}
-    assert w.delete([b], dry_run=True) == {}
-    assert w.merge([{"id": a, "into": b}], dry_run=True) == {}
-    with pytest.raises(WikiError, match="参照されている"):
-        w.delete([a], dry_run=True)
-    assert shown(w, [a, b]) == before
-    r = call(w, "delete", {"ids": [b], "dry_run": True})
-    assert r.structured_content == {}
-    assert w.ids() == [a, b]
-
 
 def test_todo_batch(w):
     r = w.todo_add(["a", "b"])["todos"]
@@ -648,7 +617,6 @@ def test_create_mcp_contract(w):
     assert call(w, "create", {"defs": [{"key": "a", "term": "A", "description": ""}]}).is_error
     duplicate = {"defs": [{"term": "A", "description": ""}, {"term": "A", "description": ""}]}
     assert call(w, "create", duplicate).is_error
-    assert call(w, "create", {**duplicate, "dry_run": True}).is_error
     assert w.ids() == []
     result = call(w, "create", {"defs": [{"term": "A", "description": "[[A]]"}]})
     assert not result.is_error
@@ -672,15 +640,31 @@ def test_writes_do_not_audit_and_check_reports_all(w, monkeypatch):
         return result.structured_content
 
     defs = [{"term": t, "description": "https://example.com"} for t in ["A", "B"]]
-    assert write("create", {"defs": defs, "dry_run": True}) == {}
     a, b = [d["id"] for d in write("create", {"defs": defs})["defs"]]
-    for dry_run in [True, False]:
-        assert write("update", {"updates": [{"id": a, "description": "https://example.com"}], "dry_run": dry_run}) == {}
-        assert write("rename", {"renames": [{"id": a, "term": "A"}], "dry_run": dry_run}) == {}
+    assert write("update", {"updates": [{"id": a, "description": "https://example.com"}]}) == {}
+    assert write("rename", {"renames": [{"id": a, "term": "A"}]}) == {}
     monkeypatch.setattr(w, "_audit", audit)
     assert w.check()["counts"] == {"isolated": 2, "duplicate_descriptions": 1, "external": 2}
     monkeypatch.setattr(w, "_audit", unexpected_audit)
-    assert write("delete", {"ids": [a], "dry_run": True}) == {}
-    assert write("merge", {"merges": [{"id": a, "into": b}], "dry_run": True}) == {}
     assert write("merge", {"merges": [{"id": a, "into": b}]}) == {}
     assert write("delete", {"ids": [b]}) == {}
+
+
+@pytest.mark.parametrize("dry_run", [True, False])
+@pytest.mark.parametrize("name", ["create", "update", "rename", "delete", "merge"])
+def test_removed_dry_run_rejected_without_writes(w, name, dry_run):
+    a = mk(w, "A", "original")["id"]
+    b = mk(w, "B", "")["id"]
+    args = {
+        "create": {"defs": [{"term": "C", "description": ""}]},
+        "update": {"updates": [{"id": a, "description": "changed"}]},
+        "rename": {"renames": [{"id": a, "term": "C"}]},
+        "delete": {"ids": [a]},
+        "merge": {"merges": [{"id": a, "into": b}]},
+    }[name]
+    before = w.get([a, b])
+    result = call(w, name, {**args, "dry_run": dry_run})
+    assert result.is_error
+    assert "dry_run" in result.content[0].text
+    assert w.get([a, b]) == before
+    assert w.ids() == [a, b]
