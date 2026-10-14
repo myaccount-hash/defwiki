@@ -579,11 +579,12 @@ class Wiki:
             ]
             return {"defs": created, "warnings": warnings}
 
-    def update(self, updates: list[dict]) -> list[str]:
+    def update(self, updates: list[dict], dry_run: bool = False) -> list[str]:
         """説明をまとめて書き換える．1件でも失敗すれば，どれも書き換えない．
 
         各要素は識別子と，description か edits のどちらか一方を持つ．description は説明を置き換え，
         edits は提示形式の説明に置換を順に施す．警告は，全件を書き換えた後の状態について返す．
+        dry_run が真であれば，書き換えずに警告だけを返す．以下の書込みも同じ．
         """
         ids = [u["id"] for u in updates]
 
@@ -597,12 +598,12 @@ class Wiki:
                 description = _apply_edits(self._render(stored)[0], u["edits"])
             self._set_description(u["id"], *self._parse_input(description))
 
-        with self._tx():
+        with self._tx(commit=not dry_run):
             _each("updates", updates, one, _duplicated(ids))
             audit = self._audit()
             return [f"{_link(id, audit.terms[id])}: {w}" for id in ids for w in audit.warnings(id)]
 
-    def rename(self, renames: list[dict]) -> list[str]:
+    def rename(self, renames: list[dict], dry_run: bool = False) -> list[str]:
         """用語をまとめて変える．1件でも失敗すれば，どれも変えない．"""
 
         def one(r):
@@ -611,11 +612,11 @@ class Wiki:
                 raise WikiError(errs)
             self.db.execute("UPDATE defs SET term=? WHERE id=?", (r["term"], r["id"]))
 
-        with self._tx():
+        with self._tx(commit=not dry_run):
             _each("renames", renames, one, _duplicated([r["id"] for r in renames]))
             return []
 
-    def delete(self, ids: list[str]) -> list[str]:
+    def delete(self, ids: list[str], dry_run: bool = False) -> list[str]:
         """定義をまとめて削除する．削除する定義の外から参照されている定義は削除できない．"""
 
         def check(id):
@@ -625,7 +626,7 @@ class Wiki:
                 listed = ", ".join(_link(i, terms[i]) for i in others)
                 raise WikiError(f"参照されている定義は削除できない．参照元: {listed}")
 
-        with self._tx():
+        with self._tx(commit=not dry_run):
             _each("ids", ids, check)
             before = set(self._isolated())
             for id in ids:
@@ -634,7 +635,7 @@ class Wiki:
                 self._remove(id)
             return self._newly_isolated(before)
 
-    def merge(self, merges: list[dict]) -> list[str]:
+    def merge(self, merges: list[dict], dry_run: bool = False) -> list[str]:
         """統合を順に施す．統合は id への参照を全て into への参照に置き換え，id を削除する．
 
         1件でも失敗すれば，どれも施さない．警告は，全件を統合した後の状態について返す．
@@ -657,7 +658,7 @@ class Wiki:
             self._retarget_todos(id, f"[[{into}]]")
             self._remove(id)
 
-        with self._tx():
+        with self._tx(commit=not dry_run):
             before = set(self._isolated())
             _each("merges", merges, one)
             audit = self._audit()

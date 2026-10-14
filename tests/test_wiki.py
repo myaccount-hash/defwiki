@@ -558,3 +558,22 @@ def test_references_batch(w):
     }
     with pytest.raises(WikiError, match="zzzzzz"):
         w.references([a, "zzzzzz"])
+
+
+def test_dry_run_on_all_writes(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", f"[[{a}|A]]")["id"]
+    before = shown(w, [a, b])
+    assert w.update([{"id": b, "description": "https://example.com/x"}], dry_run=True) == [
+        f"[[{b}|B]]: 参照も被参照もない．",
+        f"[[{b}|B]]: 外部への参照を含む: `https://example.com/x`",
+    ]
+    assert w.rename([{"id": a, "term": "C"}], dry_run=True) == []
+    assert w.delete([b], dry_run=True) == [f"[[{a}|A]]: 参照も被参照もなくなった．"]
+    assert w.merge([{"id": a, "into": b}], dry_run=True) == [f"[[{b}|B]]: 参照も被参照もない．"]
+    with pytest.raises(WikiError, match="参照されている"):
+        w.delete([a], dry_run=True)
+    assert shown(w, [a, b]) == before
+    r = call(w, "delete", {"ids": [b], "dry_run": True})
+    assert r.structured_content == {"warnings": [f"[[{a}|A]]: 参照も被参照もなくなった．"]}
+    assert w.ids() == [a, b]
