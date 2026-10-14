@@ -1,3 +1,5 @@
+import sqlite3
+
 import pytest
 
 from defwiki.server import call
@@ -437,18 +439,32 @@ def test_todo_reference_to_deleted_term_with_bracket(w):
     assert w.todo_list()["todos"][0]["text"] == "`a[`[b"
 
 
-def test_migrate_todos(tmp_path):
-    w = Wiki(tmp_path / "old.db")
+@pytest.mark.parametrize("version", [0, 2])
+def test_reject_unsupported_database_without_changes(tmp_path, version):
+    path = tmp_path / "old.db"
+    w = Wiki(path)
     m = mk(w, "モデル", "")["id"]
     old = [f"[[{m}|モデル]]を見直す", f"[[{m}|トークン]]と[[zzzzzz|文書]]", "[[壊れた参照", "参照なし"]
     w.db.executemany("INSERT INTO todos (text, pos) VALUES (?, ?)", list(zip(old, range(4))))
-    w.db.execute("PRAGMA user_version = 0")
+    w.db.execute(f"PRAGMA user_version = {version}")
     w.close()
-    w = Wiki(tmp_path / "old.db")
-    assert [t["text"] for t in w.todo_list()["todos"]] == [f"[[{m}|モデル]]を見直す", "トークンと文書", "[ [壊れた参照", "参照なし"]
+    before = path.read_bytes()
+    with pytest.raises(WikiError, match=f"user_version={version}"):
+        Wiki(path)
+    assert path.read_bytes() == before
+    with sqlite3.connect(path) as db:
+        assert db.execute("PRAGMA user_version").fetchone()[0] == version
+        assert [r[0] for r in db.execute("SELECT text FROM todos ORDER BY pos")] == old
+
+
+def test_new_database_version_and_reopen(tmp_path):
+    path = tmp_path / "new.db"
+    w = Wiki(path)
+    assert w.db.execute("PRAGMA user_version").fetchone()[0] == 1
+    d = mk(w, "モデル", "説明")
     w.close()
-    w = Wiki(tmp_path / "old.db")
-    assert len(w.todo_list()["todos"]) == 4
+    w = Wiki(path)
+    assert w.get([d["id"]])[0]["description"] == "説明"
     w.close()
 
 

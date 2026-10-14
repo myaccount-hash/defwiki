@@ -310,40 +310,30 @@ class _Audit:
 class Wiki:
     def __init__(self, path: str | Path):
         self.db = sqlite3.connect(str(path), isolation_level=None, check_same_thread=False)
-        self.db.execute("PRAGMA journal_mode=WAL")
-        self.db.execute("PRAGMA busy_timeout=5000")
-        self.db.executescript(_SCHEMA)
-        self._migrate()
+        try:
+            version = self.db.execute("PRAGMA user_version").fetchone()[0]
+            has_schema = self.db.execute(
+                "SELECT 1 FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' LIMIT 1"
+            ).fetchone() is not None
+            if version != 1 and (version != 0 or has_schema):
+                raise WikiError(
+                    f"未対応のデータベース形式: user_version={version}（対応: 1）．"
+                    "自動変換は行わない．保存データを検査・修正してから形式の版を更新すること．"
+                )
+            self.db.execute("PRAGMA busy_timeout=5000")
+            self.db.execute("PRAGMA journal_mode=WAL")
+            if not has_schema and version == 0:
+                self.db.executescript(
+                    "BEGIN IMMEDIATE;\n" + _SCHEMA + "\nPRAGMA user_version = 1;\nCOMMIT;"
+                )
+        except BaseException:
+            self.db.close()
+            raise
 
     def close(self) -> None:
         self.db.close()
 
     # ---- 内部
-
-    def _migrate(self) -> None:
-        """版0の ToDo は本文を提示形式のまま持ち，参照を検証していない．保存形式に直す．
-
-        識別子と用語が現在の定義と一致する参照だけを参照として残し，他は用語の文字列にする．
-        """
-
-        def version():
-            return self.db.execute("PRAGMA user_version").fetchone()[0]
-
-        if version() >= 1:
-            return
-        with self._tx():
-            if version() >= 1:  # 他のプロセスが先に直した
-                return
-            for n, text in self.db.execute("SELECT id, text FROM todos").fetchall():
-                refs, _, _ = _scan(text, stored=False)
-                terms = self._terms(r.id for r in refs)
-                stored, _ = _replace_refs(
-                    text, refs, lambda r: f"[[{r.id}]]" if terms.get(r.id) == r.term else r.term
-                )
-                if not _readable(stored):  # 参照の形でない`[[`がある
-                    stored = _replace_refs(text, refs, lambda r: r.term)[0].replace("[[", "[ [")
-                self.db.execute("UPDATE todos SET text=? WHERE id=?", (stored, n))
-            self.db.execute("PRAGMA user_version = 1")
 
     def _rows(self) -> list[tuple[str, str, str]]:
         return self.db.execute("SELECT id, term, description FROM defs ORDER BY term, id").fetchall()
