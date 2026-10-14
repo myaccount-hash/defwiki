@@ -564,7 +564,7 @@
   },
   {
     "name": "check",
-    "description": "Wiki全体を点検し，運用規則への違反の疑いを返す．isolatedは参照も被参照もない定義，duplicate_descriptionsは説明が同じ定義の組，externalは外部への参照を含む定義．各項目はlimit件までであり，countsは各項目の全件数である．",
+    "description": "Wiki全体を点検し，運用規則への違反の疑いを返す．isolatedは参照も被参照もない定義，duplicate_descriptionsは説明が同じ定義の組，externalは外部への参照を含む定義．limitは項目ごとの上限である．truncatedは項目ごとに該当がlimitを超えるかを，countsは項目ごとの全件数を示す．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -637,6 +637,25 @@
             ]
           }
         },
+        "truncated": {
+          "type": "object",
+          "properties": {
+            "isolated": {
+              "type": "boolean"
+            },
+            "duplicate_descriptions": {
+              "type": "boolean"
+            },
+            "external": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "isolated",
+            "duplicate_descriptions",
+            "external"
+          ]
+        },
         "counts": {
           "type": "object",
           "properties": {
@@ -661,6 +680,7 @@
         "isolated",
         "duplicate_descriptions",
         "external",
+        "truncated",
         "counts"
       ]
     }

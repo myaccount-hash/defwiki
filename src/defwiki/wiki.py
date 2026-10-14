@@ -268,7 +268,7 @@ class _Audit:
         return ", ".join(_link(i, self.terms[i]) for i in ids)
 
     def report(self, limit: int = 20) -> dict:
-        """項目ごとに limit 件と，項目ごとの全件数．"""
+        """項目ごとに limit 件と，項目ごとの，limit を超えるかと全件数．"""
 
         def d(id):
             return {"id": id, "term": self.terms[id]}
@@ -278,7 +278,11 @@ class _Audit:
             "duplicate_descriptions": [[d(i) for i in g] for g in self.same_descriptions],
             "external": [d(i) for i in self.external],
         }
-        return {**{k: v[:limit] for k, v in items.items()}, "counts": {k: len(v) for k, v in items.items()}}
+        return {
+            **{k: v[:limit] for k, v in items.items()},
+            "truncated": {k: len(v) > limit for k, v in items.items()},
+            "counts": {k: len(v) for k, v in items.items()},
+        }
 
     def warnings(self, id: str, created: bool = False) -> list[str]:
         """説明を書き込んだ定義についての疑いを返す．

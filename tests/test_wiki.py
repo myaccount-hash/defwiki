@@ -323,9 +323,11 @@ def test_check(w):
     assert "duplicate_terms" not in r
     assert r["duplicate_descriptions"] == [] and r["external"] == []
     assert r["counts"] == {"isolated": 1, "duplicate_descriptions": 0, "external": 0}
+    assert r["truncated"] == {"isolated": False, "duplicate_descriptions": False, "external": False}
     mk(w, "D", "")
     r = w.check(limit=1)
     assert r["isolated"] == [{"id": b, "term": "B"}] and r["counts"]["isolated"] == 2
+    assert r["truncated"]["isolated"] is True
     assert call(w, "check", {"limit": 0}).is_error
 
 
