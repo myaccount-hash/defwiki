@@ -24,7 +24,7 @@ INSTRUCTIONS = """\
 defwikiは，LLMが作業に用いる概念の定義の体系を保持する．
 - 書込む前に`rules`で運用規則を読む．
 - 定義を作る前に`search`で既存の定義を探し，あれば作らずに参照する．
-- 書込みが返す警告は運用規則への違反の疑いである．解消するか，違反でないと確かめる．
+- `check`が返す警告は運用規則への違反の疑いである．解消するか，違反でないと確かめる．
 - 作業中に見つけた問題は，その場で直すか`todo_add`で積む．
 - 書込みを終えたら`check`でWiki全体を点検する．
 """
@@ -51,10 +51,6 @@ def _structured(d: dict) -> types.CallToolResult:
     )
 
 
-def _written(warnings: list[str]) -> types.CallToolResult:
-    return _structured({"warnings": warnings})
-
-
 _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
     "rules": lambda wiki, args: _text(RULES),
     "check": lambda wiki, args: _structured(wiki.check(args.get("limit", 20))),
@@ -63,10 +59,10 @@ _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
     "longest": lambda wiki, args: _structured(wiki.longest(args.get("limit", 20))),
     "references": lambda wiki, args: _structured(wiki.references(args["ids"], args.get("limit", 20))),
     "create": lambda wiki, args: _structured(wiki.create(args["defs"], args.get("dry_run", False))),
-    "update": lambda wiki, args: _written(wiki.update(args["updates"], args.get("dry_run", False))),
-    "rename": lambda wiki, args: _written(wiki.rename(args["renames"], args.get("dry_run", False))),
-    "delete": lambda wiki, args: _written(wiki.delete(args["ids"], args.get("dry_run", False))),
-    "merge": lambda wiki, args: _written(wiki.merge(args["merges"], args.get("dry_run", False))),
+    "update": lambda wiki, args: _structured(wiki.update(args["updates"], args.get("dry_run", False))),
+    "rename": lambda wiki, args: _structured(wiki.rename(args["renames"], args.get("dry_run", False))),
+    "delete": lambda wiki, args: _structured(wiki.delete(args["ids"], args.get("dry_run", False))),
+    "merge": lambda wiki, args: _structured(wiki.merge(args["merges"], args.get("dry_run", False))),
     "todo_add": lambda wiki, args: _structured(wiki.todo_add(args["texts"])),
     "todo_list": lambda wiki, args: _structured(wiki.todo_list(args.get("limit", 20))),
     "todo_remove": lambda wiki, args: _structured(wiki.todo_remove(args["ids"])),

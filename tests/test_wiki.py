@@ -15,7 +15,7 @@ def w(tmp_path):
 
 def mk(w, term, description):
     r = w.create([{"term": term, "description": description}])
-    return {"id": r["defs"][0]["id"], "warnings": r["warnings"]}
+    return {"id": r["defs"][0]["id"]}
 
 
 def shown(w, ids):
@@ -83,7 +83,7 @@ def test_create_cyclic_batch(w):
     )
     a, b = (d["id"] for d in r["defs"])
     assert r["defs"] == [{"id": a, "term": "A"}, {"id": b, "term": "B"}]
-    assert r["warnings"] == []
+    assert "warnings" not in r
     assert shown(w, [a, b]) == f"# [[{a}]] A\n[[{b}|B]]と[[{m}|モデル]]の組．\n\n# [[{b}]] B\n[[{a}|A]]の対．[[{b}|B]]"
     assert {x["id"] for x in refs(w, b)["referrers"]} == {a, b}
 
@@ -202,23 +202,20 @@ def test_server_call(w):
     assert call(w, "search", {"queries": ["a"], "extra": 1}).is_error
     assert call(w, "search", {"query": "a"}).is_error
     assert call(w, "search", {"queries": ["a"]}).structured_content["results"][0]["hits"][0]["id"] == i
-    assert call(w, "rename", {"renames": [{"id": i, "term": "b"}]}).structured_content == {"warnings": []}
+    assert call(w, "rename", {"renames": [{"id": i, "term": "b"}]}).structured_content == {}
     assert call(w, "delete", {"ids": ["zzzzzz"]}).is_error
 
 
-def test_warnings_on_create(w):
-    r = mk(w, "モデル", "")
-    m = r["id"]
-    assert r["warnings"] == []
-    r = mk(w, "トークン", "モデルが処理する単位．https://example.com/a を見よ．")
-    assert r["warnings"] == [
-        f"[[{r['id']}|トークン]]: 外部への参照を含む: `https://example.com/a`",
-    ]
-    assert w.update([{"id": r["id"], "description": f"[[{m}|モデル]]が処理する単位．"}]) == []
-    r = mk(w, "モデル", f"[[{m}|モデル]]が処理する単位．")
-    assert r["warnings"] == [
-        f"[[{r['id']}|モデル]]: 説明が同一の定義がある: [[{w.search(['トークン'])['results'][0]['hits'][0]['id']}|トークン]]",
-    ]
+def test_check_after_create(w):
+    m = mk(w, "モデル", "")["id"]
+    assert w.check()["isolated"] == [{"id": m, "term": "モデル"}]
+    t = mk(w, "トークン", "モデルが処理する単位．https://example.com/a を見よ．")["id"]
+    assert w.check()["external"] == [{"id": t, "term": "トークン"}]
+    assert w.update([{"id": t, "description": f"[[{m}|モデル]]が処理する単位．"}]) == {}
+    other = mk(w, "モデル", f"[[{m}|モデル]]が処理する単位．")["id"]
+    report = w.check()
+    assert report["external"] == []
+    assert report["duplicate_descriptions"] == [[{"id": t, "term": "トークン"}, {"id": other, "term": "モデル"}]]
 
 
 def test_create_dry_run(w):
@@ -228,25 +225,22 @@ def test_create_dry_run(w):
         {"term": "B", "description": "[[A]]の別名．"},
     ]
     r = w.create(defs, dry_run=True)
-    assert r == {
-        "warnings": [
-            "defs[0] `A`: 外部への参照を含む: `https://example.com/a`",
-        ]
-    }
+    assert r == {}
     assert w.ids() == [m]
     with pytest.raises(WikiError, match="存在しない"):
         w.create([{"term": "B", "description": "[[zzzzzz|x]]"}], dry_run=True)
     r = call(w, "create", {"defs": defs, "dry_run": True})
-    assert "defs" not in r.structured_content and len(r.structured_content["warnings"]) == 1
+    assert r.structured_content == {}
     assert w.ids() == [m]
     assert len(w.create(defs)["defs"]) == 2
 
 
-def test_warnings_on_rename_and_delete(w):
+def test_check_after_rename_and_delete(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]とCの組．")["id"]
-    assert w.rename([{"id": a, "term": "C"}]) == []
-    assert w.delete([b]) == [f"[[{a}|C]]: 参照も被参照もなくなった．"]
+    assert w.rename([{"id": a, "term": "C"}]) == {}
+    assert w.delete([b]) == {}
+    assert w.check()["isolated"] == [{"id": a, "term": "C"}]
 
 
 def test_merge(w):
@@ -254,7 +248,7 @@ def test_merge(w):
     b = mk(w, "言語モデル", "")["id"]
     t = mk(w, "トークン", f"[[{a}|モデル]]の単位．`[[{a}]]`と[[{a}|モデル]]")["id"]
     u = mk(w, "文脈", f"[[{a}|モデル]]と[[{b}|言語モデル]]")["id"]
-    assert w.merge([{"id": a, "into": b}]) == []
+    assert w.merge([{"id": a, "into": b}]) == {}
     with pytest.raises(WikiError, match="存在しない"):
         w.get([a])
     assert shown(w, [t, u]) == (
@@ -287,11 +281,12 @@ def test_merge_errors(w):
     assert shown(w, [a]) == f"# [[{a}]] A"
 
 
-def test_warnings_on_merge(w):
+def test_check_after_merge(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]")["id"]
     # 統合先が統合元を参照していれば自己参照になり，他との参照がなければ孤立する
-    assert w.merge([{"id": a, "into": b}]) == [f"[[{b}|B]]: 参照も被参照もない．"]
+    assert w.merge([{"id": a, "into": b}]) == {}
+    assert w.check()["isolated"] == [{"id": b, "term": "B"}]
     assert shown(w, [b]) == f"# [[{b}]] B\n[[{b}|B]]"
 
     c = mk(w, "C", f"[[{b}|B]]")["id"]
@@ -300,17 +295,17 @@ def test_warnings_on_merge(w):
     f = mk(w, "F", "")["id"]
     w.update([{"id": c, "description": f"[[{f}|F]]"}])
     # 統合元だけが参照していた定義は孤立し，書き換えた説明は他と同一になりうる
-    assert w.merge([{"id": c, "into": b}]) == [
-        f"[[{d}|D]]: 説明が同一の定義がある: [[{e}|E]]",
-        f"[[{f}|F]]: 参照も被参照もなくなった．",
-    ]
+    assert w.merge([{"id": c, "into": b}]) == {}
+    report = w.check()
+    assert report["isolated"] == [{"id": f, "term": "F"}]
+    assert report["duplicate_descriptions"] == [[{"id": d, "term": "D"}, {"id": e, "term": "E"}]]
 
 
 def test_server_merge(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", "")["id"]
     mk(w, "C", f"[[{a}|A]]と[[{b}|B]]")
-    assert call(w, "merge", {"merges": [{"id": a, "into": b}]}).structured_content == {"warnings": []}
+    assert call(w, "merge", {"merges": [{"id": a, "into": b}]}).structured_content == {}
     assert call(w, "merge", {"merges": [{"id": a, "into": b}]}).is_error
     assert call(w, "merge", {"merges": [{"id": b}]}).is_error
 
@@ -338,8 +333,8 @@ def test_server_rules_and_warnings(w):
     assert call(w, "rules", {}).content[0].text == RULES
     r = call(w, "create", {"defs": [{"term": "a", "description": ""}]})
     i = r.structured_content["defs"][0]["id"]
-    assert r.structured_content["warnings"] == []
-    assert call(w, "update", {"updates": [{"id": i, "description": "x"}]}).structured_content == {"warnings": [f"[[{i}|a]]: 参照も被参照もない．"]}
+    assert "warnings" not in r.structured_content
+    assert call(w, "update", {"updates": [{"id": i, "description": "x"}]}).structured_content == {}
     assert call(w, "check", {}).structured_content["isolated"] == [{"id": i, "term": "a"}]
 
 
@@ -511,7 +506,7 @@ def test_update_edits(w):
         "updates[0]: edits[2]: `old`が説明に2回現れる．一意に定まるよう前後を含める．",
     ]
     assert shown(w, [i]) == f"# [[{i}]] x\n扱うあ．う．"
-    assert "warnings" in call(w, "update", {"updates": [{"id": i, "edits": [{"old": "．う", "new": "．え"}]}]}).structured_content
+    assert call(w, "update", {"updates": [{"id": i, "edits": [{"old": "．う", "new": "．え"}]}]}).structured_content == {}
     assert call(w, "update", {"updates": [{"id": i}]}).is_error
     assert call(w, "update", {"updates": [{"id": i, "description": "", "edits": [{"old": "a", "new": ""}]}]}).is_error
     assert call(w, "update", {"updates": [{"id": i, "edits": [{"old": "", "new": "a"}]}]}).is_error
@@ -520,7 +515,7 @@ def test_update_edits(w):
 def test_batch_writes_are_atomic(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", "")["id"]
-    assert w.update([{"id": a, "description": f"[[{b}|B]]の対．"}, {"id": b, "description": f"[[{a}|A]]の対．"}]) == []
+    assert w.update([{"id": a, "description": f"[[{b}|B]]の対．"}, {"id": b, "description": f"[[{a}|A]]の対．"}]) == {}
     assert shown(w, [a, b]) == f"# [[{a}]] A\n[[{b}|B]]の対．\n\n# [[{b}]] B\n[[{a}|A]]の対．"
     with pytest.raises(WikiError) as e:
         w.update([
@@ -547,7 +542,7 @@ def test_batch_writes_are_atomic(w):
     with pytest.raises(WikiError, match=r"ids\[1\]: .*参照元: \[\[" + c):
         w.delete([a, b])
     w.update([{"id": c, "description": ""}])
-    assert w.delete([a, b]) == []
+    assert w.delete([a, b]) == {}
     assert w.ids() == [c]
 
 
@@ -556,7 +551,7 @@ def test_merge_in_order(w):
     b = mk(w, "B", "")["id"]
     c = mk(w, "C", "")["id"]
     d = mk(w, "D", f"[[{a}|A]]と[[{b}|B]]")["id"]
-    assert w.merge([{"id": a, "into": b}, {"id": b, "into": c}]) == []
+    assert w.merge([{"id": a, "into": b}, {"id": b, "into": c}]) == {}
     assert shown(w, [d]) == f"# [[{d}]] D\n[[{c}|C]]と[[{c}|C]]"
     with pytest.raises(WikiError) as e:
         w.merge([{"id": c, "into": d}, {"id": c, "into": d}])
@@ -581,18 +576,15 @@ def test_dry_run_on_all_writes(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]")["id"]
     before = shown(w, [a, b])
-    assert w.update([{"id": b, "description": "https://example.com/x"}], dry_run=True) == [
-        f"[[{b}|B]]: 参照も被参照もない．",
-        f"[[{b}|B]]: 外部への参照を含む: `https://example.com/x`",
-    ]
-    assert w.rename([{"id": a, "term": "C"}], dry_run=True) == []
-    assert w.delete([b], dry_run=True) == [f"[[{a}|A]]: 参照も被参照もなくなった．"]
-    assert w.merge([{"id": a, "into": b}], dry_run=True) == [f"[[{b}|B]]: 参照も被参照もない．"]
+    assert w.update([{"id": b, "description": "https://example.com/x"}], dry_run=True) == {}
+    assert w.rename([{"id": a, "term": "C"}], dry_run=True) == {}
+    assert w.delete([b], dry_run=True) == {}
+    assert w.merge([{"id": a, "into": b}], dry_run=True) == {}
     with pytest.raises(WikiError, match="参照されている"):
         w.delete([a], dry_run=True)
     assert shown(w, [a, b]) == before
     r = call(w, "delete", {"ids": [b], "dry_run": True})
-    assert r.structured_content == {"warnings": [f"[[{a}|A]]: 参照も被参照もなくなった．"]}
+    assert r.structured_content == {}
     assert w.ids() == [a, b]
 
 
@@ -661,3 +653,34 @@ def test_create_mcp_contract(w):
     result = call(w, "create", {"defs": [{"term": "A", "description": "[[A]]"}]})
     assert not result.is_error
     assert set(result.structured_content["defs"][0]) == {"id", "term"}
+
+
+def test_writes_do_not_audit_and_check_reports_all(w, monkeypatch):
+    from defwiki.server import TOOL_DEFS
+    import jsonschema
+
+    audit = w._audit
+    def unexpected_audit():
+        pytest.fail("書込み時に点検してはいけない")
+    monkeypatch.setattr(w, "_audit", unexpected_audit)
+    schemas = {t["name"]: t["outputSchema"] for t in TOOL_DEFS if "outputSchema" in t}
+    def write(name, args):
+        result = call(w, name, args)
+        assert not result.is_error
+        assert "warnings" not in result.structured_content
+        jsonschema.validate(result.structured_content, schemas[name])
+        return result.structured_content
+
+    defs = [{"term": t, "description": "https://example.com"} for t in ["A", "B"]]
+    assert write("create", {"defs": defs, "dry_run": True}) == {}
+    a, b = [d["id"] for d in write("create", {"defs": defs})["defs"]]
+    for dry_run in [True, False]:
+        assert write("update", {"updates": [{"id": a, "description": "https://example.com"}], "dry_run": dry_run}) == {}
+        assert write("rename", {"renames": [{"id": a, "term": "A"}], "dry_run": dry_run}) == {}
+    monkeypatch.setattr(w, "_audit", audit)
+    assert w.check()["counts"] == {"isolated": 2, "duplicate_descriptions": 1, "external": 2}
+    monkeypatch.setattr(w, "_audit", unexpected_audit)
+    assert write("delete", {"ids": [a], "dry_run": True}) == {}
+    assert write("merge", {"merges": [{"id": a, "into": b}], "dry_run": True}) == {}
+    assert write("merge", {"merges": [{"id": a, "into": b}]}) == {}
+    assert write("delete", {"ids": [b]}) == {}

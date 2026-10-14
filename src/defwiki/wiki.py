@@ -269,9 +269,6 @@ class _Audit:
         self.same_descriptions = _groups(rows, 2)
         self.external = {id: m.group() for id, _, stored in rows if (m := _EXTERNAL.search(stored))}
 
-    def _listed(self, ids) -> str:
-        return ", ".join(_link(i, self.terms[i]) for i in ids)
-
     def report(self, limit: int = 20) -> dict:
         """項目ごとに limit 件と，項目ごとの，limit を超えるかと全件数．"""
 
@@ -288,20 +285,6 @@ class _Audit:
             "truncated": {k: len(v) > limit for k, v in items.items()},
             "counts": {k: len(v) for k, v in items.items()},
         }
-
-    def warnings(self, id: str, created: bool = False) -> list[str]:
-        """説明を書き込んだ定義についての疑いを返す．
-
-        作った定義には，参照も被参照もないことを警告しない．書いた時点で自明だからである．
-        """
-        out = []
-        if id in self.isolated and not created:
-            out.append("参照も被参照もない．")
-        if same := [i for g in self.same_descriptions if id in g for i in g if i != id]:
-            out.append(f"説明が同一の定義がある: {self._listed(same)}")
-        if id in self.external:
-            out.append(f"外部への参照を含む: `{self.external[id]}`")
-        return out
 
 
 # ---------------------------------------------------------------- wiki
@@ -425,14 +408,6 @@ class Wiki:
         for n, stored in rows:
             self.db.execute("UPDATE todos SET text=? WHERE id=?", (_substitute(stored, id, to), n))
 
-    def _newly_isolated(self, before: set[str]) -> list[str]:
-        """before になかった，参照も被参照もない定義についての警告．"""
-        left = [i for i in self._isolated() if i not in before]
-        if not left:
-            return []
-        terms = self._terms(left)
-        return [f"{_link(i, terms[i])}: 参照も被参照もなくなった．" for i in left]
-
     def _referrers(self, id: str) -> list[str]:
         """id を参照する全ての定義．自己参照を除く．用語，識別子の順．"""
         rows = self.db.execute(
@@ -513,9 +488,7 @@ class Wiki:
     def create(self, defs: list[dict], dry_run: bool = False) -> dict:
         """定義をまとめて作成する．1件でも違反があれば，どれも作成しない．
 
-        警告は，全件を作成した後の状態について返す．
-        dry_run が真であれば，作成せずに警告だけを返す．識別子は残らないので，
-        警告の中では，この呼び出しの定義を `[[識別子|用語]]` でなく defs の中の位置と用語で示す．
+        dry_run が真であれば，検証だけを行い，作成せずに空のオブジェクトを返す．
         """
 
         def name(i):
@@ -548,28 +521,20 @@ class Wiki:
                     errs += [label(i) + m for m in e.errors]
             if errs:
                 raise WikiError(errs)
-            audit = self._audit()
-            warnings = [
-                f"{_link(id, d['term'])}: {w}"
-                for id, d in zip(ids, defs)
-                for w in audit.warnings(id, created=True)
-            ]
             if dry_run:
-                for i, (id, d) in enumerate(zip(ids, defs)):
-                    warnings = [w.replace(_link(id, d["term"]), name(i)) for w in warnings]
-                return {"warnings": warnings}
+                return {}
             created = [
                 {"id": id, "term": d["term"]}
                 for id, d in zip(ids, defs)
             ]
-            return {"defs": created, "warnings": warnings}
+            return {"defs": created}
 
-    def update(self, updates: list[dict], dry_run: bool = False) -> list[str]:
+    def update(self, updates: list[dict], dry_run: bool = False) -> dict:
         """説明をまとめて書き換える．1件でも失敗すれば，どれも書き換えない．
 
         各要素は識別子と，description か edits のどちらか一方を持つ．description は説明を置き換え，
-        edits は提示形式の説明に置換を順に施す．警告は，全件を書き換えた後の状態について返す．
-        dry_run が真であれば，書き換えずに警告だけを返す．以下の書込みも同じ．
+        edits は提示形式の説明に置換を順に施す．
+        dry_run が真であれば，検証だけを行い，書き換えない．以下の書込みも同じ．
         """
         ids = [u["id"] for u in updates]
 
@@ -585,10 +550,9 @@ class Wiki:
 
         with self._tx(commit=not dry_run):
             _each("updates", updates, one, _duplicated(ids))
-            audit = self._audit()
-            return [f"{_link(id, audit.terms[id])}: {w}" for id in ids for w in audit.warnings(id)]
+            return {}
 
-    def rename(self, renames: list[dict], dry_run: bool = False) -> list[str]:
+    def rename(self, renames: list[dict], dry_run: bool = False) -> dict:
         """用語をまとめて変える．1件でも失敗すれば，どれも変えない．"""
 
         def one(r):
@@ -599,9 +563,9 @@ class Wiki:
 
         with self._tx(commit=not dry_run):
             _each("renames", renames, one, _duplicated([r["id"] for r in renames]))
-            return []
+            return {}
 
-    def delete(self, ids: list[str], dry_run: bool = False) -> list[str]:
+    def delete(self, ids: list[str], dry_run: bool = False) -> dict:
         """定義をまとめて削除する．削除する定義の外から参照されている定義は削除できない．"""
 
         def check(id):
@@ -613,19 +577,17 @@ class Wiki:
 
         with self._tx(commit=not dry_run):
             _each("ids", ids, check)
-            before = set(self._isolated())
             for id in ids:
                 self._retarget_todos(id, self._terms([id])[id])
             for id in ids:
                 self._remove(id)
-            return self._newly_isolated(before)
+            return {}
 
-    def merge(self, merges: list[dict], dry_run: bool = False) -> list[str]:
+    def merge(self, merges: list[dict], dry_run: bool = False) -> dict:
         """統合を順に施す．統合は id への参照を全て into への参照に置き換え，id を削除する．
 
-        1件でも失敗すれば，どれも施さない．警告は，全件を統合した後の状態について返す．
+        1件でも失敗すれば，どれも施さない．
         """
-        srcs: list[str] = []
 
         def one(m):
             id, into = m["id"], m["into"]
@@ -639,17 +601,12 @@ class Wiki:
                 dsts = {into if r.id == id else r.id for r in refs}
                 stored, _ = _replace_refs(stored, refs, lambda r: f"[[{into if r.id == id else r.id}]]")
                 self._set_description(src, stored, dsts)
-                srcs.append(src)
             self._retarget_todos(id, f"[[{into}]]")
             self._remove(id)
 
         with self._tx(commit=not dry_run):
-            before = set(self._isolated())
             _each("merges", merges, one)
-            audit = self._audit()
-            left = [s for s in dict.fromkeys(srcs) if s in audit.terms]  # 後の統合で消えた定義を除く
-            warnings = [f"{_link(s, audit.terms[s])}: {w}" for s in left for w in audit.warnings(s)]
-            return warnings + self._newly_isolated(before | set(left))
+            return {}
 
     # ---- ToDo．本文は参照を含んでよい．ToDo からの参照は，被参照に数えず，削除を妨げない
 

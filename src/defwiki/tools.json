@@ -262,7 +262,7 @@
   },
   {
     "name": "create",
-    "description": "定義をまとめて作成し，割り当てた識別子と用語をdefsで同じ順に返す．同じ呼び出し内の用語は重複できない．既存の定義への参照は[[識別子|用語]]と書く．同じ呼び出しで作る定義は[[用語]]で参照できる．[[用語]]で既存の定義は検索しない．[[識別子|用語]]の形はIDによる参照として解釈する．循環参照する定義群は1回で作成する．1件でも違反があれば，どれも作成しない．warningsは運用規則への違反の疑いである．dry_runをtrueにすると，作成せずに違反とwarningsだけを返す．",
+    "description": "定義をまとめて作成し，割り当てた識別子と用語をdefsで同じ順に返す．同じ呼び出し内の用語は重複できない．既存の定義への参照は[[識別子|用語]]と書く．同じ呼び出しで作る定義は[[用語]]で参照できる．[[用語]]で既存の定義は検索しない．[[識別子|用語]]の形はIDによる参照として解釈する．循環参照する定義群は1回で作成する．1件でも違反があれば，どれも作成しない．警告はcheckで確認する．dry_runをtrueにすると，作成せずに検証だけを行う．成功時は空のオブジェクトを返す．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -317,22 +317,13 @@
               "term"
             ]
           }
-        },
-        "warnings": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
-      },
-      "required": [
-        "warnings"
-      ]
+      }
     }
   },
   {
     "name": "update",
-    "description": "定義の説明をまとめて書き換える．各要素は，descriptionで全文を置き換えるか，editsで一部を置き換える．editsは提示形式の説明に対し，oldをnewに先頭から順に置き換える．oldはその時点の説明にちょうど1回現れなければならない．1件でも失敗すれば何も変えない．説明中の参照は[[識別子|用語]]と書く．warningsは運用規則への違反の疑いである．dry_runをtrueにすると，書き込まずに違反とwarningsだけを返す．",
+    "description": "定義の説明をまとめて書き換える．各要素は，descriptionで全文を置き換えるか，editsで一部を置き換える．editsは提示形式の説明に対し，oldをnewに先頭から順に置き換える．oldはその時点の説明にちょうど1回現れなければならない．1件でも失敗すれば何も変えない．説明中の参照は[[識別子|用語]]と書く．警告はcheckで確認する．dry_runをtrueにすると，書き込まずに検証だけを行う．成功時は空のオブジェクトを返す．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -389,22 +380,12 @@
     },
     "outputSchema": {
       "type": "object",
-      "properties": {
-        "warnings": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "warnings"
-      ]
+      "properties": {}
     }
   },
   {
     "name": "rename",
-    "description": "定義の用語をまとめて変更する．1件でも失敗すれば何も変えない．warningsは常に空である．dry_runをtrueにすると，書き込まずに違反とwarningsだけを返す．",
+    "description": "定義の用語をまとめて変更する．1件でも失敗すれば何も変えない．dry_runをtrueにすると，書き込まずに検証だけを行う．成功時は空のオブジェクトを返す．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -442,22 +423,12 @@
     },
     "outputSchema": {
       "type": "object",
-      "properties": {
-        "warnings": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "warnings"
-      ]
+      "properties": {}
     }
   },
   {
     "name": "delete",
-    "description": "定義をまとめて削除する．削除する定義の外から参照されている定義は削除できない．1件でも失敗すれば何も削除しない．warningsは運用規則への違反の疑いである．dry_runをtrueにすると，書き込まずに違反とwarningsだけを返す．",
+    "description": "定義をまとめて削除する．削除する定義の外から参照されている定義は削除できない．1件でも失敗すれば何も削除しない．警告はcheckで確認する．dry_runをtrueにすると，書き込まずに検証だけを行う．成功時は空のオブジェクトを返す．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -482,22 +453,12 @@
     },
     "outputSchema": {
       "type": "object",
-      "properties": {
-        "warnings": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "warnings"
-      ]
+      "properties": {}
     }
   },
   {
     "name": "merge",
-    "description": "統合を順に施す．統合は定義idを定義intoに統合する．idへの参照を全てintoへの参照に置き換え，idを削除する．idの用語と説明は捨てる．1件でも失敗すれば何も変えない．warningsは運用規則への違反の疑いである．dry_runをtrueにすると，書き込まずに違反とwarningsだけを返す．",
+    "description": "統合を順に施す．統合は定義idを定義intoに統合する．idへの参照を全てintoへの参照に置き換え，idを削除する．idの用語と説明は捨てる．1件でも失敗すれば何も変えない．警告はcheckで確認する．dry_runをtrueにすると，書き込まずに検証だけを行う．成功時は空のオブジェクトを返す．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -535,17 +496,7 @@
     },
     "outputSchema": {
       "type": "object",
-      "properties": {
-        "warnings": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "warnings"
-      ]
+      "properties": {}
     }
   },
   {
