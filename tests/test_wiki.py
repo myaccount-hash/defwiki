@@ -21,6 +21,13 @@ def shown(w, ids):
     return "\n\n".join(f"# [[{d['id']}]] {d['term']}" + (f"\n{d['description']}" if d["description"] else "") for d in w.get(ids))
 
 
+def refs(w, id, limit=20):
+    """1つの定義についての references の結果．"""
+    (r,) = w.references([id], limit)["results"]
+    assert r.pop("id") == id
+    return r
+
+
 def test_create_get_and_reference(w):
     m = mk(w, "モデル", "")["id"]
     t = mk(w, "トークン", f"[[{m}|モデル]]が処理する文字列の単位．")["id"]
@@ -32,10 +39,10 @@ def test_create_get_and_reference(w):
 def test_rename_reflects_in_referrers(w):
     m = mk(w, "モデル", "")["id"]
     t = mk(w, "トークン", f"[[{m}|モデル]]の単位")["id"]
-    w.rename(m, "言語モデル")
+    w.rename([{"id": m, "term": "言語モデル"}])
     assert shown(w, [t]).endswith(f"[[{m}|言語モデル]]の単位")
     with pytest.raises(WikiError) as e:
-        w.update(t, f"[[{m}|モデル]]")
+        w.update([{"id": t, "description": f"[[{m}|モデル]]"}])
     assert "現在の用語は`言語モデル`" in str(e.value)
 
 
@@ -58,7 +65,7 @@ def test_escape(w):
     d = "`[[not a ref]]` と `` [[abcdef]]` `` と\n```\n[[\n```\nと ``` と `"
     i = mk(w, "esc", d)["id"]
     assert shown(w, [i]) == f"# [[{i}]] esc\n{d}"
-    assert w.references(i) == {"referrers": [], "truncated": False}
+    assert refs(w, i) == {"referrers": [], "truncated": False}
 
 
 def test_create_cyclic_batch(w):
@@ -73,7 +80,7 @@ def test_create_cyclic_batch(w):
     assert r["defs"] == [{"id": a, "term": "A", "key": "a"}, {"id": b, "term": "B", "key": "b"}]
     assert r["warnings"] == []
     assert shown(w, [a, b]) == f"# [[{a}]] A\n[[{b}|B]]と[[{m}|モデル]]の組．\n\n# [[{b}]] B\n[[{a}|A]]の対．[[{b}|B]]"
-    assert {x["id"] for x in w.references(b)["referrers"]} == {a, b}
+    assert {x["id"] for x in refs(w, b)["referrers"]} == {a, b}
 
 
 def test_create_batch_is_atomic(w):
@@ -94,7 +101,7 @@ def test_create_batch_is_atomic(w):
     assert w.db.execute("SELECT count(*) FROM defs").fetchone()[0] == 0
     a = mk(w, "A", "")["id"]
     with pytest.raises(WikiError, match="この呼び出しにない"):
-        w.update(a, "[[$a|A]]")
+        w.update([{"id": a, "description": "[[$a|A]]"}])
 
 
 def test_term_after_ref_bracket(w):
@@ -117,22 +124,22 @@ def test_description_blank_lines_trimmed(w):
 def test_self_and_cyclic_reference(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]")["id"]
-    w.update(a, f"[[{b}|B]] [[{a}|A]]")
-    assert {r["id"] for r in w.references(a)["referrers"]} == {a, b}
+    w.update([{"id": a, "description": f"[[{b}|B]] [[{a}|A]]"}])
+    assert {r["id"] for r in refs(w, a)["referrers"]} == {a, b}
     with pytest.raises(WikiError, match="参照元"):
-        w.delete(a)
-    w.update(b, "")
-    w.delete(a)  # 自己参照のみなら削除できる
-    assert w.references(b) == {"referrers": [], "truncated": False}
+        w.delete([a])
+    w.update([{"id": b, "description": ""}])
+    w.delete([a])  # 自己参照のみなら削除できる
+    assert refs(w, b) == {"referrers": [], "truncated": False}
 
 
 def test_delete_blocked_then_allowed(w):
     m = mk(w, "m", "")["id"]
     t = mk(w, "t", f"[[{m}|m]]")["id"]
     with pytest.raises(WikiError, match=t):
-        w.delete(m)
-    w.delete(t)
-    w.delete(m)
+        w.delete([m])
+    w.delete([t])
+    w.delete([m])
     with pytest.raises(WikiError, match="存在しない"):
         w.get([m])
 
@@ -194,8 +201,8 @@ def test_server_call(w):
     assert call(w, "search", {"queries": ["a"], "extra": 1}).is_error
     assert call(w, "search", {"query": "a"}).is_error
     assert call(w, "search", {"queries": ["a"]}).structured_content["results"][0]["hits"][0]["id"] == i
-    assert call(w, "rename", {"id": i, "term": "b"}).structured_content == {"warnings": []}
-    assert call(w, "delete", {"id": "zzzzzz"}).is_error
+    assert call(w, "rename", {"renames": [{"id": i, "term": "b"}]}).structured_content == {"warnings": []}
+    assert call(w, "delete", {"ids": ["zzzzzz"]}).is_error
 
 
 def test_warnings_on_create(w):
@@ -206,7 +213,7 @@ def test_warnings_on_create(w):
     assert r["warnings"] == [
         f"[[{r['id']}|トークン]]: 外部への参照を含む: `https://example.com/a`",
     ]
-    assert w.update(r["id"], f"[[{m}|モデル]]が処理する単位．") == []
+    assert w.update([{"id": r["id"], "description": f"[[{m}|モデル]]が処理する単位．"}]) == []
     r = mk(w, "モデル", f"[[{m}|モデル]]が処理する単位．")
     assert r["warnings"] == [
         f"[[{r['id']}|モデル]]: 説明が同一の定義がある: [[{w.search(['トークン'])['results'][0]['hits'][0]['id']}|トークン]]",
@@ -237,8 +244,8 @@ def test_create_dry_run(w):
 def test_warnings_on_rename_and_delete(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]とCの組．")["id"]
-    assert w.rename(a, "C") == []
-    assert w.delete(b) == [f"[[{a}|C]]: 参照も被参照もなくなった．"]
+    assert w.rename([{"id": a, "term": "C"}]) == []
+    assert w.delete([b]) == [f"[[{a}|C]]: 参照も被参照もなくなった．"]
 
 
 def test_merge(w):
@@ -246,16 +253,16 @@ def test_merge(w):
     b = mk(w, "言語モデル", "")["id"]
     t = mk(w, "トークン", f"[[{a}|モデル]]の単位．`[[{a}]]`と[[{a}|モデル]]")["id"]
     u = mk(w, "文脈", f"[[{a}|モデル]]と[[{b}|言語モデル]]")["id"]
-    assert w.merge(a, b) == []
+    assert w.merge([{"id": a, "into": b}]) == []
     with pytest.raises(WikiError, match="存在しない"):
         w.get([a])
     assert shown(w, [t, u]) == (
         f"# [[{t}]] トークン\n[[{b}|言語モデル]]の単位．`[[{a}]]`と[[{b}|言語モデル]]\n\n"
         f"# [[{u}]] 文脈\n[[{b}|言語モデル]]と[[{b}|言語モデル]]"
     )
-    assert w.references(b) == {"referrers": [{"id": t, "term": "トークン"}, {"id": u, "term": "文脈"}], "truncated": False}
-    assert w.references(b, limit=1) == {"referrers": [{"id": t, "term": "トークン"}], "truncated": True}
-    assert call(w, "references", {"id": b, "limit": 101}).is_error
+    assert refs(w, b) == {"referrers": [{"id": t, "term": "トークン"}, {"id": u, "term": "文脈"}], "truncated": False}
+    assert refs(w, b, limit=1) == {"referrers": [{"id": t, "term": "トークン"}], "truncated": True}
+    assert call(w, "references", {"ids": [b], "limit": 101}).is_error
     assert w.db.execute("SELECT count(*) FROM refs WHERE src=? OR dst=?", (a, a)).fetchone()[0] == 0
 
 
@@ -263,19 +270,19 @@ def test_merge_many_referrers(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", "")["id"]
     w.create([{"term": f"t{i}", "description": f"[[{a}|A]]"} for i in range(25)])
-    w.merge(a, b)
+    w.merge([{"id": a, "into": b}])
     assert w.db.execute("SELECT count(*) FROM refs WHERE dst=?", (a,)).fetchone()[0] == 0
-    assert len(w.references(b, limit=100)["referrers"]) == 25
+    assert len(refs(w, b, limit=100)["referrers"]) == 25
 
 
 def test_merge_errors(w):
     a = mk(w, "A", "")["id"]
     with pytest.raises(WikiError, match="それ自身"):
-        w.merge(a, a)
+        w.merge([{"id": a, "into": a}])
     with pytest.raises(WikiError, match="存在しない"):
-        w.merge(a, "zzzzzz")
+        w.merge([{"id": a, "into": "zzzzzz"}])
     with pytest.raises(WikiError, match="存在しない"):
-        w.merge("zzzzzz", a)
+        w.merge([{"id": "zzzzzz", "into": a}])
     assert shown(w, [a]) == f"# [[{a}]] A"
 
 
@@ -283,16 +290,16 @@ def test_warnings_on_merge(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]")["id"]
     # 統合先が統合元を参照していれば自己参照になり，他との参照がなければ孤立する
-    assert w.merge(a, b) == [f"[[{b}|B]]: 参照も被参照もない．"]
+    assert w.merge([{"id": a, "into": b}]) == [f"[[{b}|B]]: 参照も被参照もない．"]
     assert shown(w, [b]) == f"# [[{b}]] B\n[[{b}|B]]"
 
     c = mk(w, "C", f"[[{b}|B]]")["id"]
     d = mk(w, "D", f"[[{c}|C]]の例．")["id"]
     e = mk(w, "E", f"[[{b}|B]]の例．")["id"]
     f = mk(w, "F", "")["id"]
-    w.update(c, f"[[{f}|F]]")
+    w.update([{"id": c, "description": f"[[{f}|F]]"}])
     # 統合元だけが参照していた定義は孤立し，書き換えた説明は他と同一になりうる
-    assert w.merge(c, b) == [
+    assert w.merge([{"id": c, "into": b}]) == [
         f"[[{d}|D]]: 説明が同一の定義がある: [[{e}|E]]",
         f"[[{f}|F]]: 参照も被参照もなくなった．",
     ]
@@ -302,9 +309,9 @@ def test_server_merge(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", "")["id"]
     mk(w, "C", f"[[{a}|A]]と[[{b}|B]]")
-    assert call(w, "merge", {"id": a, "into": b}).structured_content == {"warnings": []}
-    assert call(w, "merge", {"id": a, "into": b}).is_error
-    assert call(w, "merge", {"id": b}).is_error
+    assert call(w, "merge", {"merges": [{"id": a, "into": b}]}).structured_content == {"warnings": []}
+    assert call(w, "merge", {"merges": [{"id": a, "into": b}]}).is_error
+    assert call(w, "merge", {"merges": [{"id": b}]}).is_error
 
 
 def test_check(w):
@@ -329,7 +336,7 @@ def test_server_rules_and_warnings(w):
     r = call(w, "create", {"defs": [{"term": "a", "description": ""}]})
     i = r.structured_content["defs"][0]["id"]
     assert r.structured_content["warnings"] == []
-    assert call(w, "update", {"id": i, "description": "x"}).structured_content == {"warnings": [f"[[{i}|a]]: 参照も被参照もない．"]}
+    assert call(w, "update", {"updates": [{"id": i, "description": "x"}]}).structured_content == {"warnings": [f"[[{i}|a]]: 参照も被参照もない．"]}
     assert call(w, "check", {}).structured_content["isolated"] == [{"id": i, "term": "a"}]
 
 
@@ -412,20 +419,20 @@ def test_todo_references(w):
     assert w.todo_list() == {"todos": [], "truncated": False}
     n = w.todo_add(f"[[{m}|モデル]]と[[{t}|トークン]]を見直す．`[[{m}]]`")["id"]
     # ToDoからの参照は被参照に数えない
-    assert w.references(m) == {"referrers": [], "truncated": False}
+    assert refs(w, m) == {"referrers": [], "truncated": False}
     assert {d["id"] for d in w.check()["isolated"]} == {m, t}
-    w.rename(m, "言語モデル")
+    w.rename([{"id": m, "term": "言語モデル"}])
     assert w.todo_list()["todos"][0]["text"] == f"[[{m}|言語モデル]]と[[{t}|トークン]]を見直す．`[[{m}]]`"
-    w.merge(t, m)
+    w.merge([{"id": t, "into": m}])
     assert w.todo_list()["todos"][0]["text"] == f"[[{m}|言語モデル]]と[[{m}|言語モデル]]を見直す．`[[{m}]]`"
-    w.delete(m)
+    w.delete([m])
     assert w.todo_remove(n) == f"言語モデルと言語モデルを見直す．`[[{m}]]`"
 
 
 def test_todo_reference_to_deleted_term_with_bracket(w):
     a = mk(w, "a[", "")["id"]
     w.todo_add(f"[[{a}|a[]][b")
-    w.delete(a)
+    w.delete([a])
     assert w.todo_list()["todos"][0]["text"] == "`a[`[b"
 
 
@@ -473,18 +480,81 @@ def test_excerpt_around_match(w):
 def test_update_edits(w):
     m = mk(w, "モデル", "")["id"]
     i = mk(w, "x", f"[[{m}|モデル]]が処理するあ．いあ．")["id"]
-    w.update(i, edits=[{"old": "処理する", "new": "扱う"}, {"old": "いあ", "new": "う"}])
+    w.update([{"id": i, "edits": [{"old": "処理する", "new": "扱う"}, {"old": "いあ", "new": "う"}]}])
     assert shown(w, [i]) == f"# [[{i}]] x\n[[{m}|モデル]]が扱うあ．う．"
     # 参照も提示形式で照合し，置換の結果を検証する
-    w.update(i, edits=[{"old": f"[[{m}|モデル]]が", "new": ""}])
-    assert w.references(m) == {"referrers": [], "truncated": False}
+    w.update([{"id": i, "edits": [{"old": f"[[{m}|モデル]]が", "new": ""}]}])
+    assert refs(w, m) == {"referrers": [], "truncated": False}
     with pytest.raises(WikiError, match="現在の用語は`モデル`"):
-        w.update(i, edits=[{"old": "扱う", "new": f"[[{m}|x]]"}])
+        w.update([{"id": i, "edits": [{"old": "扱う", "new": f"[[{m}|x]]"}]}])
     with pytest.raises(WikiError) as e:
-        w.update(i, edits=[{"old": "あ", "new": "あ"}, {"old": "ない", "new": ""}, {"old": "う", "new": "あ"}])
-    assert e.value.errors == ["edits[1]: `old`が説明に現れない．", "edits[2]: `old`が説明に2回現れる．一意に定まるよう前後を含める．"]
+        w.update([{"id": i, "edits": [{"old": "あ", "new": "あ"}, {"old": "ない", "new": ""}, {"old": "う", "new": "あ"}]}])
+    assert e.value.errors == [
+        "updates[0]: edits[1]: `old`が説明に現れない．",
+        "updates[0]: edits[2]: `old`が説明に2回現れる．一意に定まるよう前後を含める．",
+    ]
     assert shown(w, [i]) == f"# [[{i}]] x\n扱うあ．う．"
-    assert "warnings" in call(w, "update", {"id": i, "edits": [{"old": "．う", "new": "．え"}]}).structured_content
-    assert call(w, "update", {"id": i}).is_error
-    assert call(w, "update", {"id": i, "description": "", "edits": [{"old": "a", "new": ""}]}).is_error
-    assert call(w, "update", {"id": i, "edits": [{"old": "", "new": "a"}]}).is_error
+    assert "warnings" in call(w, "update", {"updates": [{"id": i, "edits": [{"old": "．う", "new": "．え"}]}]}).structured_content
+    assert call(w, "update", {"updates": [{"id": i}]}).is_error
+    assert call(w, "update", {"updates": [{"id": i, "description": "", "edits": [{"old": "a", "new": ""}]}]}).is_error
+    assert call(w, "update", {"updates": [{"id": i, "edits": [{"old": "", "new": "a"}]}]}).is_error
+
+
+def test_batch_writes_are_atomic(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", "")["id"]
+    assert w.update([{"id": a, "description": f"[[{b}|B]]の対．"}, {"id": b, "description": f"[[{a}|A]]の対．"}]) == []
+    assert shown(w, [a, b]) == f"# [[{a}]] A\n[[{b}|B]]の対．\n\n# [[{b}]] B\n[[{a}|A]]の対．"
+    with pytest.raises(WikiError) as e:
+        w.update([
+            {"id": a, "description": "x"},
+            {"id": b, "edits": [{"old": "ない", "new": ""}]},
+            {"id": a, "description": "y"},
+            {"id": "zzzzzz", "description": ""},
+        ])
+    assert e.value.errors == [
+        "updates[1]: edits[0]: `old`が説明に現れない．",
+        f"updates[2]: 識別子`{a}`が重複している．",
+        "updates[3]: 識別子`zzzzzz`の定義は存在しない．",
+    ]
+    with pytest.raises(WikiError, match=r"renames\[1\]: 用語が空"):
+        w.rename([{"id": a, "term": "C"}, {"id": b, "term": ""}])
+    assert w.get([a])[0]["term"] == "A"
+    # 互いに参照する定義は，まとめてなら削除できる
+    with pytest.raises(WikiError, match=r"ids\[0\]: 参照されている"):
+        w.delete([a])
+    c = mk(w, "C", f"[[{a}|A]]")["id"]
+    with pytest.raises(WikiError, match=r"ids\[0\]: .*参照元: \[\[" + c):
+        w.delete([a, b])
+    w.update([{"id": c, "description": f"[[{b}|B]]"}])
+    with pytest.raises(WikiError, match=r"ids\[1\]: .*参照元: \[\[" + c):
+        w.delete([a, b])
+    w.update([{"id": c, "description": ""}])
+    assert w.delete([a, b]) == []
+    assert w.ids() == [c]
+
+
+def test_merge_in_order(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", "")["id"]
+    c = mk(w, "C", "")["id"]
+    d = mk(w, "D", f"[[{a}|A]]と[[{b}|B]]")["id"]
+    assert w.merge([{"id": a, "into": b}, {"id": b, "into": c}]) == []
+    assert shown(w, [d]) == f"# [[{d}]] D\n[[{c}|C]]と[[{c}|C]]"
+    with pytest.raises(WikiError) as e:
+        w.merge([{"id": c, "into": d}, {"id": c, "into": d}])
+    assert e.value.errors == [f"merges[1]: 識別子`{c}`の定義は存在しない．"]
+    assert w.ids() == [c, d]
+
+
+def test_references_batch(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", f"[[{a}|A]]")["id"]
+    assert w.references([a, b]) == {
+        "results": [
+            {"id": a, "referrers": [{"id": b, "term": "B"}], "truncated": False},
+            {"id": b, "referrers": [], "truncated": False},
+        ]
+    }
+    with pytest.raises(WikiError, match="zzzzzz"):
+        w.references([a, "zzzzzz"])

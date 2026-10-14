@@ -215,6 +215,28 @@ def _apply_edits(text: str, edits: list[dict]) -> str:
     return text
 
 
+def _duplicated(ids: list[str]) -> dict[int, str]:
+    """2回目以降に現れる識別子についての誤り．位置から誤りへ．"""
+    return {i: f"識別子`{id}`が重複している．" for i, id in enumerate(ids) if id in ids[:i]}
+
+
+def _each(name: str, items: list, f, errors: dict[int, str] | None = None) -> None:
+    """items の要素に順に f を施す．errors にある位置は施さずに誤りとする．
+
+    誤りは `name[位置]: ` を付けてまとめ，WikiError として送出する．
+    """
+    errs = []
+    for i, x in enumerate(items):
+        try:
+            if errors and i in errors:
+                raise WikiError(errors[i])
+            f(x)
+        except WikiError as e:
+            errs += [f"{name}[{i}]: {m}" for m in e.errors]
+    if errs:
+        raise WikiError(errs)
+
+
 def _own_length(stored: str) -> int:
     """説明の長さ．参照は0文字と数える．"""
     refs, _, _ = _scan(stored, stored=True)
@@ -483,14 +505,20 @@ class Wiki:
             defs.append(d)
         return {"defs": defs, "truncated": len(rows) > limit}
 
-    def references(self, id: str, limit: int = 20) -> dict:
-        """用語，識別子の順に limit 件．"""
-        self._require(id)
-        rows = self.db.execute(
-            "SELECT d.id, d.term FROM refs r JOIN defs d ON d.id = r.src WHERE r.dst=? ORDER BY d.term, d.id LIMIT ?",
-            (id, limit + 1),
-        ).fetchall()
-        return {"referrers": [{"id": i, "term": t} for i, t in rows[:limit]], "truncated": len(rows) > limit}
+    def references(self, ids: list[str], limit: int = 20) -> dict:
+        """識別子ごとに，その定義を参照する定義を用語，識別子の順に limit 件．"""
+        if missing := [i for i in ids if not self._exists(i)]:
+            raise WikiError(f"存在しない識別子: {', '.join(missing)}")
+        results = []
+        for id in ids:
+            rows = self.db.execute(
+                "SELECT d.id, d.term FROM refs r JOIN defs d ON d.id = r.src WHERE r.dst=? ORDER BY d.term, d.id LIMIT ?",
+                (id, limit + 1),
+            ).fetchall()
+            results.append(
+                {"id": id, "referrers": [{"id": i, "term": t} for i, t in rows[:limit]], "truncated": len(rows) > limit}
+            )
+        return {"results": results}
 
     def create(self, defs: list[dict], dry_run: bool = False) -> dict:
         """定義をまとめて作成する．1件でも違反があれば，どれも作成しない．
@@ -551,62 +579,91 @@ class Wiki:
             ]
             return {"defs": created, "warnings": warnings}
 
-    def update(self, id: str, description: str | None = None, edits: list[dict] | None = None) -> list[str]:
-        """説明を description で置き換えるか，提示形式の説明に edits の置換を順に施す．"""
-        if (description is None) == (edits is None):
-            raise WikiError("`description`と`edits`のどちらか一方だけを渡す．")
-        with self._tx():
-            self._require(id)
-            if edits is not None:
-                (stored,) = self.db.execute("SELECT description FROM defs WHERE id=?", (id,)).fetchone()
-                description = _apply_edits(self._render(stored)[0], edits)
-            self._set_description(id, *self._parse_input(description))
-            audit = self._audit()
-            return [f"{_link(id, audit.terms[id])}: {w}" for w in audit.warnings(id)]
+    def update(self, updates: list[dict]) -> list[str]:
+        """説明をまとめて書き換える．1件でも失敗すれば，どれも書き換えない．
 
-    def rename(self, id: str, term: str) -> list[str]:
+        各要素は識別子と，description か edits のどちらか一方を持つ．description は説明を置き換え，
+        edits は提示形式の説明に置換を順に施す．警告は，全件を書き換えた後の状態について返す．
+        """
+        ids = [u["id"] for u in updates]
+
+        def one(u):
+            if ("description" in u) == ("edits" in u):
+                raise WikiError("`description`と`edits`のどちらか一方だけを渡す．")
+            self._require(u["id"])
+            description = u.get("description")
+            if description is None:
+                (stored,) = self.db.execute("SELECT description FROM defs WHERE id=?", (u["id"],)).fetchone()
+                description = _apply_edits(self._render(stored)[0], u["edits"])
+            self._set_description(u["id"], *self._parse_input(description))
+
         with self._tx():
-            self._require(id)
-            if errs := term_errors(term):
+            _each("updates", updates, one, _duplicated(ids))
+            audit = self._audit()
+            return [f"{_link(id, audit.terms[id])}: {w}" for id in ids for w in audit.warnings(id)]
+
+    def rename(self, renames: list[dict]) -> list[str]:
+        """用語をまとめて変える．1件でも失敗すれば，どれも変えない．"""
+
+        def one(r):
+            self._require(r["id"])
+            if errs := term_errors(r["term"]):
                 raise WikiError(errs)
-            self.db.execute("UPDATE defs SET term=? WHERE id=?", (term, id))
+            self.db.execute("UPDATE defs SET term=? WHERE id=?", (r["term"], r["id"]))
+
+        with self._tx():
+            _each("renames", renames, one, _duplicated([r["id"] for r in renames]))
             return []
 
-    def delete(self, id: str) -> list[str]:
-        with self._tx():
+    def delete(self, ids: list[str]) -> list[str]:
+        """定義をまとめて削除する．削除する定義の外から参照されている定義は削除できない．"""
+
+        def check(id):
             self._require(id)
-            if others := self._referrers(id):
+            if others := [i for i in self._referrers(id) if i not in ids]:
                 terms = self._terms(others)
                 listed = ", ".join(_link(i, terms[i]) for i in others)
                 raise WikiError(f"参照されている定義は削除できない．参照元: {listed}")
+
+        with self._tx():
+            _each("ids", ids, check)
             before = set(self._isolated())
-            self._retarget_todos(id, self._terms([id])[id])
-            self._remove(id)
+            for id in ids:
+                self._retarget_todos(id, self._terms([id])[id])
+            for id in ids:
+                self._remove(id)
             return self._newly_isolated(before)
 
-    def merge(self, id: str, into: str) -> list[str]:
-        """id への参照を全て into への参照に置き換え，id を削除する．
+    def merge(self, merges: list[dict]) -> list[str]:
+        """統合を順に施す．統合は id への参照を全て into への参照に置き換え，id を削除する．
 
-        警告は，統合した後の状態について返す．
+        1件でも失敗すれば，どれも施さない．警告は，全件を統合した後の状態について返す．
         """
-        with self._tx():
+        srcs: list[str] = []
+
+        def one(m):
+            id, into = m["id"], m["into"]
             self._require(id)
             self._require(into)
             if id == into:
                 raise WikiError("定義をそれ自身に統合することはできない．")
-            before = set(self._isolated())
-            srcs = self._referrers(id)
-            for src in srcs:
+            for src in self._referrers(id):
                 (stored,) = self.db.execute("SELECT description FROM defs WHERE id=?", (src,)).fetchone()
                 refs, _, _ = _scan(stored, stored=True)
                 dsts = {into if r.id == id else r.id for r in refs}
                 stored, _ = _replace_refs(stored, refs, lambda r: f"[[{into if r.id == id else r.id}]]")
                 self._set_description(src, stored, dsts)
+                srcs.append(src)
             self._retarget_todos(id, f"[[{into}]]")
             self._remove(id)
+
+        with self._tx():
+            before = set(self._isolated())
+            _each("merges", merges, one)
             audit = self._audit()
-            warnings = [f"{_link(s, audit.terms[s])}: {w}" for s in srcs for w in audit.warnings(s)]
-            return warnings + self._newly_isolated(before | set(srcs))
+            left = [s for s in dict.fromkeys(srcs) if s in audit.terms]  # 後の統合で消えた定義を除く
+            warnings = [f"{_link(s, audit.terms[s])}: {w}" for s in left for w in audit.warnings(s)]
+            return warnings + self._newly_isolated(before | set(left))
 
     # ---- ToDo．本文は参照を含んでよい．ToDo からの参照は，被参照に数えず，削除を妨げない
 

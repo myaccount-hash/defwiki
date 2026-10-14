@@ -63,12 +63,12 @@ _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
     "longest": lambda wiki, args: _structured(
         wiki.longest(args.get("limit", 5 if args.get("with_description") else 20), args.get("with_description", False))
     ),
-    "references": lambda wiki, args: _structured(wiki.references(args["id"], args.get("limit", 20))),
+    "references": lambda wiki, args: _structured(wiki.references(args["ids"], args.get("limit", 20))),
     "create": lambda wiki, args: _structured(wiki.create(args["defs"], args.get("dry_run", False))),
-    "update": lambda wiki, args: _written(wiki.update(args["id"], args.get("description"), args.get("edits"))),
-    "rename": lambda wiki, args: _written(wiki.rename(args["id"], args["term"])),
-    "delete": lambda wiki, args: _written(wiki.delete(args["id"])),
-    "merge": lambda wiki, args: _written(wiki.merge(args["id"], args["into"])),
+    "update": lambda wiki, args: _written(wiki.update(args["updates"])),
+    "rename": lambda wiki, args: _written(wiki.rename(args["renames"])),
+    "delete": lambda wiki, args: _written(wiki.delete(args["ids"])),
+    "merge": lambda wiki, args: _written(wiki.merge(args["merges"])),
     "todo_add": lambda wiki, args: _structured(wiki.todo_add(args["text"])),
     "todo_list": lambda wiki, args: _structured(wiki.todo_list(args.get("limit", 20))),
     "todo_remove": lambda wiki, args: _structured({"text": wiki.todo_remove(args["id"])}),

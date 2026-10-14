@@ -196,13 +196,18 @@
   },
   {
     "name": "references",
-    "description": "指定した定義を参照している定義を返す．truncatedがtrueなら，該当がlimitを超えている．",
+    "description": "識別子ごとに，その定義を参照している定義を返す．limitは識別子ごとの上限である．truncatedがtrueなら，該当がlimitを超えている．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[a-z0-9]{6}$"
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{6}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         },
         "limit": {
           "type": "integer",
@@ -212,14 +217,14 @@
         }
       },
       "required": [
-        "id"
+        "ids"
       ],
       "additionalProperties": false
     },
     "outputSchema": {
       "type": "object",
       "properties": {
-        "referrers": {
+        "results": {
           "type": "array",
           "items": {
             "type": "object",
@@ -227,23 +232,38 @@
               "id": {
                 "type": "string"
               },
-              "term": {
-                "type": "string"
+              "referrers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "term": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "term"
+                  ]
+                }
+              },
+              "truncated": {
+                "type": "boolean"
               }
             },
             "required": [
               "id",
-              "term"
+              "referrers",
+              "truncated"
             ]
           }
-        },
-        "truncated": {
-          "type": "boolean"
         }
       },
       "required": [
-        "referrers",
-        "truncated"
+        "results"
       ]
     }
   },
@@ -326,33 +346,46 @@
   },
   {
     "name": "update",
-    "description": "定義の説明を書き換える．descriptionで全文を置き換えるか，editsで一部を置き換える．editsは提示形式の説明に対し，oldをnewに先頭から順に置き換える．oldはその時点の説明にちょうど1回現れなければならない．1件でも失敗すれば何も変えない．説明中の参照は[[識別子|用語]]と書く．warningsは運用規則への違反の疑いである．",
+    "description": "定義の説明をまとめて書き換える．各要素は，descriptionで全文を置き換えるか，editsで一部を置き換える．editsは提示形式の説明に対し，oldをnewに先頭から順に置き換える．oldはその時点の説明にちょうど1回現れなければならない．1件でも失敗すれば何も変えない．説明中の参照は[[識別子|用語]]と書く．warningsは運用規則への違反の疑いである．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[a-z0-9]{6}$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "edits": {
+        "updates": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
-              "old": {
+              "id": {
                 "type": "string",
-                "minLength": 1
+                "pattern": "^[a-z0-9]{6}$"
               },
-              "new": {
+              "description": {
                 "type": "string"
+              },
+              "edits": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "old": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "new": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "old",
+                    "new"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
               }
             },
             "required": [
-              "old",
-              "new"
+              "id"
             ],
             "additionalProperties": false
           },
@@ -360,7 +393,7 @@
         }
       },
       "required": [
-        "id"
+        "updates"
       ],
       "additionalProperties": false
     },
@@ -381,22 +414,35 @@
   },
   {
     "name": "rename",
-    "description": "定義の用語を変更する．warningsは常に空である．",
+    "description": "定義の用語をまとめて変更する．1件でも失敗すれば何も変えない．warningsは常に空である．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[a-z0-9]{6}$"
-        },
-        "term": {
-          "type": "string",
-          "minLength": 1
+        "renames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9]{6}$"
+              },
+              "term": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "term"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
         }
       },
       "required": [
-        "id",
-        "term"
+        "renames"
       ],
       "additionalProperties": false
     },
@@ -417,17 +463,22 @@
   },
   {
     "name": "delete",
-    "description": "定義を削除する．参照されている定義は削除できない．warningsは運用規則への違反の疑いである．",
+    "description": "定義をまとめて削除する．削除する定義の外から参照されている定義は削除できない．1件でも失敗すれば何も削除しない．warningsは運用規則への違反の疑いである．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[a-z0-9]{6}$"
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{6}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         }
       },
       "required": [
-        "id"
+        "ids"
       ],
       "additionalProperties": false
     },
@@ -448,22 +499,35 @@
   },
   {
     "name": "merge",
-    "description": "定義idを定義intoに統合する．idへの参照を全てintoへの参照に置き換え，idを削除する．idの用語と説明は捨てる．warningsは運用規則への違反の疑いである．",
+    "description": "統合を順に施す．統合は定義idを定義intoに統合する．idへの参照を全てintoへの参照に置き換え，idを削除する．idの用語と説明は捨てる．1件でも失敗すれば何も変えない．warningsは運用規則への違反の疑いである．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[a-z0-9]{6}$"
-        },
-        "into": {
-          "type": "string",
-          "pattern": "^[a-z0-9]{6}$"
+        "merges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9]{6}$"
+              },
+              "into": {
+                "type": "string",
+                "pattern": "^[a-z0-9]{6}$"
+              }
+            },
+            "required": [
+              "id",
+              "into"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
         }
       },
       "required": [
-        "id",
-        "into"
+        "merges"
       ],
       "additionalProperties": false
     },
