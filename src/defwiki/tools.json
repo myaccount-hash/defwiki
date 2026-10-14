@@ -10,7 +10,7 @@
   },
   {
     "name": "get",
-    "description": "識別子で定義を取得する．提示形式の文字列を返す．",
+    "description": "識別子で定義を取得し，識別子，用語，説明をdefsで同じ順に返す．存在しない識別子が1つでもあれば失敗する．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -28,6 +28,36 @@
         "ids"
       ],
       "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "defs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "term",
+              "description"
+            ]
+          }
+        }
+      },
+      "required": [
+        "defs"
+      ]
     }
   },
   {

@@ -45,18 +45,17 @@ def _todo_backrefs(wiki: Wiki) -> dict[str, list[int]]:
 
 
 def wiki_markdown(wiki: Wiki) -> str:
-    """提示形式を変換する．定義ごとに，識別子を id とする見えないアンカーと `## 用語` の見出しを置き，参照を `[用語](#識別子)` で表す．
+    """定義を変換する．定義ごとに，識別子を id とする見えないアンカーと `## 用語` の見出しを置き，参照を `[用語](#識別子)` で表す．
 
     定義を参照する ToDo があれば，末尾に `ToDo: [番号](todo.md#todo-番号)，…` の行を置く．
     """
     back = _todo_backrefs(wiki)
     blocks = []
-    for id in wiki.ids():
-        head, _, desc = wiki.get([id]).partition("\n")
-        term = head[len(f"# [[{id}]] "):]
-        paras = [f'<a id="{id}"></a>', f"## {term}"]
-        if desc:
-            paras.append(_md_refs(desc))
+    for d in wiki.get(wiki.ids()):
+        id = d["id"]
+        paras = [f'<a id="{id}"></a>', f"## {d['term']}"]
+        if d["description"]:
+            paras.append(_md_refs(d["description"]))
         if id in back:
             paras.append("ToDo: " + "，".join(f"[{n}]({TODO_FILE}#todo-{n})" for n in back[id]))
         blocks.append("\n\n".join(paras))

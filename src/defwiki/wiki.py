@@ -424,18 +424,14 @@ class Wiki:
     def check(self, limit: int = 20) -> dict:
         return self._audit().report(limit)
 
-    def get(self, ids: list[str]) -> str:
+    def get(self, ids: list[str]) -> list[dict]:
+        """ids の順に，識別子，用語，提示形式の説明．"""
         q = ",".join("?" * len(ids))
         rows = {r[0]: r for r in self.db.execute(f"SELECT id, term, description FROM defs WHERE id IN ({q})", ids)}
         missing = [i for i in ids if i not in rows]
         if missing:
             raise WikiError(f"存在しない識別子: {', '.join(missing)}")
-        blocks = []
-        for i in ids:
-            _, term, stored = rows[i]
-            desc, _ = self._render(stored)
-            blocks.append(f"# [[{i}]] {term}" + (f"\n{desc}" if desc else ""))
-        return "\n\n".join(blocks)
+        return [{"id": i, "term": rows[i][1], "description": self._render(rows[i][2])[0]} for i in ids]
 
     def search(self, queries: list[str], limit: int = 10) -> dict:
         """文字列ごとに探す．limit は文字列ごとの上限．"""

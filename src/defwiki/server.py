@@ -58,7 +58,7 @@ def _written(warnings: list[str]) -> types.CallToolResult:
 _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
     "rules": lambda wiki, args: _text(RULES),
     "check": lambda wiki, args: _structured(wiki.check(args.get("limit", 20))),
-    "get": lambda wiki, args: _text(wiki.get(args["ids"])),
+    "get": lambda wiki, args: _structured({"defs": wiki.get(args["ids"])}),
     "search": lambda wiki, args: _structured(wiki.search(args["queries"], args.get("limit", 10))),
     "longest": lambda wiki, args: _structured(
         wiki.longest(args.get("limit", 5 if args.get("with_description") else 20), args.get("with_description", False))
