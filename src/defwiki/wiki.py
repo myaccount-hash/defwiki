@@ -412,6 +412,14 @@ class Wiki:
         terms = self._terms(left)
         return [f"{_link(i, terms[i])}: 参照も被参照もなくなった．" for i in left]
 
+    def _referrers(self, id: str) -> list[str]:
+        """id を参照する全ての定義．自己参照を除く．用語，識別子の順．"""
+        rows = self.db.execute(
+            "SELECT d.id FROM refs r JOIN defs d ON d.id = r.src WHERE r.dst=? AND r.src != r.dst ORDER BY d.term, d.id",
+            (id,),
+        )
+        return [r[0] for r in rows]
+
     def _audit(self) -> _Audit:
         return _Audit(self._rows(), self._isolated())
 
@@ -567,9 +575,9 @@ class Wiki:
     def delete(self, id: str) -> list[str]:
         with self._tx():
             self._require(id)
-            others = [r for r in self.references(id)["referrers"] if r["id"] != id]
-            if others:
-                listed = ", ".join(_link(r["id"], r["term"]) for r in others)
+            if others := self._referrers(id):
+                terms = self._terms(others)
+                listed = ", ".join(_link(i, terms[i]) for i in others)
                 raise WikiError(f"参照されている定義は削除できない．参照元: {listed}")
             before = set(self._isolated())
             self._retarget_todos(id, self._terms([id])[id])
@@ -587,7 +595,7 @@ class Wiki:
             if id == into:
                 raise WikiError("定義をそれ自身に統合することはできない．")
             before = set(self._isolated())
-            srcs = [r["id"] for r in self.references(id)["referrers"] if r["id"] != id]
+            srcs = self._referrers(id)
             for src in srcs:
                 (stored,) = self.db.execute("SELECT description FROM defs WHERE id=?", (src,)).fetchone()
                 refs, _, _ = _scan(stored, stored=True)

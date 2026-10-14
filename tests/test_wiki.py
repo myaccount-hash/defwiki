@@ -259,6 +259,15 @@ def test_merge(w):
     assert w.db.execute("SELECT count(*) FROM refs WHERE src=? OR dst=?", (a, a)).fetchone()[0] == 0
 
 
+def test_merge_many_referrers(w):
+    a = mk(w, "A", "")["id"]
+    b = mk(w, "B", "")["id"]
+    w.create([{"term": f"t{i}", "description": f"[[{a}|A]]"} for i in range(25)])
+    w.merge(a, b)
+    assert w.db.execute("SELECT count(*) FROM refs WHERE dst=?", (a,)).fetchone()[0] == 0
+    assert len(w.references(b, limit=100)["referrers"]) == 25
+
+
 def test_merge_errors(w):
     a = mk(w, "A", "")["id"]
     with pytest.raises(WikiError, match="それ自身"):
