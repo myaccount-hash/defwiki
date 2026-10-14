@@ -49,9 +49,12 @@ def test_rename_reflects_in_referrers(w):
 def test_reference_errors(w):
     with pytest.raises(WikiError, match="存在しない"):
         mk(w, "a", "[[zzzzzz|x]]")
-    for bad in ["[[abc", "[[ABCDEF|x]]", "[[abcdef]]", "[[[abcdef|x]]", "[[abcdef|x", "`[[abc", "``[[abc`", "\\[[abc"]:
+    for bad in ["[[abc", "[[abcdef|x", "`[[abc", "``[[abc`", "\\[[abc"]:
         with pytest.raises(WikiError, match="形でない"):
             mk(w, "a", bad)
+    for missing in ["[[ABCDEF|x]]", "[[abcdef]]", "[[[abcdef|x]]"]:
+        with pytest.raises(WikiError, match="この呼び出しにない"):
+            mk(w, "a", missing)
     assert w.db.execute("SELECT count(*) FROM defs").fetchone()[0] == 0
 
 
@@ -72,12 +75,12 @@ def test_create_cyclic_batch(w):
     m = mk(w, "モデル", "")["id"]
     r = w.create(
         [
-            {"key": "a", "term": "A", "description": f"[[$b|B]]と[[{m}|モデル]]の組．"},
-            {"key": "b", "term": "B", "description": "[[$a|A]]の対．[[$b|B]]"},
+            {"term": "A", "description": f"[[B]]と[[{m}|モデル]]の組．"},
+            {"term": "B", "description": "[[A]]の対．[[B]]"},
         ]
     )
     a, b = (d["id"] for d in r["defs"])
-    assert r["defs"] == [{"id": a, "term": "A", "key": "a"}, {"id": b, "term": "B", "key": "b"}]
+    assert r["defs"] == [{"id": a, "term": "A"}, {"id": b, "term": "B"}]
     assert r["warnings"] == []
     assert shown(w, [a, b]) == f"# [[{a}]] A\n[[{b}|B]]と[[{m}|モデル]]の組．\n\n# [[{b}]] B\n[[{a}|A]]の対．[[{b}|B]]"
     assert {x["id"] for x in refs(w, b)["referrers"]} == {a, b}
@@ -87,21 +90,21 @@ def test_create_batch_is_atomic(w):
     with pytest.raises(WikiError) as e:
         w.create(
             [
-                {"key": "a", "term": "A", "description": "[[$b|X]] [[$c|C]]"},
-                {"key": "b", "term": "B", "description": "[[zzzzzz|x]]"},
+                {"term": "A", "description": "[[X]] [[C]]"},
+                {"term": "B", "description": "[[zzzzzz|x]]"},
             ]
         )
     assert e.value.errors == [
-        "defs[0] `A`: `[[$b|X]]`: 用語が参照先の現在の用語と一致しない．現在の用語は`B`．",
-        "defs[0] `A`: `[[$c|C]]`: 仮名`$c`の定義はこの呼び出しにない．",
+        "defs[0] `A`: `[[X]]`: 用語`X`の定義はこの呼び出しにない．",
+        "defs[0] `A`: `[[C]]`: 用語`C`の定義はこの呼び出しにない．",
         "defs[1] `B`: `[[zzzzzz|x]]`: 識別子`zzzzzz`の定義は存在しない．",
     ]
     with pytest.raises(WikiError, match="重複"):
-        w.create([{"key": "a", "term": "A", "description": ""}, {"key": "a", "term": "B", "description": ""}])
+        w.create([{"term": "A", "description": ""}, {"term": "A", "description": ""}])
     assert w.db.execute("SELECT count(*) FROM defs").fetchone()[0] == 0
     a = mk(w, "A", "")["id"]
-    with pytest.raises(WikiError, match="この呼び出しにない"):
-        w.update([{"id": a, "description": "[[$a|A]]"}])
+    with pytest.raises(WikiError, match="形でない"):
+        w.update([{"id": a, "description": "[[A]]"}])
 
 
 def test_term_after_ref_bracket(w):
@@ -219,8 +222,8 @@ def test_warnings_on_create(w):
 def test_create_dry_run(w):
     m = mk(w, "モデル", "")["id"]
     defs = [
-        {"key": "a", "term": "A", "description": "https://example.com/a の一種．"},
-        {"term": "A", "description": "[[$a|A]]の別名．"},
+        {"term": "A", "description": "https://example.com/a の一種．"},
+        {"term": "B", "description": "[[A]]の別名．"},
     ]
     r = w.create(defs, dry_run=True)
     assert r == {
@@ -593,3 +596,52 @@ def test_todo_batch(w):
     assert len(w.todo_list()["todos"]) == 3
     assert [t["id"] for t in w.todo_remove([a, b])["todos"]] == [a, b]
     assert [t["id"] for t in w.todo_list()["todos"]] == [c]
+
+
+def test_create_local_references_do_not_search_existing_terms(w):
+    existing = mk(w, "モデル", "既存の説明．")["id"]
+    with pytest.raises(WikiError, match="この呼び出しにない"):
+        mk(w, "トークン", "[[モデル]]")
+    result = w.create([
+        {"term": "モデル", "description": "新しい説明．"},
+        {"term": "トークン", "description": f"[[モデル]]と[[{existing}|モデル]]"},
+    ])
+    new, token = [d["id"] for d in result["defs"]]
+    assert w.get([token])[0]["description"] == f"[[{new}|モデル]]と[[{existing}|モデル]]"
+    assert {r["id"] for r in refs(w, new)["referrers"]} == {token}
+    assert {r["id"] for r in refs(w, existing)["referrers"]} == {token}
+
+
+@pytest.mark.parametrize("term", ["日本語", "abcdef", "A|B", "角[括弧]内", "$名前", "二つの 語"])
+def test_create_local_reference_term_characters(w, term):
+    result = w.create([{"term": term, "description": f"[[{term}]]"}])
+    id = result["defs"][0]["id"]
+    assert w.get([id])[0]["description"] == f"[[{id}|{term}]]"
+    assert w.db.execute("SELECT description FROM defs WHERE id=?", (id,)).fetchone()[0] == f"[[{id}]]"
+
+
+def test_create_id_reference_takes_precedence(w):
+    with pytest.raises(WikiError, match="存在しない"):
+        w.create([{"term": "abcdef|名前", "description": "[[abcdef|名前]]"}])
+    assert w.ids() == []
+
+
+def test_local_references_rejected_outside_create(w):
+    id = mk(w, "A", "元の説明．")["id"]
+    with pytest.raises(WikiError, match="形でない"):
+        w.update([{"id": id, "edits": [{"old": "元の説明．", "new": "[[A]]"}]}])
+    with pytest.raises(WikiError, match="形でない"):
+        w.todo_add(["[[A]]"])
+    assert w.get([id])[0]["description"] == "元の説明．"
+    assert w.todos() == []
+
+
+def test_create_mcp_contract(w):
+    assert call(w, "create", {"defs": [{"key": "a", "term": "A", "description": ""}]}).is_error
+    duplicate = {"defs": [{"term": "A", "description": ""}, {"term": "A", "description": ""}]}
+    assert call(w, "create", duplicate).is_error
+    assert call(w, "create", {**duplicate, "dry_run": True}).is_error
+    assert w.ids() == []
+    result = call(w, "create", {"defs": [{"term": "A", "description": "[[A]]"}]})
+    assert not result.is_error
+    assert set(result.structured_content["defs"][0]) == {"id", "term"}

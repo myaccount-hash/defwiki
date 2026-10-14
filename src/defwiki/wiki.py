@@ -1,7 +1,7 @@
 """defwiki の保持と検証．
 
 説明と ToDo の本文の中の参照は `[[識別子]]` として保存し，提示時に `[[識別子|用語]]` へ戻す．
-`create` の入力では，同じ呼び出しで作る定義を `[[$仮名|用語]]` で参照できる．
+`create` の入力では，同じ呼び出しで作る定義を `[[用語]]` で参照できる．
 """
 
 from __future__ import annotations
@@ -17,9 +17,7 @@ from pathlib import Path
 ID_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789"
 ID_LEN = 6
 _ID = rf"[a-z0-9]{{{ID_LEN}}}"
-_KEY = r"[a-z0-9_]+"
-KEY_RE = re.compile(rf"^{_KEY}$")
-_INPUT_REF_HEAD = re.compile(rf"\[\[({_ID}|\${_KEY})\|")
+_INPUT_REF_HEAD = re.compile(rf"\[\[({_ID})\|")
 _STORED_REF = re.compile(rf"\[\[({_ID})\]\]")
 _TICKS = re.compile(r"`+")
 _EXTERNAL = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*://\S+")
@@ -61,7 +59,7 @@ class WikiError(Exception):
 
 @dataclass(frozen=True)
 class Ref:
-    id: str  # 入力では`$仮名`でもよい
+    id: str  # create内の用語参照では空文字列
     term: str  # 入力では書かれた用語，保存形式では空
     start: int
     end: int
@@ -107,7 +105,7 @@ def _code_end(text: str, m: re.Match) -> int | None:
     return None
 
 
-def _scan(text: str, stored: bool) -> tuple[list[Ref], list[tuple[int, int]], list[str]]:
+def _scan(text: str, stored: bool, local: bool = False) -> tuple[list[Ref], list[tuple[int, int]], list[str]]:
     """参照とコードスパンを左から順に取り出す．コードスパン内の `[[` は参照の開始ではない．"""
     refs: list[Ref] = []
     codes: list[tuple[int, int]] = []
@@ -131,11 +129,18 @@ def _scan(text: str, stored: bool) -> tuple[list[Ref], list[tuple[int, int]], li
             i = m.end()
             continue
         m = _INPUT_REF_HEAD.match(text, i)
-        j = text.find("]]", m.end()) if m else -1
+        j = text.find("]]", m.end() if m else i + 2)
+        if not m and local and j != -1:
+            term = text[i + 2 : j]
+            if not term_errors(term):
+                refs.append(Ref("", term, i, j + 2))
+                i = j + 2
+                continue
         if not m or j == -1:
             snippet = text[i : i + 20].split("\n")[0].replace("`", "")
             errs.append(
-                f"`{snippet}`: `[[`は参照の開始だが`[[識別子|用語]]`または`[[$仮名|用語]]`の形でない．"
+                f"`{snippet}`: `[[`は参照の開始だが許可された参照の形でない．"
+                "`[[識別子|用語]]`を使う．create内の新規定義には`[[用語]]`も使える．"
                 "参照でない`[[`はコードスパンの中に書く．"
             )
             i += 2
@@ -364,19 +369,19 @@ class Wiki:
             terms = self._terms(r.id for r in refs)
         return _replace_refs(stored, refs, lambda r: _link(r.id, terms[r.id]))
 
-    def _parse_input(self, description: str, keys: dict[str, str] | None = None) -> tuple[str, set[str]]:
+    def _parse_input(self, description: str, local_terms: dict[str, str] | None = None) -> tuple[str, set[str]]:
         """説明を検証し，保存形式と参照先の集合を返す．違反があれば WikiError．
 
-        keys は仮名から識別子への対応．`[[$仮名|用語]]` はこれで解決する．
+        local_terms は今回作成する用語から識別子への対応．`[[用語]]` はこれだけで解決する．
         """
         text = normalize_description(description)
-        refs, _, errs = _scan(text, stored=False)
-        ids = {r.id: (keys or {}).get(r.id[1:]) if r.id.startswith("$") else r.id for r in refs}
+        refs, _, errs = _scan(text, stored=False, local=local_terms is not None)
+        ids = {r.start: r.id or (local_terms or {}).get(r.term) for r in refs}
         terms = self._terms(i for i in ids.values() if i)
         for r in refs:
-            id = ids[r.id]
+            id = ids[r.start]
             if id is None:
-                errs.append(f"`{_link(r.id, r.term)}`: 仮名`{r.id}`の定義はこの呼び出しにない．")
+                errs.append(f"`[[{r.term}]]`: 用語`{r.term}`の定義はこの呼び出しにない．")
             elif id not in terms:
                 errs.append(f"`{_link(r.id, r.term)}`: 識別子`{r.id}`の定義は存在しない．")
             elif r.term != terms[id]:
@@ -386,8 +391,8 @@ class Wiki:
                 )
         if errs:
             raise WikiError(errs)
-        stored, _ = _replace_refs(text, refs, lambda r: f"[[{ids[r.id]}]]")
-        return stored, {ids[r.id] for r in refs}
+        stored, _ = _replace_refs(text, refs, lambda r: f"[[{ids[r.start]}]]")
+        return stored, {ids[r.start] for r in refs}
 
     def _new_id(self) -> str:
         while True:
@@ -530,17 +535,13 @@ class Wiki:
             return name(i) + ": "
 
         errs = []
-        keys: dict[str, str] = {}  # 仮名から識別子へ．識別子は作成時に埋める
+        local_terms: dict[str, str] = {}
         for i, d in enumerate(defs):
-            errs += [label(i) + e for e in term_errors(d["term"])]
-            if (key := d.get("key")) is None:
-                continue
-            if not KEY_RE.match(key):
-                errs.append(label(i) + f"仮名`{key}`が`[a-z0-9_]`の1文字以上でない．")
-            elif key in keys:
-                errs.append(label(i) + f"仮名`{key}`が重複している．")
-            else:
-                keys[key] = ""
+            term = d["term"]
+            errs += [label(i) + e for e in term_errors(term)]
+            if term in local_terms:
+                errs.append(label(i) + "用語がこの呼び出しの中で重複している．")
+            local_terms[term] = ""
         if errs:
             raise WikiError(errs)
         with self._tx(commit=not dry_run):
@@ -549,11 +550,10 @@ class Wiki:
             for d in defs:
                 ids.append(id := self._new_id())
                 self.db.execute("INSERT INTO defs (id, term, description) VALUES (?, ?, '')", (id, d["term"]))
-                if "key" in d:
-                    keys[d["key"]] = id
+                local_terms[d["term"]] = id
             for i, (id, d) in enumerate(zip(ids, defs)):
                 try:
-                    self._set_description(id, *self._parse_input(d["description"], keys))
+                    self._set_description(id, *self._parse_input(d["description"], local_terms))
                 except WikiError as e:
                     errs += [label(i) + m for m in e.errors]
             if errs:
@@ -569,7 +569,7 @@ class Wiki:
                     warnings = [w.replace(_link(id, d["term"]), name(i)) for w in warnings]
                 return {"warnings": warnings}
             created = [
-                {"id": id, "term": d["term"], **({"key": d["key"]} if "key" in d else {})}
+                {"id": id, "term": d["term"]}
                 for id, d in zip(ids, defs)
             ]
             return {"defs": created, "warnings": warnings}
