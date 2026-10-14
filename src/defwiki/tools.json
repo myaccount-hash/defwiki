@@ -680,33 +680,48 @@
   },
   {
     "name": "todo_add",
-    "description": "ToDoを先頭に積み，割り当てた番号と本文を返す．作業中に気づいた別の問題を，失わないよう記録する．本文中の参照は[[識別子|用語]]と書く．",
+    "description": "ToDoを受け取った順に並べて先頭に積み，割り当てた番号と本文をtodosで返す．作業中に気づいた別の問題を，失わないよう記録する．本文中の参照は[[識別子|用語]]と書く．1件でも違反があれば，どれも積まない．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "text": {
-          "type": "string",
-          "minLength": 1
+        "texts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
         }
       },
       "required": [
-        "text"
+        "texts"
       ],
       "additionalProperties": false
     },
     "outputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "text": {
-          "type": "string"
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text"
+            ]
+          }
         }
       },
       "required": [
-        "id",
-        "text"
+        "todos"
       ]
     }
   },
@@ -758,55 +773,95 @@
   },
   {
     "name": "todo_remove",
-    "description": "ToDoを消し，消した本文を返す．終えたToDoは消す．",
+    "description": "ToDoをまとめて消し，消した番号と本文をtodosで返す．終えたToDoは消す．存在しない番号が1つでもあれば，どれも消さない．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer"
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         }
       },
       "required": [
-        "id"
+        "ids"
       ],
       "additionalProperties": false
     },
     "outputSchema": {
       "type": "object",
       "properties": {
-        "text": {
-          "type": "string"
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text"
+            ]
+          }
         }
       },
       "required": [
-        "text"
+        "todos"
       ]
     }
   },
   {
     "name": "todo_defer",
-    "description": "ToDoを末尾に送り，送った本文を返す．",
+    "description": "ToDoを受け取った順に末尾に送り，送った番号と本文をtodosで返す．存在しない番号が1つでもあれば，どれも送らない．",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer"
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         }
       },
       "required": [
-        "id"
+        "ids"
       ],
       "additionalProperties": false
     },
     "outputSchema": {
       "type": "object",
       "properties": {
-        "text": {
-          "type": "string"
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text"
+            ]
+          }
         }
       },
       "required": [
-        "text"
+        "todos"
       ]
     }
   }

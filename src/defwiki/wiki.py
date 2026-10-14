@@ -670,16 +670,25 @@ class Wiki:
             raise WikiError(f"番号{id}のToDoは存在しない．")
         return row[0]
 
-    def todo_add(self, text: str) -> dict:
-        """先頭に積み，番号と本文を返す．"""
-        with self._tx():
-            stored, _ = self._parse_input(text)
-            if stored == "":
+    def todo_add(self, texts: list[str]) -> dict:
+        """受け取った順に並べて先頭に積み，番号と本文を返す．1件でも違反があれば，どれも積まない．"""
+        stored: list[str] = []
+
+        def parse(text):
+            st, _ = self._parse_input(text)
+            if st == "":
                 raise WikiError("ToDoが空である．")
-            cur = self.db.execute(
-                "INSERT INTO todos (text, pos) SELECT ?, coalesce(min(pos), 0) - 1 FROM todos", (stored,)
-            )
-            return {"id": cur.lastrowid, "text": self._render(stored)[0]}
+            stored.append(st)
+
+        with self._tx():
+            _each("texts", texts, parse)
+            ids = []
+            for st in reversed(stored):
+                cur = self.db.execute(
+                    "INSERT INTO todos (text, pos) SELECT ?, coalesce(min(pos), 0) - 1 FROM todos", (st,)
+                )
+                ids.append(cur.lastrowid)
+            return {"todos": [{"id": i, "text": self._render(st)[0]} for i, st in zip(reversed(ids), stored)]}
 
     def todo_list(self, limit: int = 20) -> dict:
         """上から順に limit 件．"""
@@ -694,16 +703,22 @@ class Wiki:
         rows = self.db.execute("SELECT id, text FROM todos ORDER BY pos").fetchall()
         return [{"id": i, "text": self._render(t)[0]} for i, t in rows]
 
-    def todo_remove(self, id: int) -> str:
-        """消した本文を返す．"""
-        with self._tx():
-            text, _ = self._render(self._todo(id))
-            self.db.execute("DELETE FROM todos WHERE id=?", (id,))
-            return text
+    def _todo_texts(self, ids: list[int]) -> list[dict]:
+        """番号と提示形式の本文．存在しない番号が1つでもあれば WikiError．"""
+        _each("ids", ids, self._todo)
+        return [{"id": i, "text": self._render(self._todo(i))[0]} for i in ids]
 
-    def todo_defer(self, id: int) -> str:
-        """末尾に送り，送った本文を返す．"""
+    def todo_remove(self, ids: list[int]) -> dict:
+        """まとめて消し，消した番号と本文を返す．"""
         with self._tx():
-            text, _ = self._render(self._todo(id))
-            self.db.execute("UPDATE todos SET pos = (SELECT max(pos) + 1 FROM todos) WHERE id=?", (id,))
-            return text
+            todos = self._todo_texts(ids)
+            self.db.executemany("DELETE FROM todos WHERE id=?", [(i,) for i in ids])
+            return {"todos": todos}
+
+    def todo_defer(self, ids: list[int]) -> dict:
+        """受け取った順に末尾に送り，送った番号と本文を返す．"""
+        with self._tx():
+            todos = self._todo_texts(ids)
+            for i in ids:
+                self.db.execute("UPDATE todos SET pos = (SELECT max(pos) + 1 FROM todos) WHERE id=?", (i,))
+            return {"todos": todos}

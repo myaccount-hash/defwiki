@@ -67,10 +67,10 @@ _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
     "rename": lambda wiki, args: _written(wiki.rename(args["renames"], args.get("dry_run", False))),
     "delete": lambda wiki, args: _written(wiki.delete(args["ids"], args.get("dry_run", False))),
     "merge": lambda wiki, args: _written(wiki.merge(args["merges"], args.get("dry_run", False))),
-    "todo_add": lambda wiki, args: _structured(wiki.todo_add(args["text"])),
+    "todo_add": lambda wiki, args: _structured(wiki.todo_add(args["texts"])),
     "todo_list": lambda wiki, args: _structured(wiki.todo_list(args.get("limit", 20))),
-    "todo_remove": lambda wiki, args: _structured({"text": wiki.todo_remove(args["id"])}),
-    "todo_defer": lambda wiki, args: _structured({"text": wiki.todo_defer(args["id"])}),
+    "todo_remove": lambda wiki, args: _structured(wiki.todo_remove(args["ids"])),
+    "todo_defer": lambda wiki, args: _structured(wiki.todo_defer(args["ids"])),
 }
 assert _HANDLERS.keys() == _BY_NAME.keys()
 

@@ -355,8 +355,8 @@ def test_export_todo(w):
 
     assert todo_markdown(w) == ""
     m = mk(w, "a]b", "")["id"]
-    a = w.todo_add("a")["id"]
-    b = w.todo_add(f"[[{m}|a]b]]を直す．\n2行目")["id"]
+    a = w.todo_add(["a"])["todos"][0]["id"]
+    b = w.todo_add([f"[[{m}|a]b]]を直す．\n2行目"])["todos"][0]["id"]
     assert todo_markdown(w) == (
         f'<a id="todo-{b}"></a>\n\n## {b}\n\n[a\\]b](wiki.md#{m})を直す．\n2行目\n\n'
         f'<a id="todo-{a}"></a>\n\n## {a}\n\na\n'
@@ -368,9 +368,9 @@ def test_export_todo_backrefs(w):
 
     m = mk(w, "m", "")["id"]
     t = mk(w, "t", f"[[{m}|m]]の単位．")["id"]
-    a = w.todo_add(f"[[{m}|m]]と[[{m}|m]]")["id"]
-    w.todo_add("x")
-    b = w.todo_add(f"[[{t}|t]]と[[{m}|m]]")["id"]
+    a = w.todo_add([f"[[{m}|m]]と[[{m}|m]]"])["todos"][0]["id"]
+    w.todo_add(["x"])
+    b = w.todo_add([f"[[{t}|t]]と[[{m}|m]]"])["todos"][0]["id"]
     assert wiki_markdown(w) == (
         f'<a id="{m}"></a>\n\n## m\n\nToDo: [{b}](todo.md#todo-{b})，[{a}](todo.md#todo-{a})\n\n'
         f'<a id="{t}"></a>\n\n## t\n\n[m](#{m})の単位．\n\nToDo: [{b}](todo.md#todo-{b})\n'
@@ -381,7 +381,7 @@ def test_export_files(w, tmp_path):
     from defwiki.export import export, todo_markdown, wiki_markdown
 
     mk(w, "a", "")
-    w.todo_add("b")
+    w.todo_add(["b"])
     out = tmp_path / "x" / "y"
     export(w, out)
     assert (out / "wiki.md").read_text(encoding="utf-8") == wiki_markdown(w)
@@ -389,20 +389,20 @@ def test_export_files(w, tmp_path):
 
 
 def test_todo_stack_and_defer(w):
-    a = w.todo_add("a")["id"]
-    b = w.todo_add("b")["id"]
-    c = w.todo_add("c")["id"]
+    a = w.todo_add(["a"])["todos"][0]["id"]
+    b = w.todo_add(["b"])["todos"][0]["id"]
+    c = w.todo_add(["c"])["todos"][0]["id"]
     assert [t["text"] for t in w.todo_list()["todos"]] == ["c", "b", "a"]
-    assert w.todo_defer(c) == "c"
+    assert w.todo_defer([c]) == {"todos": [{"id": c, "text": "c"}]}
     assert [t["id"] for t in w.todo_list()["todos"]] == [b, a, c]
-    assert w.todo_remove(a) == "a"
-    d = w.todo_add("d")["id"]
+    assert w.todo_remove([a]) == {"todos": [{"id": a, "text": "a"}]}
+    d = w.todo_add(["d"])["todos"][0]["id"]
     assert d not in (a, b, c)
     assert [t["text"] for t in w.todo_list()["todos"]] == ["d", "b", "c"]
     with pytest.raises(WikiError, match="存在しない"):
-        w.todo_remove(a)
+        w.todo_remove([a])
     with pytest.raises(WikiError, match="空"):
-        w.todo_add(" ")
+        w.todo_add([" "])
     assert w.todo_list(limit=2) == {"todos": [{"id": d, "text": "d"}, {"id": b, "text": "b"}], "truncated": True}
     assert w.todo_list(limit=3)["truncated"] is False
 
@@ -411,11 +411,11 @@ def test_todo_references(w):
     m = mk(w, "モデル", "")["id"]
     t = mk(w, "トークン", "")["id"]
     with pytest.raises(WikiError, match="現在の用語は`モデル`"):
-        w.todo_add(f"[[{m}|トークン]]を見直す")
+        w.todo_add([f"[[{m}|トークン]]を見直す"])
     with pytest.raises(WikiError, match="存在しない"):
-        w.todo_add("[[zzzzzz|モデル]]を見直す")
+        w.todo_add(["[[zzzzzz|モデル]]を見直す"])
     assert w.todo_list() == {"todos": [], "truncated": False}
-    n = w.todo_add(f"[[{m}|モデル]]と[[{t}|トークン]]を見直す．`[[{m}]]`")["id"]
+    n = w.todo_add([f"[[{m}|モデル]]と[[{t}|トークン]]を見直す．`[[{m}]]`"])["todos"][0]["id"]
     # ToDoからの参照は被参照に数えない
     assert refs(w, m) == {"referrers": [], "truncated": False}
     assert {d["id"] for d in w.check()["isolated"]} == {m, t}
@@ -424,12 +424,12 @@ def test_todo_references(w):
     w.merge([{"id": t, "into": m}])
     assert w.todo_list()["todos"][0]["text"] == f"[[{m}|言語モデル]]と[[{m}|言語モデル]]を見直す．`[[{m}]]`"
     w.delete([m])
-    assert w.todo_remove(n) == f"言語モデルと言語モデルを見直す．`[[{m}]]`"
+    assert w.todo_remove([n])["todos"][0]["text"] == f"言語モデルと言語モデルを見直す．`[[{m}]]`"
 
 
 def test_todo_reference_to_deleted_term_with_bracket(w):
     a = mk(w, "a[", "")["id"]
-    w.todo_add(f"[[{a}|a[]][b")
+    w.todo_add([f"[[{a}|a[]][b"])
     w.delete([a])
     assert w.todo_list()["todos"][0]["text"] == "`a[`[b"
 
@@ -450,15 +450,15 @@ def test_migrate_todos(tmp_path):
 
 
 def test_server_todo(w):
-    r = call(w, "todo_add", {"text": "\nx\n"}).structured_content
-    assert r == {"id": (i := r["id"]), "text": "x"}
+    r = call(w, "todo_add", {"texts": ["\nx\n"]}).structured_content
+    assert r == {"todos": [{"id": (i := r["todos"][0]["id"]), "text": "x"}]}
     assert call(w, "todo_list", {}).structured_content == {"todos": [{"id": i, "text": "x"}], "truncated": False}
-    assert call(w, "todo_defer", {"id": i}).structured_content == {"text": "x"}
-    assert call(w, "todo_remove", {"id": i}).structured_content == {"text": "x"}
-    assert call(w, "todo_remove", {"id": i}).is_error
-    assert call(w, "todo_add", {"text": ""}).is_error
-    assert call(w, "todo_add", {"text": "[[zzzzzz|x]]"}).is_error
-    assert call(w, "todo_defer", {"id": "1"}).is_error
+    assert call(w, "todo_defer", {"ids": [i]}).structured_content == {"todos": [{"id": i, "text": "x"}]}
+    assert call(w, "todo_remove", {"ids": [i]}).structured_content == {"todos": [{"id": i, "text": "x"}]}
+    assert call(w, "todo_remove", {"ids": [i]}).is_error
+    assert call(w, "todo_add", {"texts": [""]}).is_error
+    assert call(w, "todo_add", {"texts": ["[[zzzzzz|x]]"]}).is_error
+    assert call(w, "todo_defer", {"ids": ["1"]}).is_error
     assert call(w, "todo_list", {"limit": 101}).is_error
 
 
@@ -575,3 +575,21 @@ def test_dry_run_on_all_writes(w):
     r = call(w, "delete", {"ids": [b], "dry_run": True})
     assert r.structured_content == {"warnings": [f"[[{a}|A]]: 参照も被参照もなくなった．"]}
     assert w.ids() == [a, b]
+
+
+def test_todo_batch(w):
+    r = w.todo_add(["a", "b"])["todos"]
+    a, b = (t["id"] for t in r)
+    assert r == [{"id": a, "text": "a"}, {"id": b, "text": "b"}]
+    c = w.todo_add(["c"])["todos"][0]["id"]
+    assert [t["id"] for t in w.todo_list()["todos"]] == [c, a, b]
+    with pytest.raises(WikiError) as e:
+        w.todo_add(["d", " ", "[[zzzzzz|x]]"])
+    assert [m.split(":")[0] for m in e.value.errors] == ["texts[1]", "texts[2]"]
+    assert w.todo_defer([c, a])["todos"] == [{"id": c, "text": "c"}, {"id": a, "text": "a"}]
+    assert [t["id"] for t in w.todo_list()["todos"]] == [b, c, a]
+    with pytest.raises(WikiError, match=r"ids\[1\]: 番号"):
+        w.todo_remove([b, 999999])
+    assert len(w.todo_list()["todos"]) == 3
+    assert [t["id"] for t in w.todo_remove([a, b])["todos"]] == [a, b]
+    assert [t["id"] for t in w.todo_list()["todos"]] == [c]
