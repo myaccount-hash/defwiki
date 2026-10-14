@@ -296,7 +296,7 @@
   },
   {
     "name": "update",
-    "description": "定義の説明を書き換える．descriptionで全文を置き換えるか，editsで一部を置き換える．editsは提示形式の説明に対し，oldをnewに先頭から順に置き換える．oldはその時点の説明にちょうど1回現れなければならない．1件でも失敗すれば何も変えない．説明中の参照は[[識別子|用語]]と書く．運用規則への違反の疑いがあれば，警告を返す．",
+    "description": "定義の説明を書き換える．descriptionで全文を置き換えるか，editsで一部を置き換える．editsは提示形式の説明に対し，oldをnewに先頭から順に置き換える．oldはその時点の説明にちょうど1回現れなければならない．1件でも失敗すれば何も変えない．説明中の参照は[[識別子|用語]]と書く．warningsは運用規則への違反の疑いである．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -333,11 +333,25 @@
         "id"
       ],
       "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "warnings"
+      ]
     }
   },
   {
     "name": "rename",
-    "description": "定義の用語を変更する．",
+    "description": "定義の用語を変更する．warningsは常に空である．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -355,11 +369,25 @@
         "term"
       ],
       "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "warnings"
+      ]
     }
   },
   {
     "name": "delete",
-    "description": "定義を削除する．参照されている定義は削除できない．運用規則への違反の疑いがあれば，警告を返す．",
+    "description": "定義を削除する．参照されている定義は削除できない．warningsは運用規則への違反の疑いである．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -372,11 +400,25 @@
         "id"
       ],
       "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "warnings"
+      ]
     }
   },
   {
     "name": "merge",
-    "description": "定義idを定義intoに統合する．idへの参照を全てintoへの参照に置き換え，idを削除する．idの用語と説明は捨てる．運用規則への違反の疑いがあれば，警告を返す．",
+    "description": "定義idを定義intoに統合する．idへの参照を全てintoへの参照に置き換え，idを削除する．idの用語と説明は捨てる．warningsは運用規則への違反の疑いである．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -394,6 +436,20 @@
         "into"
       ],
       "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "warnings"
+      ]
     }
   },
   {

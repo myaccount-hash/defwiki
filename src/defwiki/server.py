@@ -51,8 +51,8 @@ def _structured(d: dict) -> types.CallToolResult:
     )
 
 
-def _ok(warnings: list[str]) -> types.CallToolResult:
-    return _text("\n".join(["ok", *(f"警告: {w}" for w in warnings)]))
+def _written(warnings: list[str]) -> types.CallToolResult:
+    return _structured({"warnings": warnings})
 
 
 _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
@@ -65,10 +65,10 @@ _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
     ),
     "references": lambda wiki, args: _structured(wiki.references(args["id"], args.get("limit", 20))),
     "create": lambda wiki, args: _structured(wiki.create(args["defs"], args.get("dry_run", False))),
-    "update": lambda wiki, args: _ok(wiki.update(args["id"], args.get("description"), args.get("edits"))),
-    "rename": lambda wiki, args: _ok(wiki.rename(args["id"], args["term"])),
-    "delete": lambda wiki, args: _ok(wiki.delete(args["id"])),
-    "merge": lambda wiki, args: _ok(wiki.merge(args["id"], args["into"])),
+    "update": lambda wiki, args: _written(wiki.update(args["id"], args.get("description"), args.get("edits"))),
+    "rename": lambda wiki, args: _written(wiki.rename(args["id"], args["term"])),
+    "delete": lambda wiki, args: _written(wiki.delete(args["id"])),
+    "merge": lambda wiki, args: _written(wiki.merge(args["id"], args["into"])),
     "todo_add": lambda wiki, args: _structured(wiki.todo_add(args["text"])),
     "todo_list": lambda wiki, args: _structured(wiki.todo_list(args.get("limit", 20))),
     "todo_remove": lambda wiki, args: _structured({"text": wiki.todo_remove(args["id"])}),

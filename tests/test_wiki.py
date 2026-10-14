@@ -189,7 +189,7 @@ def test_server_call(w):
     assert call(w, "search", {"queries": ["a"], "extra": 1}).is_error
     assert call(w, "search", {"query": "a"}).is_error
     assert call(w, "search", {"queries": ["a"]}).structured_content["results"][0]["hits"][0]["id"] == i
-    assert call(w, "rename", {"id": i, "term": "b"}).content[0].text == "ok"
+    assert call(w, "rename", {"id": i, "term": "b"}).structured_content == {"warnings": []}
     assert call(w, "delete", {"id": "zzzzzz"}).is_error
 
 
@@ -233,7 +233,7 @@ def test_warnings_on_rename_and_delete(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", f"[[{a}|A]]とCの組．")["id"]
     assert w.rename(a, "C") == []
-    assert w.delete(b) == [f"参照も被参照もなくなった定義がある: [[{a}|C]]"]
+    assert w.delete(b) == [f"[[{a}|C]]: 参照も被参照もなくなった．"]
 
 
 def test_merge(w):
@@ -280,7 +280,7 @@ def test_warnings_on_merge(w):
     # 統合元だけが参照していた定義は孤立し，書き換えた説明は他と同一になりうる
     assert w.merge(c, b) == [
         f"[[{d}|D]]: 説明が同一の定義がある: [[{e}|E]]",
-        f"参照も被参照もなくなった定義がある: [[{f}|F]]",
+        f"[[{f}|F]]: 参照も被参照もなくなった．",
     ]
 
 
@@ -288,7 +288,7 @@ def test_server_merge(w):
     a = mk(w, "A", "")["id"]
     b = mk(w, "B", "")["id"]
     mk(w, "C", f"[[{a}|A]]と[[{b}|B]]")
-    assert call(w, "merge", {"id": a, "into": b}).content[0].text == "ok"
+    assert call(w, "merge", {"id": a, "into": b}).structured_content == {"warnings": []}
     assert call(w, "merge", {"id": a, "into": b}).is_error
     assert call(w, "merge", {"id": b}).is_error
 
@@ -315,7 +315,7 @@ def test_server_rules_and_warnings(w):
     r = call(w, "create", {"defs": [{"term": "a", "description": ""}]})
     i = r.structured_content["defs"][0]["id"]
     assert r.structured_content["warnings"] == []
-    assert call(w, "update", {"id": i, "description": "x"}).content[0].text == "ok\n警告: 参照も被参照もない．"
+    assert call(w, "update", {"id": i, "description": "x"}).structured_content == {"warnings": [f"[[{i}|a]]: 参照も被参照もない．"]}
     assert call(w, "check", {}).structured_content["isolated"] == [{"id": i, "term": "a"}]
 
 
@@ -470,7 +470,7 @@ def test_update_edits(w):
         w.update(i, edits=[{"old": "あ", "new": "あ"}, {"old": "ない", "new": ""}, {"old": "う", "new": "あ"}])
     assert e.value.errors == ["edits[1]: `old`が説明に現れない．", "edits[2]: `old`が説明に2回現れる．一意に定まるよう前後を含める．"]
     assert w.get([i]) == f"# [[{i}]] x\n扱うあ．う．"
-    assert call(w, "update", {"id": i, "edits": [{"old": "．う", "new": "．え"}]}).content[0].text.startswith("ok")
+    assert "warnings" in call(w, "update", {"id": i, "edits": [{"old": "．う", "new": "．え"}]}).structured_content
     assert call(w, "update", {"id": i}).is_error
     assert call(w, "update", {"id": i, "description": "", "edits": [{"old": "a", "new": ""}]}).is_error
     assert call(w, "update", {"id": i, "edits": [{"old": "", "new": "a"}]}).is_error

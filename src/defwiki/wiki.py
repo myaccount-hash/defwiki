@@ -410,7 +410,7 @@ class Wiki:
         if not left:
             return []
         terms = self._terms(left)
-        return ["参照も被参照もなくなった定義がある: " + ", ".join(_link(i, terms[i]) for i in left)]
+        return [f"{_link(i, terms[i])}: 参照も被参照もなくなった．" for i in left]
 
     def _audit(self) -> _Audit:
         return _Audit(self._rows(), self._isolated())
@@ -557,7 +557,8 @@ class Wiki:
                 (stored,) = self.db.execute("SELECT description FROM defs WHERE id=?", (id,)).fetchone()
                 description = _apply_edits(self._render(stored)[0], edits)
             self._set_description(id, *self._parse_input(description))
-            return self._audit().warnings(id)
+            audit = self._audit()
+            return [f"{_link(id, audit.terms[id])}: {w}" for w in audit.warnings(id)]
 
     def rename(self, id: str, term: str) -> list[str]:
         with self._tx():
