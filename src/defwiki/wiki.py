@@ -467,7 +467,7 @@ class Wiki:
             raise WikiError(f"存在しない識別子: {', '.join(missing)}")
         return [{"id": i, "term": rows[i][1], "description": self._render(rows[i][2])[0]} for i in ids]
 
-    def search(self, queries: list[str], limit: int = 10) -> dict:
+    def search(self, queries: list[str], limit: int = 20) -> dict:
         """文字列ごとに探す．limit は文字列ごとの上限．"""
         rows = self._rows()
         terms = {r[0]: r[1] for r in rows}
@@ -494,19 +494,10 @@ class Wiki:
             })
         return {"results": results}
 
-    def longest(self, limit: int = 20, with_description: bool = False) -> dict:
-        """説明の長い順に limit 件．長さが同じなら用語，識別子の順．
-
-        with_description が真なら，提示形式の説明も返す．
-        """
-        rows = [(-_own_length(stored), term, id, stored) for id, term, stored in self._rows()]
-        rows.sort()
-        defs = []
-        for n, term, id, stored in rows[:limit]:
-            d = {"id": id, "term": term, "length": -n}
-            if with_description:
-                d["description"] = self._render(stored)[0]
-            defs.append(d)
+    def longest(self, limit: int = 20) -> dict:
+        """説明の長い順に limit 件．長さが同じなら用語，識別子の順．"""
+        rows = sorted((-_own_length(stored), term, id) for id, term, stored in self._rows())
+        defs = [{"id": id, "term": term, "length": -n} for n, term, id in rows[:limit]]
         return {"defs": defs, "truncated": len(rows) > limit}
 
     def references(self, ids: list[str], limit: int = 20) -> dict:

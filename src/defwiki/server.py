@@ -59,10 +59,8 @@ _HANDLERS: dict[str, Callable[[Wiki, dict[str, Any]], types.CallToolResult]] = {
     "rules": lambda wiki, args: _text(RULES),
     "check": lambda wiki, args: _structured(wiki.check(args.get("limit", 20))),
     "get": lambda wiki, args: _structured({"defs": wiki.get(args["ids"])}),
-    "search": lambda wiki, args: _structured(wiki.search(args["queries"], args.get("limit", 10))),
-    "longest": lambda wiki, args: _structured(
-        wiki.longest(args.get("limit", 5 if args.get("with_description") else 20), args.get("with_description", False))
-    ),
+    "search": lambda wiki, args: _structured(wiki.search(args["queries"], args.get("limit", 20))),
+    "longest": lambda wiki, args: _structured(wiki.longest(args.get("limit", 20))),
     "references": lambda wiki, args: _structured(wiki.references(args["ids"], args.get("limit", 20))),
     "create": lambda wiki, args: _structured(wiki.create(args["defs"], args.get("dry_run", False))),
     "update": lambda wiki, args: _written(wiki.update(args["updates"], args.get("dry_run", False))),

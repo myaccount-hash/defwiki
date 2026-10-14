@@ -79,7 +79,7 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 100,
-          "default": 10
+          "default": 20
         }
       },
       "required": [
@@ -139,7 +139,7 @@
   },
   {
     "name": "longest",
-    "description": "説明の長い順に定義を返す．長さは説明の文字数であり，参照は0文字と数える．保守で，他の定義に分散させる候補を探すのに用いる．with_descriptionをtrueにすると，提示形式の説明も返す．そのときlimitの既定は5である．truncatedがtrueなら，定義がlimitを超えている．",
+    "description": "説明の長い順に定義を返す．長さは説明の文字数であり，参照は0文字と数える．保守で，他の定義に分散させる候補を探すのに用いる．説明はgetで取得する．truncatedがtrueなら，定義がlimitを超えている．",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -148,10 +148,6 @@
           "minimum": 1,
           "maximum": 100,
           "default": 20
-        },
-        "with_description": {
-          "type": "boolean",
-          "default": false
         }
       },
       "additionalProperties": false
@@ -172,9 +168,6 @@
               },
               "length": {
                 "type": "integer"
-              },
-              "description": {
-                "type": "string"
               }
             },
             "required": [

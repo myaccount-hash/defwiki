@@ -152,9 +152,9 @@ def test_search(w):
     assert r["hits"][0]["id"] == m
     assert [h["id"] for h in r4["hits"]] == [ids[4]] and r4["truncated"] is False
     assert none == {"query": "ない", "hits": [], "truncated": False}
-    for i in range(6):
+    for i in range(16):
         mk(w, f"モデル{i}", "")
-    assert len(call(w, "search", {"queries": ["モデル"]}).structured_content["results"][0]["hits"]) == 10
+    assert len(call(w, "search", {"queries": ["モデル"]}).structured_content["results"][0]["hits"]) == 20
 
 
 def test_longest(w):
@@ -172,14 +172,10 @@ def test_longest(w):
     assert w.longest(limit=1)["truncated"] is True and w.longest(limit=4)["truncated"] is False
     assert call(w, "longest", {}).structured_content["defs"][0]["id"] == b
     assert call(w, "longest", {"limit": 0}).is_error
-    assert w.longest(limit=2, with_description=True)["defs"] == [
-        {"id": b, "term": "b", "length": 11, "description": "あいう\n`[[x]]`"},
-        {"id": a, "term": "a", "length": 2, "description": f"[[{m}|とても長い用語]]あい"},
-    ]
-    for i in range(5):
+    assert call(w, "longest", {"with_description": True}).is_error
+    for i in range(17):
         mk(w, f"d{i}", "")
-    assert len(call(w, "longest", {"with_description": True}).structured_content["defs"]) == 5
-    assert len(call(w, "longest", {}).structured_content["defs"]) == 9
+    assert len(call(w, "longest", {}).structured_content["defs"]) == 20
 
 
 def test_excerpt_does_not_cut_reference(w):
