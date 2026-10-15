@@ -13,6 +13,12 @@
 - server instructionsは運用規則の要点のみを持つ．
 - データベースの形式は`user_version`で識別する．対応する版は1である．新規データベースは版1で作成する．既存の未対応の版は，書出し時も含め，書き換えずにエラーとする．自動変換は行わない．
 
+## Claude Codeプラグイン
+- リポジトリはClaude Codeのプラグインであり，そのマーケットプレイスでもある．定義は`.claude-plugin/plugin.json`と`.claude-plugin/marketplace.json`に置く．
+- プラグインはMCPサーバを`uv run --directory ${CLAUDE_PLUGIN_ROOT} defwiki`で起動する．
+- プラグインはスキル`skills/defwiki/SKILL.md`を含む．スキルは，知識を保存・参照するときにdefwikiを使うよう指示する．
+- プラグインの版は`pyproject.toml`の版と一致させる．
+
 ## 提示形式
 - 提示形式はMCPサーバが説明とToDoの本文を受け渡す形式である．
 - 提示形式では，参照を`[[識別子|用語]]`と書く．MCPサーバが返す参照の用語は，参照先の現在の用語である．

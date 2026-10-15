@@ -1,0 +1,14 @@
+{
+  "name": "defwiki",
+  "version": "0.1.0",
+  "description": "LLMが作業に用いる概念の定義の体系を保持する MCP サーバ",
+  "author": { "name": "myaccount-hash" },
+  "repository": "https://github.com/myaccount-hash/defwiki",
+  "license": "MIT",
+  "mcpServers": {
+    "defwiki": {
+      "command": "uv",
+      "args": ["run", "--directory", "${CLAUDE_PLUGIN_ROOT}", "defwiki"]
+    }
+  }
+}

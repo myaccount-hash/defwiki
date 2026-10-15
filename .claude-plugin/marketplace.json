@@ -1,0 +1,16 @@
+{
+  "name": "defwiki",
+  "owner": {
+    "name": "myaccount-hash"
+  },
+  "metadata": {
+    "description": "defwikiを配布するマーケットプレイス"
+  },
+  "plugins": [
+    {
+      "name": "defwiki",
+      "source": "./",
+      "description": "LLMが作業に用いる概念の定義の体系を保持する MCP サーバ"
+    }
+  ]
+}
