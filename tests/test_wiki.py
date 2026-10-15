@@ -183,6 +183,29 @@ def test_longest(w):
     assert len(call(w, "longest", {}).structured_content["defs"]) == 20
 
 
+def test_clusters(w):
+    a, b, c, x, y, z = w.create([
+        {"term": "a", "description": "[[b]][[c]][[a]]"},
+        {"term": "b", "description": "[[c]]"},
+        {"term": "c", "description": ""},
+        {"term": "x", "description": "[[y]]"},
+        {"term": "y", "description": "[[z]]"},
+        {"term": "z", "description": ""},
+    ])["defs"]
+    mk(w, "孤立", "")
+    w.create([{"term": "自己参照だけ", "description": "[[自己参照だけ]]"}])
+    abc = [{"id": d["id"], "term": d["term"]} for d in (a, b, c)]
+    xyz = [{"id": d["id"], "term": d["term"]} for d in (y, x, z)]  # y は隣接数2
+    assert w.clusters()["clusters"] == [
+        {"size": 3, "defs": abc, "truncated": False},
+        {"size": 3, "defs": xyz, "truncated": False},
+    ]
+    assert w.clusters(limit=1)["clusters"][1] == {"size": 3, "defs": xyz[:1], "truncated": True}
+    assert len(w.clusters(resolution=10)["clusters"]) > 2
+    assert call(w, "clusters", {}).structured_content == w.clusters()
+    assert call(w, "clusters", {"resolution": 0}).is_error
+
+
 def test_excerpt_does_not_cut_reference(w):
     m = mk(w, "とても長い用語" * 5, "")["id"]
     d = "あ" * 70 + f"[[{m}|{'とても長い用語' * 5}]]" + "い" * 50

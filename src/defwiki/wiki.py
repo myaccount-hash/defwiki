@@ -14,6 +14,8 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
+import networkx as nx
+
 ID_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789"
 ID_LEN = 6
 _ID = rf"[a-z0-9]{{{ID_LEN}}}"
@@ -484,6 +486,28 @@ class Wiki:
                 {"id": id, "referrers": [{"id": i, "term": t} for i, t in rows[:limit]], "truncated": len(rows) > limit}
             )
         return {"results": results}
+
+    def clusters(self, resolution: float = 1, limit: int = 20) -> dict:
+        """参照を無向の辺とみなし，Louvain法で分けたクラスタを大きい順に．
+        自己参照は数えず，参照も被参照もない定義は含めない．
+        各クラスタの定義は，クラスタ内の隣接数の多い順，用語，識別子の順に limit 件．"""
+        rows = self._rows()
+        terms = {id: term for id, term, _ in rows}
+        g = nx.Graph()
+        g.add_nodes_from(terms)
+        g.add_edges_from(self.db.execute("SELECT src, dst FROM refs WHERE src != dst"))
+        g.remove_nodes_from([id for id in terms if g.degree(id) == 0])
+        clusters = []
+        for c in nx.community.louvain_communities(g, resolution=resolution, seed=0):
+            sub = g.subgraph(c)
+            clusters.append(sorted(c, key=lambda id: (-sub.degree(id), terms[id], id)))
+        clusters.sort(key=lambda c: (-len(c), terms[c[0]], c[0]))
+        return {
+            "clusters": [
+                {"size": len(c), "defs": [{"id": id, "term": terms[id]} for id in c[:limit]], "truncated": len(c) > limit}
+                for c in clusters
+            ]
+        }
 
     def create(self, defs: list[dict]) -> dict:
         """定義をまとめて作成する．1件でも違反があれば，どれも作成しない．

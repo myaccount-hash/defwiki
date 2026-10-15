@@ -261,6 +261,73 @@
     }
   },
   {
+    "name": "clusters",
+    "description": "参照で結び付いた定義を，Louvain法でクラスタに分けて返す．参照の向きは問わず，自己参照は数えない．参照も被参照もない定義は含めない．クラスタは大きい順に並び，各クラスタの定義はクラスタ内で参照し合う定義の数の多い順に並ぶ．resolutionを大きくするとクラスタは細かくなる．保守で，分野のまとまりや分野をまたぐ定義を探すのに用いる．limitはクラスタごとの上限である．truncatedがtrueなら，定義がlimitを超えている．",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "resolution": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10,
+          "default": 1
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "clusters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "size": {
+                "type": "integer"
+              },
+              "defs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "term": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "term"
+                  ]
+                }
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "size",
+              "defs",
+              "truncated"
+            ]
+          }
+        }
+      },
+      "required": [
+        "clusters"
+      ]
+    }
+  },
+  {
     "name": "create",
     "description": "定義をまとめて作成し，割り当てた識別子と用語をdefsで同じ順に返す．同じ呼び出し内の用語は重複できない．既存の定義への参照は[[識別子|用語]]と書く．同じ呼び出しで作る定義は[[用語]]で参照できる．[[用語]]で既存の定義は検索しない．[[識別子|用語]]の形はIDによる参照として解釈する．循環参照する定義群は1回で作成する．1件でも違反があれば，どれも作成しない．警告はcheckで確認する．",
     "inputSchema": {
