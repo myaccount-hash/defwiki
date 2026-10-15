@@ -1,3 +1,5 @@
+日本語 | [English](README.en.md)
+
 # defwiki
 
 defwikiは，AIエージェント専用のナレッジベースを提供するMCPサーバです．人間が読むことは主目的としていません．
