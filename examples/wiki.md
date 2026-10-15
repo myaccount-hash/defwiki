@@ -70,25 +70,41 @@
 
 2つの[自律システム](#8wkkrz)が，それぞれ自身と[トランジット](#mcggb8)の顧客の[経路](#5433mk)のみを互いに広告する関係．
 
+<a id="8153tt"></a>
+
+## AWS Artifact
+
+[Amazon Web Services](#totant)に対する第三者機関の[監査](#7slqlb)の報告書を提供する[AWSサービス](#40hiw9)．
+
+<a id="wvcwae"></a>
+
+## AWS Audit Manager
+
+[AWSサービス](#40hiw9)から証拠を収集し，[監査](#7slqlb)を自動化する[AWSサービス](#40hiw9)．
+
 <a id="sdsuhi"></a>
 
 ## AWS CloudFormation
 
-JSONまたはYAMLのテンプレートに宣言した[AWSリソース](#78qg7h)の集合を，1つの単位として一括で作成，更新，削除する[AWSサービス](#40hiw9)．
+[スタック](#ib0gqz)と，それに属する[AWSリソース](#78qg7h)を[テンプレート](#iwvz04)に従って一括で作成，更新，削除する[Infrastructure as Code](#gq4l0t)の[AWSサービス](#40hiw9)．
 
 <a id="vnjjs2"></a>
 
 ## AWS CloudTrail
 
-[AWSアカウント](#r2ghkv)内の[AWSサービス](#40hiw9)の[API](#9e509k)の呼び出しを，[プリンシパル](#t8ujsy)，時刻，送信元等とともに[イベント](#35wv5r)として記録する[AWSサービス](#40hiw9)．
-
-ToDo: [66](todo.md#todo-66)
+[AWSアカウント](#r2ghkv)内の[AWSサービス](#40hiw9)の[API](#9e509k)の呼び出しを，呼び出した[プリンシパル](#t8ujsy)，時刻，送信元を含む情報とともに[イベント](#35wv5r)として記録する[AWSサービス](#40hiw9)．
 
 <a id="tt9c6l"></a>
 
 ## AWS Fargate
 
 [Amazon Elastic Container Service](#4azxa9)と[Amazon Elastic Kubernetes Service](#rtypm1)の[コンテナ](#uds0ak)を[サーバーレス](#vnbuyu)で実行する計算エンジン．
+
+<a id="cdv3og"></a>
+
+## AWS IAM Identity Center
+
+複数の[AWSアカウント](#r2ghkv)とアプリケーションへのアクセスを一元管理する[AWSサービス](#40hiw9)．
 
 <a id="nm8gp9"></a>
 
@@ -112,7 +128,15 @@ ToDo: [66](todo.md#todo-66)
 
 ## AWS Organizations
 
-複数の[AWSアカウント](#r2ghkv)を1つの組織として階層的に管理し，請求を一括する[AWSサービス](#40hiw9)．組織は1つの[管理アカウント](#svvkiy)と[メンバーアカウント](#yd40pa)からなる．
+複数の[AWSアカウント](#r2ghkv)を[組織](#sm4tb3)により一元管理し，請求を一括する[AWSサービス](#40hiw9)．
+
+<a id="8irydc"></a>
+
+## AWS PrivateLink
+
+利用側の[VPC](#4ln6ld)に作成した[VPCエンドポイント](#pguegu)から，[エンドポイントサービス](#7rs9yk)または[リソースゲートウェイ](#ia2trf)の先にある[通信先](#b2znuk)へ，[VPC](#4ln6ld)の間に[経路](#5433mk)を設けずに接続させる[AWSサービス](#40hiw9)．接続は利用側からだけ開始でき，利用側と提供側の[VPC](#4ln6ld)の[IPプレフィックス](#6rwn5e)が重なってもよい．
+
+ToDo: [123](todo.md#todo-123)，[106](todo.md#todo-106)
 
 <a id="q44rf3"></a>
 
@@ -126,11 +150,25 @@ ToDo: [66](todo.md#todo-66)
 
 複数の[VPC](#4ln6ld)と[オンプレミス](#29xuc7)の[ネットワーク](#uy18d2)を，その間の通信を中央のハブで[中継](#zgr0mv)して相互に接続する[AWSサービス](#40hiw9)．[オンプレミス](#29xuc7)の[ネットワーク](#uy18d2)への[経路](#5433mk)は，静的に設定するか，[BGP](#0ey58g)で学習する．
 
+ToDo: [106](todo.md#todo-106)
+
 <a id="r2ghkv"></a>
 
 ## AWSアカウント
 
-[AWSリソース](#78qg7h)の所有と課金の単位であり，[AWSリソース](#78qg7h)と[IAMアイデンティティ](#ix9em5)を他のAWSアカウントから隔離する境界．12桁の数字で識別される．
+[AWSリソース](#78qg7h)の所有と課金の単位であり，[AWSリソース](#78qg7h)と[IAMアイデンティティ](#ix9em5)を他のAWSアカウントから隔離する境界．
+
+<a id="wuqhd7"></a>
+
+## AWSアカウントID
+
+[AWSアカウント](#r2ghkv)を一意に識別する12桁の数字．
+
+<a id="2bvry9"></a>
+
+## AWSアクセスポータル
+
+[Identity Centerユーザー](#ypfrjn)がサインインし，割り当てられたアクセス先を選択する画面．[AWSアカウント](#r2ghkv)へのアクセス先は[アカウント割り当て](#n4iumx)により定まる．
 
 <a id="40hiw9"></a>
 
@@ -178,9 +216,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## Amazon CloudWatch
 
-[AWSリソース](#78qg7h)とアプリケーションの[メトリクス](#1s1rpf)と[ログ](#9rxwgw)を収集し，[アラーム](#ra546q)により通知等の動作を行う監視の[AWSサービス](#40hiw9)．
-
-ToDo: [66](todo.md#todo-66)
+[AWSリソース](#78qg7h)とアプリケーションの[メトリクス](#1s1rpf)と[ログ](#9rxwgw)を収集し，[アラーム](#ra546q)の状態変化に応じて指定された処理を実行する監視の[AWSサービス](#40hiw9)．
 
 <a id="knkcrh"></a>
 
@@ -210,7 +246,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## Amazon Elastic File System
 
-複数の[EC2インスタンス](#0d2awr)等から，[ネットワーク](#uy18d2)越しにファイルを共有するプロトコルであるNFSで同時に[マウント](#96n6sj)でき，容量が自動的に伸縮する[ファイルシステム](#pp17bd)を提供する[AWSサービス](#40hiw9)．
+[EC2インスタンス](#0d2awr)を含む複数の計算機から，[ネットワーク](#uy18d2)越しにファイルを共有する[プロトコル](#bhk5im)であるNFSで同時に[マウント](#96n6sj)でき，容量が自動的に伸縮する[ファイルシステム](#pp17bd)を提供する[AWSサービス](#40hiw9)．
 
 <a id="rtypm1"></a>
 
@@ -222,21 +258,19 @@ ToDo: [66](todo.md#todo-66)
 
 ## Amazon Machine Image
 
-[EC2インスタンス](#0d2awr)の起動に用いる[マシンイメージ](#biu4lz)．起動許可と，接続する[ブロックデバイス](#1frbzb)の対応付けをもつ．1つの[リージョン](#1df8fw)に属する．
+[EC2インスタンス](#0d2awr)の起動に用いる[マシンイメージ](#biu4lz)．起動許可と，接続する[ブロックデバイス](#1frbzb)の対応付けをもつ．[リージョンリソース](#tynhcw)である．
 
 <a id="txfy2g"></a>
 
 ## Amazon Relational Database Service
 
-[リレーショナルデータベース](#ev8ocv)の構築，バックアップ，パッチの適用等の運用を[Amazon Web Services](#totant)が担う[AWSサービス](#40hiw9)．
-
-ToDo: [66](todo.md#todo-66)
+[リレーショナルデータベース](#ev8ocv)の構築，バックアップ，パッチの適用を含む運用を[Amazon Web Services](#totant)が担う[AWSサービス](#40hiw9)．
 
 <a id="c6b1z3"></a>
 
 ## Amazon Resource Name
 
-[AWSリソース](#78qg7h)を一意に識別する文字列．`arn:partition:service:region:account-id:resource`の形式をとる．partitionは[AWSパーティション](#5q5a61)を，serviceは[サービスプレフィックス](#xvi8o5)を表し，[リージョン](#1df8fw)や[AWSアカウント](#r2ghkv)に属さない[AWSリソース](#78qg7h)では該当部分が空となる．
+[AWSリソース](#78qg7h)を一意に識別する文字列．`arn:partition:service:region:account-id:resource`の形式をとる．partitionは[AWSパーティション](#5q5a61)を，serviceは[サービスプレフィックス](#xvi8o5)を，account-idは[AWSアカウントID](#wuqhd7)を表し，[リージョン](#1df8fw)や[AWSアカウント](#r2ghkv)に属さない[AWSリソース](#78qg7h)では該当部分が空となる．
 
 <a id="w3fb2h"></a>
 
@@ -262,6 +296,14 @@ ToDo: [66](todo.md#todo-66)
 
 [オブジェクトストレージ](#k4obt0)を提供する[AWSサービス](#40hiw9)．データを[S3バケット](#wtv4f2)内の[S3オブジェクト](#o1ut81)として格納する．
 
+<a id="i24o70"></a>
+
+## Amazon VPC Lattice
+
+サービスネットワークに登録したサービスと[リソースゲートウェイ](#ia2trf)の先の[通信先](#b2znuk)を，そのサービスネットワークに関連付けた[VPC](#4ln6ld)，またはそこへの[VPCエンドポイント](#pguegu)から，[VPC](#4ln6ld)と[AWSアカウント](#r2ghkv)をまたいで利用させる[AWSサービス](#40hiw9)．
+
+ToDo: [152](todo.md#todo-152)，[106](todo.md#todo-106)
+
 <a id="mkyn41"></a>
 
 ## Amazon Virtual Private Cloud
@@ -285,6 +327,30 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 ## Application Load Balancer
 
 [Elastic Load Balancing](#4l33a1)の[L7ロードバランサー](#irtyc8)で，[HTTP](#31abh6)の要求を，対象の[ホスト](#0qt5x4)，パス，クエリ，ヘッダ，メソッド，送信元の[IPアドレス](#3ksnfe)を条件とする規則に基づき[通信先](#b2znuk)に振り分けるもの．
+
+<a id="avuc2r"></a>
+
+## Assertion Consumer Service
+
+[SAML](#yoebmp)において，[アイデンティティプロバイダ](#3z77qd)からの応答を受け付ける[サービスプロバイダ](#l5pssm)の[エンドポイント](#9i1lg3)．
+
+<a id="yegu9n"></a>
+
+## AssumeRole
+
+[プリンシパル](#t8ujsy)が[IAMロール引受け](#0d235w)を要求する[AWS Security Token Service](#q44rf3)の操作．
+
+<a id="yndlvl"></a>
+
+## AssumeRoleWithSAML
+
+[アイデンティティプロバイダ](#3z77qd)が発行した[SAMLアサーション](#m7caca)を示して[IAMロール引受け](#0d235w)を要求する[AWS Security Token Service](#q44rf3)の操作．要求に[プリンシパル](#t8ujsy)の[認証情報](#pyxpuc)を要さない．
+
+<a id="lsp9h7"></a>
+
+## AssumeRoleWithWebIdentity
+
+[アイデンティティプロバイダ](#3z77qd)が発行した[IDトークン](#1bvsna)または[アクセストークン](#8w6s21)を示して[IAMロール引受け](#0d235w)を要求する[AWS Security Token Service](#q44rf3)の操作．要求に[プリンシパル](#t8ujsy)の[認証情報](#pyxpuc)を要さない．
 
 <a id="qs2tbc"></a>
 
@@ -326,7 +392,7 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 ## BGPセッション
 
-2つの[BGPスピーカー](#v9rnch)の間で[TCP](#cndtkv)の[ポート番号](#avetpx)179の接続上に確立され，[経路](#5433mk)を交換する関係．[BGP状態機械](#gci3lp)がEstablishedに達したのち[UPDATEメッセージ](#zqwllr)を交換する．
+2つの[BGPスピーカー](#v9rnch)の間で[TCP](#cndtkv)の[ポート番号](#avetpx)179の[接続](#st4cz5)上に確立され，[経路](#5433mk)を交換する関係．[BGP状態機械](#gci3lp)がEstablishedに達したのち[UPDATEメッセージ](#zqwllr)を交換する．
 
 <a id="xrq0o5"></a>
 
@@ -368,13 +434,15 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 ## C++
 
-変数が[データ型](#w7t735)をもち，[ガベージコレクション](#6exqbl)をもたない[プログラミング言語](#nw9j2i)．
+[C言語](#4pg9c8)から派生した，[静的型付け](#c7sqk0)で[ガベージコレクション](#6exqbl)をもたない[プログラミング言語](#nw9j2i)．[未定義動作](#1d4gs1)を規格に含み，[メモリ安全性](#qbsksa)を保証しない．
+
+ToDo: [141](todo.md#todo-141)
 
 <a id="txuqj9"></a>
 
 ## C++オブジェクト
 
-[C++](#drl0oo)のプログラムが作成，参照，破棄するメモリの領域で，[データ型](#w7t735)と，作成から破棄までの寿命をもつもの．
+[C++](#drl0oo)における[データオブジェクト](#wvtf4u)で，[データ型](#w7t735)をもつもの．
 
 <a id="yio0lk"></a>
 
@@ -416,9 +484,7 @@ Amazon.com, Inc.の子会社であるAmazon Web Services, Inc.が提供する[�
 
 ## Chromium
 
-Googleが主導して開発する，オープンソースの[Webブラウザ](#gcly3z)．[Blink](#3svuh5)と[V8](#4qyfuw)を用い，[特権分離](#u90lkn)に基づき，[ブラウザプロセス](#ejqo3w)と，[レンダラープロセス](#53ckw6)，[GPUプロセス](#4hdszd)，[ユーティリティプロセス](#0lze03)等の子の[プロセス](#lm3iq5)に分かれて動作する．Google ChromeとMicrosoft Edgeはこれを基にする．
-
-ToDo: [66](todo.md#todo-66)
+Googleが主導して開発する，[オープンソースライセンス](#kv40ye)で配布される[Webブラウザ](#gcly3z)．[Blink](#3svuh5)と[V8](#4qyfuw)を用い，[特権分離](#u90lkn)に基づき，[ブラウザプロセス](#ejqo3w)と，[レンダラープロセス](#53ckw6)，[GPUプロセス](#4hdszd)，[ユーティリティプロセス](#0lze03)を含む子の[プロセス](#lm3iq5)に分かれて動作する．Google ChromeとMicrosoft Edgeはこれを基にする．
 
 <a id="ckmh8m"></a>
 
@@ -438,6 +504,12 @@ ToDo: [66](todo.md#todo-66)
 
 [ClusterRole](#4hf4xa)の権限を，[クラスタ](#dx7pxd)全体の範囲で[主体](#pyjgmb)に与える[オブジェクト](#8ot6zr)．
 
+<a id="9ng0n3"></a>
+
+## Code - OSS
+
+[Visual Studio Code](#fqq24m)のソースコードを[MITライセンス](#d3w99m)で公開するリポジトリ．製品の[Visual Studio Code](#fqq24m)はこれに，Microsoftのブランド，[拡張機能](#1erfeu)の取得先の設定，利用情報の収集を加える独自の変更を施し，[プロプライエタリライセンス](#r4wode)で配布するものである．
+
 <a id="gyxatn"></a>
 
 ## CompositorFrame
@@ -454,7 +526,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## Container Network Interface
 
-[コンテナ](#uds0ak)の[ネットワークインターフェース](#cufd0s)の作成と設定を，プラグインとして実装されたプログラムに委ねる仕様．
+[コンテナ](#uds0ak)の[ネットワークインターフェース](#cufd0s)の作成と設定を，[プラグイン](#dz7dp9)に委ねる仕様．
 
 <a id="ttawc3"></a>
 
@@ -480,11 +552,41 @@ ToDo: [66](todo.md#todo-66)
 
 [カスタムリソース](#xo9y6e)の種類を[kube-apiserver](#yv6kx0)に追加する[オブジェクト](#8ot6zr)．
 
+<a id="rq1bpp"></a>
+
+## Cオブジェクト
+
+[C言語](#4pg9c8)における[データオブジェクト](#wvtf4u)．寿命は[記憶域期間](#uvaml5)で定まる．
+
+ToDo: [149](todo.md#todo-149)
+
+<a id="oyypas"></a>
+
+## C標準ライブラリ
+
+[C言語](#4pg9c8)の規格が定める，ヘッダで宣言される関数，型，[マクロ](#3llsmk)の集合．
+
+ToDo: [139](todo.md#todo-139)
+
+<a id="4pg9c8"></a>
+
+## C言語
+
+[静的型付け](#c7sqk0)で[ガベージコレクション](#6exqbl)をもたない[プログラミング言語](#nw9j2i)．[ポインタ](#ubm34x)の算術演算と[未定義動作](#1d4gs1)を規格に含み，[メモリ安全性](#qbsksa)を保証しない．[サブルーチン](#y825lm)を関数と呼ぶ．ISOとIECにより標準化されている．
+
+ToDo: [149](todo.md#todo-149)
+
 <a id="lxov83"></a>
 
 ## DEPSファイル
 
 [gclient](#djvjxt)が読む，リポジトリの依存先を記すファイル．Pythonの文法で書かれ，依存先ごとに配置先のパスと，取得するリポジトリと版を定める．同期の後に実行するコマンドも記す．
+
+<a id="r86yg3"></a>
+
+## DEVICE_OBJECT
+
+[Windows NT](#jzpnq4)において，[I/O要求パケット](#dd3rvj)の宛先を表す[カーネルオブジェクト](#4d5j7r)．[カーネルモードドライバ](#fnr7ad)が作成する．作成したドライバの[DRIVER_OBJECT](#hbcm14)，ドライバが用途を決める拡張領域，直上に接続された[DEVICE_OBJECT](#r86yg3)への参照をもつ．この接続の連なりが[ドライバスタック](#u4t3xd)をなす．
 
 <a id="x5u5e6"></a>
 
@@ -508,7 +610,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## DNSSEC
 
-[資源レコード](#syx2b4)セットに[電子署名](#wr3566)を付し，応答の発信元と完全性を検証可能にする[DNS](#v0yvpo)の拡張．署名は[RRSIGレコード](#m4w5n1)に，[公開鍵](#7xb1uk)は[DNSKEYレコード](#7wsrt3)に置き，親の[DNSゾーン](#2eh0s0)は子の[DSレコード](#1hq998)を保持して署名する．検証者は[DNSルートサーバー](#p77v01)が保持する[DNSゾーン](#2eh0s0)の[公開鍵](#7xb1uk)を起点とし，[DNS委任](#dmv9zd)を辿る[信頼の連鎖](#l7b2yn)により下位の[DNSゾーン](#2eh0s0)の[公開鍵](#7xb1uk)を信頼する．応答を[暗号化](#e382sn)しない．
+[資源レコード](#syx2b4)セットに[電子署名](#wr3566)を付し，応答の発信元と完全性を検証可能にする[DNS](#v0yvpo)の拡張．署名は[RRSIGレコード](#m4w5n1)に，[公開鍵](#7xb1uk)は[DNSKEYレコード](#7wsrt3)に置き，親の[DNSゾーン](#2eh0s0)は子の[DSレコード](#1hq998)を保持して署名する．検証者は[DNSルートサーバー](#p77v01)が保持する[DNSゾーン](#2eh0s0)の[公開鍵](#7xb1uk)を起点とし，[DNS委任](#dmv9zd)を辿る[信頼チェーン](#l7b2yn)により下位の[DNSゾーン](#2eh0s0)の[公開鍵](#7xb1uk)を信頼する．応答を[暗号化](#e382sn)しない．
 
 <a id="2eh0s0"></a>
 
@@ -540,6 +642,12 @@ ToDo: [66](todo.md#todo-66)
 
 [Web文書](#qbtpp4)を節点の[木](#dj2zcx)として表し，[JavaScript](#y8ql3q)から参照・変更するための[API](#9e509k)．
 
+<a id="hbcm14"></a>
+
+## DRIVER_OBJECT
+
+[Windows NT](#jzpnq4)において，読み込まれた1つの[カーネルモードドライバ](#fnr7ad)を表す[カーネルオブジェクト](#4d5j7r)．[I/Oマネージャ](#2wuacp)が作成してドライバの初期化の[サブルーチン](#y825lm)に渡す．[I/O要求パケット](#dd3rvj)の主機能コードごとの処理を並べた[操作表](#xxcrwp)，アンロード時の[サブルーチン](#y825lm)，そのドライバが作成した[DEVICE_OBJECT](#r86yg3)の一覧をもつ．
+
 <a id="1hq998"></a>
 
 ## DSレコード
@@ -552,17 +660,31 @@ ToDo: [66](todo.md#todo-66)
 
 条件に合う全ての[ノード](#6qrxi1)で，それぞれ1つの[Pod](#k4ef3z)を実行する[ワークロードリソース](#qg1bbv)．
 
+<a id="jt8i5n"></a>
+
+## Debug Adapter Protocol
+
+[テキストエディタ](#nud9su)と，[デバッガ](#49baql)を操作するデバッグアダプタの間の，[JSON](#o3ixrz)のメッセージを用いる[プロトコル](#bhk5im)．
+
+ToDo: [151](todo.md#todo-151)
+
 <a id="fv5438"></a>
 
 ## Deployment
 
 [ReplicaSet](#9nbpfp)を介して[Pod](#k4ef3z)を管理する[ワークロードリソース](#qg1bbv)．テンプレートの変更を，既定では新旧の[ReplicaSet](#9nbpfp)の[Pod](#k4ef3z)の数を段階的に入れ替えるローリングアップデートで反映し，ロールバックのため旧[ReplicaSet](#9nbpfp)を保持する．
 
+<a id="lppd9c"></a>
+
+## Diffie-Hellman鍵共有
+
+双方が自身の[秘密鍵](#dak54j)と相手の[公開鍵](#7xb1uk)から同じ秘密値を計算し，[共通鍵](#sie28z)の材料を得る方式．
+
 <a id="4320z7"></a>
 
 ## EBSスナップショット
 
-[EBSボリューム](#bauqgu)の[スナップショット](#ahlapd)を，前回のものから変更された[ブロック](#k60l5g)のみを保存する増分形式で保持するもの．1つの[リージョン](#1df8fw)に属し，その[リージョン](#1df8fw)の任意の[アベイラビリティゾーン](#zb3vp3)に[EBSボリューム](#bauqgu)として復元できる．
+[EBSボリューム](#bauqgu)の[スナップショット](#ahlapd)を，前回のものから変更された[ブロック](#k60l5g)のみを保存する増分形式で保持するもの．[リージョンリソース](#tynhcw)であり，属する[リージョン](#1df8fw)の任意の[アベイラビリティゾーン](#zb3vp3)に[EBSボリューム](#bauqgu)として復元できる．
 
 <a id="bauqgu"></a>
 
@@ -582,6 +704,20 @@ ToDo: [66](todo.md#todo-66)
 
 [自律システム](#8wkkrz)の間で[経路](#5433mk)を交換する[ルーティングプロトコル](#ktkn70)で，[BGP](#0ey58g)に置き換えられたもの．
 
+<a id="ops4d2"></a>
+
+## EPROCESS
+
+[Windows NT](#jzpnq4)における[プロセス記述子](#smq3zz)で，[カーネルオブジェクト](#4d5j7r)である．先頭に[KPROCESS](#qz11sg)を埋め込み，識別番号，所属する[ETHREAD](#0j9726)の一覧，[HANDLE_TABLE](#8gu4x1)，[アクセストークン](#9ea3s0)，[仮想アドレス記述子](#h318rh)の集合，所属する[ジョブオブジェクト](#mmivp1)，[PEB](#hfgg6x)のアドレスをもつ．
+
+ToDo: [148](todo.md#todo-148)
+
+<a id="0j9726"></a>
+
+## ETHREAD
+
+[Windows NT](#jzpnq4)における[スレッド記述子](#nehk4w)で，[カーネルオブジェクト](#4d5j7r)である．先頭に[KTHREAD](#6offhs)を埋め込み，所属する[プロセス](#lm3iq5)と自身の識別番号の組，[偽装](#w6gowu)に用いる[アクセストークン](#9ea3s0)，発行した[I/O要求パケット](#dd3rvj)の一覧をもつ．
+
 <a id="wyy1dc"></a>
 
 ## Elastic IPアドレス
@@ -600,6 +736,12 @@ ToDo: [66](todo.md#todo-66)
 
 [サブネット](#oygsrp)に属する仮想的な[ネットワークインターフェース](#cufd0s)．その[サブネット](#oygsrp)の[IPプレフィックス](#6rwn5e)に属する[IPv4](#un6pgt)の[IPアドレス](#3ksnfe)をもち，[セキュリティグループ](#zgzyka)が関連付けられる．
 
+<a id="fkvuw7"></a>
+
+## Electron
+
+[contentモジュール](#e7u8nm)と[Node.js](#d76hl3)を組み合わせ，[HTML](#n9liw2)，[CSS](#hks4qq)，[JavaScript](#y8ql3q)で記述したプログラムを，[Webブラウザ](#gcly3z)の外で独立した[アプリケーション](#zxvj73)として動作させる基盤．
+
 <a id="n5mrfc"></a>
 
 ## EndpointSlice
@@ -612,11 +754,31 @@ ToDo: [66](todo.md#todo-66)
 
 [MACアドレス](#sagh83)で送信元と宛先を示すデータの単位を，ケーブルを介して伝送する有線の[リンク](#xy3alb)の規格．IEEE 802.3で規定される．
 
+<a id="jf67m5"></a>
+
+## FILE_OBJECT
+
+[Windows NT](#jzpnq4)において，ファイルまたは装置を開くごとに作成され，[開かれたファイル記述](#u8r1ic)を表す[カーネルオブジェクト](#4d5j7r)．対象の[DEVICE_OBJECT](#r86yg3)，開いたときに許可された共有の別，[ファイルシステム](#pp17bd)が用いる文脈への参照をもつ．
+
 <a id="83suel"></a>
 
 ## FrameTreeNode
 
 [contentモジュール](#e7u8nm)において，[フレーム](#mtx2pq)の[木](#dj2zcx)の頂点を表し，[ナビゲーション](#day4yo)を越えて存続する[C++オブジェクト](#txuqj9)．現在の[RenderFrameHost](#xir7fh)を保持する．
+
+<a id="ofaawr"></a>
+
+## FreeBSD
+
+ベースシステムと呼ぶ，[カーネル](#cktjwx)と[ユーザーモード](#v7n2z8)で動作するコマンドおよびライブラリの集合を，1つのソースツリーで開発する[オペレーティングシステム](#c8v8vw)．[カーネル](#cktjwx)は[モノリシックカーネル](#ezqe8s)に分類され，[カーネルモジュール](#4995ja)による拡張をもつ．
+
+ToDo: [144](todo.md#todo-144)，[130](todo.md#todo-130)
+
+<a id="num0b7"></a>
+
+## GENEVE
+
+[ネットワーク](#uy18d2)の仮想化のために，データの単位を[UDP](#7mvj8m)で[カプセル化](#oh434k)して運ぶ[プロトコル](#bhk5im)．可変長のオプションをもつ．
 
 <a id="bo0w3o"></a>
 
@@ -642,11 +804,29 @@ ToDo: [66](todo.md#todo-66)
 
 ETSIが策定した，第2世代の[セルラー通信](#fibo1z)の規格．
 
+<a id="uou6rr"></a>
+
+## Gateway Load Balancer
+
+[Elastic Load Balancing](#4l33a1)の[ロードバランサー](#v7r0tg)で，受信した[IPパケット](#w9btgk)を内容を変えずに[GENEVE](#num0b7)で[カプセル化](#oh434k)し，通信を検査する[仮想アプライアンス](#cmoqun)に振り分けるもの．
+
 <a id="4d5lb9"></a>
 
 ## Glance
 
 [マシンイメージ](#biu4lz)を登録，保管，配布する[OpenStackサービス](#xb2kcb)．
+
+<a id="8gu4x1"></a>
+
+## HANDLE_TABLE
+
+[Windows NT](#jzpnq4)における，[オブジェクトハンドル](#6onm6b)の[ハンドル表](#n9vofr)．項目ごとに[OBJECT_HEADER](#z7evxc)への参照と許可されたアクセス権をもつ．
+
+<a id="cqjacl"></a>
+
+## HCL
+
+HashiCorp, Inc.が開発した，ブロックと属性で構成を記述する言語．属性は名前と式の組である．
 
 <a id="n9liw2"></a>
 
@@ -658,7 +838,13 @@ ETSIが策定した，第2世代の[セルラー通信](#fibo1z)の規格．
 
 ## HTTP
 
-[クライアント](#xv4m3d)がメソッドと対象を指定した要求を送り，[サーバー](#uteg7y)が状態コードを含む応答を返すプロトコル．[TLS](#xqkfhy)で保護したものをHTTPSと呼ぶ．
+[クライアント](#xv4m3d)がメソッドと対象を指定した要求を送り，[サーバー](#uteg7y)が状態コードを含む応答を返す[プロトコル](#bhk5im)．[TLS](#xqkfhy)で保護したものをHTTPSと呼ぶ．
+
+<a id="duz73j"></a>
+
+## HTTPエージェント
+
+[監視主体](#90keyj)が[HTTP](#31abh6)の要求を送り，応答から値を得る[アイテムタイプ](#ugi5pv)．
 
 <a id="gu5qq4"></a>
 
@@ -670,7 +856,15 @@ ETSIが策定した，第2世代の[セルラー通信](#fibo1z)の規格．
 
 ## HorizontalPodAutoscaler
 
-[Pod](#k4ef3z)の[資源](#k7gc81)の使用量等の観測値と目標値の比に基づき，[Pod](#k4ef3z)の数を指定する[ワークロードリソース](#qg1bbv)のその数を自動で増減する[オブジェクト](#8ot6zr)．
+[Pod](#k4ef3z)の[資源](#k7gc81)の使用量を含む観測値と目標値の比に基づき，[Pod](#k4ef3z)の数を指定する[ワークロードリソース](#qg1bbv)のその数を自動で増減する[オブジェクト](#8ot6zr)．
+
+<a id="sl4ng3"></a>
+
+## Hyperplane ENI
+
+[AWS Lambda](#d2cxxc)が，[Lambda関数](#v7xjp0)に指定された[サブネット](#oygsrp)と[セキュリティグループ](#zgzyka)の組合せごとに，[実行ロール](#rkn7hg)の権限で作成する[リクエスターマネージド型ネットワークインターフェース](#8gfkr4)．[パブリックIPアドレス](#kwufcq)をもたない．同じ組合せを指定された[Lambda関数](#v7xjp0)の間で共有され，それらの通信の送信元は[NAPT](#9mze5p)によりこれの[IPアドレス](#3ksnfe)に書き換えられる．
+
+ToDo: [123](todo.md#todo-123)
 
 <a id="2wuacp"></a>
 
@@ -682,7 +876,9 @@ ETSIが策定した，第2世代の[セルラー通信](#fibo1z)の規格．
 
 ## I/O要求パケット
 
-[Windows NT](#jzpnq4)において，1つの入出力要求を表し，[I/Oマネージャ](#2wuacp)と[カーネルモードドライバ](#fnr7ad)の間で受け渡される[データ構造](#y9ua1k)．
+[Windows NT](#jzpnq4)において，1つの入出力要求を表し，[I/Oマネージャ](#2wuacp)と[カーネルモードドライバ](#fnr7ad)の間で受け渡される[データ構造](#y9ua1k)．型名はIRPである．[ドライバスタック](#u4t3xd)の層ごとに1つの[IO_STACK_LOCATION](#entmen)をもち，データを置くバッファを[MDL](#rb5sfa)で表すことができる．
+
+ToDo: [126](todo.md#todo-126)
 
 <a id="ix9em5"></a>
 
@@ -700,19 +896,31 @@ ETSIが策定した，第2世代の[セルラー通信](#fibo1z)の規格．
 
 ## IAMポリシー
 
-[プリンシパル](#t8ujsy)の要求の可否を定める，JSON文書の[ポリシー](#d3j3nj)．1つ以上の[ポリシーステートメント](#bhslyd)からなる．要求は[既定拒否](#kfuctl)と[拒否優先評価](#t93sgu)で評価される．
+[プリンシパル](#t8ujsy)の要求の可否を定める，[JSON](#o3ixrz)で書かれた[ポリシー](#d3j3nj)．1つ以上の[ポリシーステートメント](#bhslyd)からなる．要求は[既定拒否](#kfuctl)と[拒否優先評価](#t93sgu)で評価される．
 
 <a id="viavkt"></a>
 
 ## IAMユーザー
 
-パスワードやアクセスキー等の長期の[認証情報](#pyxpuc)をもち，[プリンシパル](#t8ujsy)となる[IAMアイデンティティ](#ix9em5)．
+パスワードとアクセスキーを含む長期の[認証情報](#pyxpuc)を用い，[プリンシパル](#t8ujsy)となる[IAMアイデンティティ](#ix9em5)．
 
 <a id="k1a9js"></a>
 
 ## IAMロール
 
-長期の[認証情報](#pyxpuc)をもたない[IAMアイデンティティ](#ix9em5)．[信頼ポリシー](#x633ta)が許す[プリンシパル](#t8ujsy)が，[AWS Security Token Service](#q44rf3)が発行する一時的な[認証情報](#pyxpuc)を得てこれを[権限の引受け](#5bn6hq)の対象とし，ロールのセッションとして[プリンシパル](#t8ujsy)となる．
+長期の[認証情報](#pyxpuc)をもたない[IAMアイデンティティ](#ix9em5)．[IAMロール引受け](#0d235w)の対象である．
+
+<a id="0d235w"></a>
+
+## IAMロール引受け
+
+[信頼ポリシー](#x633ta)が許す[プリンシパル](#t8ujsy)，または許す[アイデンティティプロバイダ](#3z77qd)に[認証](#l2zofw)された[主体](#pyjgmb)が，[AWS Security Token Service](#q44rf3)が発行する一時的な[認証情報](#pyxpuc)を得て，[IAMロール](#k1a9js)のセッションとして[プリンシパル](#t8ujsy)となる[権限引受け](#5bn6hq)．
+
+<a id="1bvsna"></a>
+
+## IDトークン
+
+[OpenIDプロバイダ](#r35zaj)が[認可エンドポイント](#17zvxp)または[トークンエンドポイント](#f9akzj)から発行する，[JSON Web Token](#llm2wm)の形式の[認証アサーション](#ki350n)．宛先を[リライングパーティ](#25f1g6)の[クライアントID](#rhlnw8)で示す．
 
 <a id="sekyc5"></a>
 
@@ -720,19 +928,23 @@ ETSIが策定した，第2世代の[セルラー通信](#fibo1z)の規格．
 
 [自律システム](#8wkkrz)の内部で用いる[ルーティングプロトコル](#ktkn70)．宛先への[経路](#5433mk)ごとにコストと呼ぶ値を計算し，それが最小のものを選ぶ．
 
+<a id="entmen"></a>
+
+## IO_STACK_LOCATION
+
+[I/O要求パケット](#dd3rvj)のうち，[ドライバスタック](#u4t3xd)の1つの層が処理する部分．要求の種類を表す主機能コードと副機能コード，種類ごとの引数，対象の[FILE_OBJECT](#jf67m5)と[DEVICE_OBJECT](#r86yg3)をもつ．各層は，下の層に要求を渡す前に下の層のIO_STACK_LOCATIONを設定する．
+
 <a id="6v61y9"></a>
 
 ## IP
 
-[ルータ](#5f2okm)が[IPパケット](#w9btgk)を宛先の[IPアドレス](#3ksnfe)に従って[中継](#zgr0mv)し，送信元から宛先へ届けるプロトコル．到達と順序を保証しない．版に[IPv4](#un6pgt)と[IPv6](#4elryy)がある．
+[ルータ](#5f2okm)が[IPパケット](#w9btgk)を宛先の[IPアドレス](#3ksnfe)に従って[中継](#zgr0mv)し，送信元から宛先へ届ける[プロトコル](#bhk5im)．到達と順序を保証しない．版に[IPv4](#un6pgt)と[IPv6](#4elryy)がある．
 
 <a id="ofv8m2"></a>
 
 ## IPVS
 
-[Linux](#eh8l2u)の[カーネル](#cktjwx)において，[Netfilter](#feag1h)の上に実装された[L4ロードバランサー](#3vn37b)．[通信先](#b2znuk)の選択に[ラウンドロビン](#odhunt)や[最小接続](#avov3h)等の方式を選べる．
-
-ToDo: [66](todo.md#todo-66)
+[Linux](#eh8l2u)の[カーネル](#cktjwx)において，[Netfilter](#feag1h)の上に実装された[L4ロードバランサー](#3vn37b)．[通信先](#b2znuk)の選択に[ラウンドロビン](#odhunt)と[最小接続](#avov3h)を含む複数の方式から選べる．
 
 <a id="un6pgt"></a>
 
@@ -758,6 +970,8 @@ ToDo: [66](todo.md#todo-66)
 
 [IP](#6v61y9)で転送されるデータの単位．送信元と宛先の[IPアドレス](#3ksnfe)を含むヘッダをもつ．
 
+ToDo: [153](todo.md#todo-153)
+
 <a id="6rwn5e"></a>
 
 ## IPプレフィックス
@@ -775,6 +989,32 @@ ToDo: [66](todo.md#todo-66)
 ## IaaS
 
 計算機，[ネットワーク](#uy18d2)，[記憶域](#kltl5m)を提供し，その上の[オペレーティングシステム](#c8v8vw)から上を利用者が管理する[クラウドコンピューティング](#yy3buk)の形態．
+
+<a id="5mx2oh"></a>
+
+## Identity Centerインスタンス
+
+[AWS IAM Identity Center](#cdv3og)において，[Identity Centerユーザー](#ypfrjn)とそのアクセス先の割り当てを保持する単位．有効化した1つの[リージョン](#1df8fw)をプライマリリージョンとし，そこで管理される．
+
+ToDo: [122](todo.md#todo-122)
+
+<a id="97jks3"></a>
+
+## Identity Centerグループ
+
+[Identity Centerインスタンス](#5mx2oh)が保持する[Identity Centerユーザー](#ypfrjn)の集まり．これに対する割り当ては所属する[Identity Centerユーザー](#ypfrjn)に及ぶ．
+
+<a id="ypfrjn"></a>
+
+## Identity Centerユーザー
+
+[Identity Centerインスタンス](#5mx2oh)が保持する，人を表す[主体](#pyjgmb)．
+
+<a id="gq4l0t"></a>
+
+## Infrastructure as Code
+
+基盤を構成する実体を機械が読める文書に宣言し，その文書に従って実体を作成，更新，削除する管理の手法．
 
 <a id="2vlun8"></a>
 
@@ -794,11 +1034,29 @@ ToDo: [66](todo.md#todo-66)
 
 プログラムの実行中に，その一部を[コンパイラ](#a2nw9z)で[機械語](#ky7oww)に翻訳して実行する手法．
 
+<a id="o3ixrz"></a>
+
+## JSON
+
+名前と値の組の集合であるオブジェクト，配列，文字列，数，真偽値，nullを値とし，値を入れ子にしてデータを表すテキストの形式．
+
+<a id="llm2wm"></a>
+
+## JSON Web Token
+
+当事者間で伝える主張の集合を[JSON](#o3ixrz)のオブジェクトで表し，URLに含められる文字列に符号化した形式．[認証子](#uft843)を付すものと暗号化するものがある．
+
+<a id="ftrcpb"></a>
+
+## JSON-RPC
+
+要求，応答，通知を[JSON](#o3ixrz)のオブジェクトで表す遠隔手続き呼出しの[プロトコル](#bhk5im)．要求はメソッド名，引数，識別子をもち，応答は同じ識別子と，結果またはエラーをもつ．通知は識別子をもたず，応答されない．転送の方式を定めない．
+
 <a id="y8ql3q"></a>
 
 ## JavaScript
 
-ECMAScriptとして標準化された，変数でなく値が[データ型](#w7t735)をもつ[プログラミング言語](#nw9j2i)．[Web文書](#qbtpp4)中のスクリプトの記述に用いられる．
+ECMAScriptとして標準化された，[動的型付け](#zdjtf4)の[プログラミング言語](#nw9j2i)．[Web文書](#qbtpp4)中のスクリプトの記述に用いられる．
 
 <a id="62xnqs"></a>
 
@@ -812,11 +1070,37 @@ ECMAScriptとして標準化された，変数でなく値が[データ型](#w7t
 
 ヘッダのみからなる[BGPメッセージ](#xrq0o5)．[OPENメッセージ](#x55k1n)の受理の通知と，[ホールドタイム](#ptmib9)の満了を防ぐ[ハートビート](#5urygr)に用いる．
 
+<a id="eft4k3"></a>
+
+## KPCR
+
+[Windows NT](#jzpnq4)において，[プロセッサ](#4ad6s1)ごとに1つ存在し，[KPRCB](#e51swk)を埋め込む[データ構造](#y9ua1k)．[特権モード](#uk5ihn)では，x64ではGSセグメントが，x86ではFSセグメントがこれを指す．
+
+<a id="e51swk"></a>
+
+## KPRCB
+
+[KPCR](#eft4k3)に埋め込まれる，[NTカーネル層](#oobie1)が[プロセッサ](#4ad6s1)ごとに用いる部分．その[プロセッサ](#4ad6s1)で実行中の[KTHREAD](#6offhs)，次に実行する[KTHREAD](#6offhs)，実行すべき[スレッド](#ou7dup)がないときに実行する[KTHREAD](#6offhs)，[スレッド優先度](#4dqyyj)ごとの実行可能な[KTHREAD](#6offhs)の[待ち行列](#lhxknx)，[遅延プロシージャ呼び出し](#ajw0fy)の[待ち行列](#lhxknx)をもつ．
+
+<a id="qz11sg"></a>
+
+## KPROCESS
+
+[EPROCESS](#ops4d2)の先頭に埋め込まれる，[NTカーネル層](#oobie1)が用いる部分．[プロセッサ](#4ad6s1)に設定する[仮想記憶](#ysrn1f)の対応付けの起点の[物理メモリ](#svua87)上のアドレス，基本の[スレッド優先度](#4dqyyj)，所属する[KTHREAD](#6offhs)の一覧をもつ．
+
+<a id="6offhs"></a>
+
+## KTHREAD
+
+[ETHREAD](#0j9726)の先頭に埋め込まれる，[NTカーネル層](#oobie1)が用いる部分．[スケジューラ](#wpudzb)が用いる状態と[スレッド優先度](#4dqyyj)，[特権モード](#uk5ihn)で用いる[スタック](#hfx60b)，[TEB](#lnr2ip)のアドレス，所属する[KPROCESS](#qz11sg)への参照をもつ．
+
+ToDo: [136](todo.md#todo-136)
+
 <a id="693zzd"></a>
 
 ## Keystone
 
-利用者の[認証](#l2zofw)とトークンの発行，利用者への[OpenStackプロジェクト](#ek1129)ごとのロールの割当て，[OpenStackサービス](#xb2kcb)の接続先の一覧の提供を行う[OpenStackサービス](#xb2kcb)．
+利用者の[認証](#l2zofw)と[トークン](#qt96h9)の発行，利用者への[OpenStackプロジェクト](#ek1129)ごとのロールの割当て，[OpenStackサービス](#xb2kcb)の接続先の一覧の提供を行う[OpenStackサービス](#xb2kcb)．
 
 <a id="t6cr2a"></a>
 
@@ -835,6 +1119,20 @@ ECMAScriptとして標準化された，変数でなく値が[データ型](#w7t
 ## L7ロードバランサー
 
 [トランスポートプロトコル](#dayw7g)が運ぶアプリケーションの要求の内容に基づいて[通信先](#b2znuk)を選ぶ[ロードバランサー](#v7r0tg)．要求の内容を読むため，[リバースプロキシ](#dnckyf)として動作する．
+
+<a id="ilzwkt"></a>
+
+## LIST_ENTRY
+
+[Windows NT](#jzpnq4)において，双方向の環状の[埋め込み連結リスト](#0qdj5m)をつくるために要素に埋め込む[構造体](#0fq59c)．前後のLIST_ENTRYへの参照の組からなる．
+
+<a id="dkfxg4"></a>
+
+## LLDルール
+
+[ホスト](#y3ka2w)上の監視対象を検出し，検出結果ごとにプロトタイプを具体化して[アイテム](#as86xt)，[トリガー](#3gz3w5)，グラフ，[ホスト](#y3ka2w)を生成する規則．
+
+ToDo: [103](todo.md#todo-103)
 
 <a id="dalaa4"></a>
 
@@ -864,7 +1162,15 @@ ECMAScriptとして標準化された，変数でなく値が[データ型](#w7t
 
 ## Lambda関数
 
-[AWS Lambda](#d2cxxc)が実行するコードと設定の単位．[イベント](#35wv5r)を受けて，または直接の呼び出しにより起動され，[実行ロール](#rkn7hg)の権限で[AWSサービス](#40hiw9)を呼び出す．
+[AWS Lambda](#d2cxxc)が実行するコードと設定の単位．[イベント](#35wv5r)を受けて，または直接の呼び出しにより起動され，[実行ロール](#rkn7hg)の権限で[AWSサービス](#40hiw9)を呼び出す．[サブネット](#oygsrp)と[セキュリティグループ](#zgzyka)を指定されたものは，すべての通信を[Hyperplane ENI](#sl4ng3)を経由して行い，指定されないものは[AWS Lambda](#d2cxxc)が管理する[VPC](#4ln6ld)から[インターネット](#3qoztf)に接続する．
+
+<a id="dfaxj3"></a>
+
+## Language Server Protocol
+
+[テキストエディタ](#nud9su)と[言語サーバー](#69tuqj)の間の，[JSON-RPC](#ftrcpb)に基づく[プロトコル](#bhk5im)．M個の[テキストエディタ](#nud9su)とN個の[プログラミング言語](#nw9j2i)への対応を，個別の実装によるM×NからM+Nに減らす．
+
+ToDo: [151](todo.md#todo-151)
 
 <a id="eh8l2u"></a>
 
@@ -872,13 +1178,15 @@ ECMAScriptとして標準化された，変数でなく値が[データ型](#w7t
 
 [モノリシックカーネル](#ezqe8s)に分類され，[カーネルモジュール](#4995ja)による拡張をもつ[カーネル](#cktjwx)．
 
-ToDo: [65](todo.md#todo-65)
+ToDo: [144](todo.md#todo-144)，[126](todo.md#todo-126)，[102](todo.md#todo-102)
 
 <a id="rmoy1r"></a>
 
 ## Linux名前空間
 
-[Linux](#eh8l2u)において[資源の隔離](#1sgoxr)を行う機構．大域的な[資源](#k7gc81)を包み，所属する[プロセス](#lm3iq5)に独立した[資源](#k7gc81)の実体をもつように見せる．
+[Linux](#eh8l2u)において[資源隔離](#1sgoxr)を行う機構．大域的な[資源](#k7gc81)を包み，所属する[プロセス](#lm3iq5)に独立した[資源](#k7gc81)の実体をもつように見せる．
+
+ToDo: [147](todo.md#todo-147)，[127](todo.md#todo-127)
 
 <a id="d67w81"></a>
 
@@ -896,13 +1204,69 @@ ToDo: [65](todo.md#todo-65)
 
 ## MACアドレス
 
-IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワークインターフェース](#cufd0s)を識別する48ビットの識別子．
+IEEE 802の規格に従う[リンク](#xy3alb)における，48ビットの[ハードウェアアドレス](#le1wss)．
+
+<a id="skno5x"></a>
+
+## MCPクライアント
+
+[MCPホスト](#wxqazg)が[MCPサーバー](#fimtpo)ごとに1つ保持し，その[MCPサーバー](#fimtpo)と[Model Context Protocol](#9pk9iy)で接続する[クライアント](#xv4m3d)．
+
+ToDo: [150](todo.md#todo-150)
+
+<a id="fimtpo"></a>
+
+## MCPサーバー
+
+[Model Context Protocol](#9pk9iy)に従い，[MCPリソース](#to0ng2)，[MCPツール](#lrik9i)，[MCPプロンプト](#lv4fgp)を[MCPクライアント](#skno5x)に提供する[サーバー](#uteg7y)．
+
+ToDo: [150](todo.md#todo-150)
+
+<a id="lrik9i"></a>
+
+## MCPツール
+
+[MCPサーバー](#fimtpo)が公開する，[大規模言語モデル](#q89hwf)の判断で呼び出され，処理を行う機能．
+
+ToDo: [116](todo.md#todo-116)
+
+<a id="lv4fgp"></a>
+
+## MCPプロンプト
+
+[MCPサーバー](#fimtpo)が公開する，利用者が選んで[大規模言語モデル](#q89hwf)に与える定型の指示文．
+
+ToDo: [116](todo.md#todo-116)
+
+<a id="wxqazg"></a>
+
+## MCPホスト
+
+[大規模言語モデル](#q89hwf)を利用し，[MCPクライアント](#skno5x)を通じて[MCPサーバー](#fimtpo)に接続する[アプリケーション](#zxvj73)．
+
+<a id="to0ng2"></a>
+
+## MCPリソース
+
+[MCPサーバー](#fimtpo)が公開する，読み取られて[大規模言語モデル](#q89hwf)への入力となるデータ．
+
+<a id="rb5sfa"></a>
+
+## MDL
+
+[Windows NT](#jzpnq4)において，[アドレス空間](#rygcc4)上の連続するバッファの開始アドレスと長さ，それを格納する[ページフレーム](#4qztd7)の番号の列を表す[データ構造](#y9ua1k)．
 
 <a id="ge0o29"></a>
 
 ## MED
 
 隣接する[自律システム](#8wkkrz)に対し，複数の接続点のうち望ましい入口を示すオプション非推移の[パス属性](#q885vr)．値が小さいものを優先する．標準の手順では，同じ隣接[自律システム](#8wkkrz)から受信した[経路](#5433mk)の間でのみ比較し，受信した[自律システム](#8wkkrz)の外部へは伝えない．
+
+<a id="d3w99m"></a>
+
+## MITライセンス
+
+著作権表示と許諾表示を複製物に含めることのみを条件とし，無保証である[オープンソースライセンス](#kv40ye)．
 
 <a id="bqd0v7"></a>
 
@@ -926,7 +1290,13 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## MiraclePtr
 
-[Chromium](#2aag3y)において，参照されている間に解放された領域を[PartitionAlloc](#8ahx0c)が再利用せずに隔離することで，[解放後使用](#onqz9u)の悪用を防ぐ仕組み．[C++](#drl0oo)のポインタの[データ型](#w7t735)raw_ptrとして用いられる．
+[Chromium](#2aag3y)において，参照されている間に解放された領域を[PartitionAlloc](#8ahx0c)が再利用せずに隔離することで，[解放後使用](#onqz9u)の悪用を防ぐ仕組み．[C++](#drl0oo)の[ポインタ](#ubm34x)の[データ型](#w7t735)raw_ptrとして用いられる．
+
+<a id="9pk9iy"></a>
+
+## Model Context Protocol
+
+[MCPホスト](#wxqazg)が外部のデータと機能を取り込む方法を定める，[MCPクライアント](#skno5x)と[MCPサーバー](#fimtpo)の間の，[JSON-RPC](#ftrcpb)に基づく[プロトコル](#bhk5im)．接続の初めに互いが対応する機能を交換する．規格が定める転送の方式は標準入出力と[HTTP](#31abh6)である．Anthropicが策定した．
 
 <a id="n32mlc"></a>
 
@@ -950,19 +1320,21 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## NAPT
 
-送信元の[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)を書き換え，複数の端点に1つの[IPアドレス](#3ksnfe)を共有させる[SNAT](#3uc35a)．
+送信元の[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)を書き換え，複数の[端点](#b084uv)に1つの[IPアドレス](#3ksnfe)を共有させる[SNAT](#3uc35a)．
 
 <a id="4blq8k"></a>
 
 ## NAT
 
-[IPパケット](#w9btgk)のヘッダの[IPアドレス](#3ksnfe)を書き換えて[中継](#zgr0mv)する機構．[トランスポートプロトコル](#dayw7g)の[ポート番号](#avetpx)もあわせて書き換えるものがある．書換えの対応を保持し，応答の[IPパケット](#w9btgk)には逆の書換えを施す．通信の端点は書換えの前後で変わらない．
+[IPパケット](#w9btgk)のヘッダの[IPアドレス](#3ksnfe)を書き換えて[中継](#zgr0mv)する機構．[トランスポートプロトコル](#dayw7g)の[ポート番号](#avetpx)もあわせて書き換えるものがある．書換えの対応を保持し，応答の[IPパケット](#w9btgk)には逆の書換えを施す．通信の[端点](#b084uv)は書換えの前後で変わらない．
 
 <a id="2ii7xa"></a>
 
 ## NATゲートウェイ
 
-[プライベートサブネット](#vds2br)の[Elastic Network Interface](#f5pqfi)から[VPC](#4ln6ld)外への接続を[NAPT](#9mze5p)で[中継](#zgr0mv)し，外部からの接続の開始を受け付けない[AWSリソース](#78qg7h)．1つの[サブネット](#oygsrp)に置かれる．
+[プライベートサブネット](#vds2br)の[Elastic Network Interface](#f5pqfi)から[VPC](#4ln6ld)外への接続を[NAPT](#9mze5p)で[中継](#zgr0mv)し，外部からの接続の開始を受け付けない[AWSリソース](#78qg7h)．1つの[サブネット](#oygsrp)に[リクエスターマネージド型ネットワークインターフェース](#8gfkr4)をもつ．
+
+ToDo: [123](todo.md#todo-123)
 
 <a id="2js4sd"></a>
 
@@ -1006,6 +1378,14 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 [Linux](#eh8l2u)の[カーネル](#cktjwx)において，[Netfilterフック](#ljpkdd)に登録された処理を[IPパケット](#w9btgk)ごとに呼び出す枠組み．[接続追跡](#d1bl1o)はこの上に実装され，[NAT](#4blq8k)はそれに基づき，接続の最初の[IPパケット](#w9btgk)で書換えを決め，以後の[IPパケット](#w9btgk)に同じ書換えを適用する．
 
+ToDo: [126](todo.md#todo-126)
+
+<a id="2tvkpf"></a>
+
+## Netfilterテーブル
+
+[Netfilter](#feag1h)に設定する規則の最上位の単位で，[チェイン](#0jljvq)をまとめるもの．
+
 <a id="ljpkdd"></a>
 
 ## Netfilterフック
@@ -1018,11 +1398,13 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 [Elastic Load Balancing](#4l33a1)の[L4ロードバランサー](#3vn37b)で，[TCP](#cndtkv)，[UDP](#7mvj8m)，[TLS](#xqkfhy)の接続を[通信先](#b2znuk)に振り分けるもの．[アベイラビリティゾーン](#zb3vp3)ごとに静的な[IPアドレス](#3ksnfe)をもつ．
 
+ToDo: [123](todo.md#todo-123)
+
 <a id="qvr78w"></a>
 
 ## NetworkPolicy
 
-[ラベルセレクタ](#x5w385)で選んだ[Pod](#k4ef3z)について，許可する入出力の通信を，相手の[Pod](#k4ef3z)，[名前空間](#6bdul4)，[IPプレフィックス](#6rwn5e)と[ポート番号](#avetpx)で指定する[オブジェクト](#8ot6zr)．ある方向についていずれかのNetworkPolicyに選ばれた[Pod](#k4ef3z)には，その方向の通信に，それを選ぶ全てのNetworkPolicyによる[許可加算評価](#kirdkx)が適用される．実施は[Container Network Interface](#kccq14)のプラグインが担い，対応しないプラグインでは効果をもたない．
+[ラベルセレクタ](#x5w385)で選んだ[Pod](#k4ef3z)について，許可する入出力の通信を，相手の[Pod](#k4ef3z)，[名前空間](#6bdul4)，[IPプレフィックス](#6rwn5e)と[ポート番号](#avetpx)で指定する[オブジェクト](#8ot6zr)．ある方向についていずれかのNetworkPolicyに選ばれた[Pod](#k4ef3z)には，その方向の通信に，それを選ぶ全てのNetworkPolicyによる[許可加算評価](#kirdkx)が適用される．実施は[Container Network Interface](#kccq14)の[プラグイン](#dz7dp9)が担い，対応しない[プラグイン](#dz7dp9)では効果をもたない．
 
 <a id="rjpynz"></a>
 
@@ -1042,11 +1424,53 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 [リレーショナルモデル](#7y7vys)以外の[データモデル](#7qyeyy)に従う[データベース](#vlgsmo)の総称．
 
+<a id="d76hl3"></a>
+
+## Node.js
+
+[V8](#4qyfuw)を用いて，[Webブラウザ](#gcly3z)の外で[JavaScript](#y8ql3q)を実行する実行環境．
+
+<a id="8rmhxx"></a>
+
+## Noise Protocol Framework
+
+[Noiseハンドシェイクパターン](#fg9gpw)に従って[Diffie-Hellman鍵共有](#lppd9c)を行い，その結果と[ハッシュ関数](#fnegr1)から[共通鍵](#sie28z)を導出し，[認証付き暗号](#p3b37s)で後続のメッセージを保護する[プロトコル](#bhk5im)を構成する枠組み．
+
+<a id="fg9gpw"></a>
+
+## Noiseハンドシェイクパターン
+
+[Noise Protocol Framework](#8rmhxx)で，双方が事前に知る[公開鍵](#7xb1uk)の有無，ハンドシェイクメッセージの送受信順序，公開鍵の送信と[Diffie-Hellman鍵共有](#lppd9c)の実行順序を定めるもの．
+
 <a id="csa1sf"></a>
 
 ## Nova
 
 計算機を提供する[OpenStackサービス](#xb2kcb)．[ハイパーバイザ](#dt1rv7)を制御して[仮想マシン](#uwly1k)を作成，起動，停止，削除し，[Ironic](#ntrf3f)を通じて物理計算機も提供する．提供先の計算機は[Placement](#g55hns)の記録に基づいて選ぶ．
+
+<a id="2epxko"></a>
+
+## OAuth
+
+[認可クライアント](#47yah2)が[認可サーバー](#kvuagh)から[アクセストークン](#8w6s21)を得て，それを添えた要求で[リソースサーバー](#6lul9i)の[保護対象](#qfjrzs)を操作する，[HTTP](#31abh6)上の[認可](#8esn53)の枠組み．[主体](#pyjgmb)の許可を得て操作する場合も，[認可クライアント](#47yah2)は[主体](#pyjgmb)の[認証情報](#pyxpuc)を得ない．現行の版は2.0である．
+
+<a id="h4zpdj"></a>
+
+## OBJECT_ATTRIBUTES
+
+[ネイティブAPI](#kdca50)で[カーネルオブジェクト](#4d5j7r)を作成するとき，または開くときに渡す[データ構造](#y9ua1k)．[UNICODE_STRING](#flb10w)による[オブジェクト名前空間](#ivjde9)での名前，名前の解釈の起点とする[オブジェクトハンドル](#6onm6b)，大文字と小文字の区別と[オブジェクトハンドル](#6onm6b)の継承の可否を含むフラグ，作成時に設定する[セキュリティ記述子](#28ts3b)をもつ．
+
+<a id="z7evxc"></a>
+
+## OBJECT_HEADER
+
+[Windows NT](#jzpnq4)において，各[カーネルオブジェクト](#4d5j7r)の本体の直前に置かれ，[オブジェクトマネージャ](#qwhtqy)が用いる[データ構造](#y9ua1k)．参照の数，[オブジェクトハンドル](#6onm6b)の数，[OBJECT_TYPE](#bws476)を識別する値，[セキュリティ記述子](#28ts3b)への参照をもつ．[オブジェクト名前空間](#ivjde9)での名前は，これより前に置かれる追加の部分にもつ．
+
+<a id="bws476"></a>
+
+## OBJECT_TYPE
+
+[Windows NT](#jzpnq4)において，[カーネルオブジェクト](#4d5j7r)の種類ごとに1つ存在する[データ構造](#y9ua1k)．種類の名前と，その種類の[カーネルオブジェクト](#4d5j7r)を開く，閉じる，削除する，名前を解析するときに[オブジェクトマネージャ](#qwhtqy)が用いる[操作表](#xxcrwp)をもつ．
 
 <a id="hlovu1"></a>
 
@@ -1084,11 +1508,23 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 [Blink](#3svuh5)の[C++オブジェクト](#txuqj9)を管理する[ガベージコレクション](#6exqbl)の仕組み．[V8](#4qyfuw)の[ガベージコレクション](#6exqbl)と連携し，[JavaScript](#y8ql3q)と[DOM](#mtrvw2)の間の参照を辿る．
 
+<a id="9pzzlk"></a>
+
+## OpenID Connect
+
+[OAuth](#2epxko) 2.0の上に構築され，[OpenIDプロバイダ](#r35zaj)が[リライングパーティ](#25f1g6)に[IDトークン](#1bvsna)を発行する[認証](#l2zofw)の仕様．
+
+<a id="r35zaj"></a>
+
+## OpenIDプロバイダ
+
+[OpenID Connect](#9pzzlk)において，[認可サーバー](#kvuagh)を兼ねる[アイデンティティプロバイダ](#3z77qd)．
+
 <a id="pnydk7"></a>
 
 ## OpenStack
 
-[IaaS](#hih6s5)の基盤を構築するオープンソースのソフトウェア群．機能を[OpenStackサービス](#xb2kcb)に分けて実装し，[仮想マシン](#uwly1k)，[ネットワーク](#uy18d2)，[記憶域](#kltl5m)を[OpenStackプロジェクト](#ek1129)に割り当てる．管理画面を[Horizon](#gu5qq4)が提供する．
+[IaaS](#hih6s5)の基盤を構築する[オープンソースライセンス](#kv40ye)で配布されるソフトウェア群．機能を[OpenStackサービス](#xb2kcb)に分けて実装し，[仮想マシン](#uwly1k)，[ネットワーク](#uy18d2)，[記憶域](#kltl5m)を[OpenStackプロジェクト](#ek1129)に割り当てる．管理画面を[Horizon](#gu5qq4)が提供する．
 
 <a id="xb2kcb"></a>
 
@@ -1101,6 +1537,26 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 ## OpenStackプロジェクト
 
 [OpenStack](#pnydk7)において，[仮想マシン](#uwly1k)，[ネットワーク](#uy18d2)，[記憶域](#kltl5m)を所有し，[資源制限](#g9mkrr)の単位となるもの．利用者は[Keystone](#693zzd)でロールを割り当てられたOpenStackプロジェクトのものを操作する．
+
+<a id="vgz9zq"></a>
+
+## OpenTofu
+
+[Terraform](#i3c7fx)のMozilla Public License 2.0で提供されていた版から派生した[Infrastructure as Code](#gq4l0t)のツール．Linux Foundationの下で開発される．
+
+<a id="hfgg6x"></a>
+
+## PEB
+
+[Windows NT](#jzpnq4)において，[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)のうち[ユーザーモード](#v7n2z8)から読み書きできる位置に置かれ，その[プロセス](#lm3iq5)の情報を保持する[データ構造](#y9ua1k)．実行ファイルの読み込み先のアドレス，読み込まれた実行ファイルと[ダイナミックリンクライブラリ](#2vuoon)の一覧，コマンドラインと環境変数，[デバッガ](#49baql)の接続の有無をもつ．
+
+ToDo: [136](todo.md#todo-136)
+
+<a id="i3b5sv"></a>
+
+## PKCE
+
+[認可コードグラント](#sdvdsn)において，[認可サーバー](#kvuagh)が，[認可エンドポイント](#17zvxp)への要求の送信元と[トークンエンドポイント](#f9akzj)への要求の送信元の同一性を確かめる，[OAuth](#2epxko)の拡張．[認可クライアント](#47yah2)は秘密の値を生成し，それを[ハッシュ関数](#fnegr1)で写した値またはそれ自体を前者に，秘密の値を後者に含める．
 
 <a id="qoutz8"></a>
 
@@ -1136,7 +1592,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## Pod
 
-[Kubernetes](#t6cr2a)が配置する最小の単位で，同じ[ノード](#6qrxi1)上で実行され，[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)の空間および[ボリューム](#0zbizc)を共有する1つ以上の[コンテナ](#uds0ak)の集まり．[IPアドレス](#3ksnfe)は[Container Network Interface](#kccq14)のプラグインが割り当てる．配置された[ノード](#6qrxi1)から移動せず，置き換えは別のPodの作成による．
+[Kubernetes](#t6cr2a)が配置する最小の単位で，同じ[ノード](#6qrxi1)上で実行され，[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)の空間および[ボリューム](#0zbizc)を共有する1つ以上の[コンテナ](#uds0ak)の集まり．[IPアドレス](#3ksnfe)は[Container Network Interface](#kccq14)の[プラグイン](#dz7dp9)が割り当てる．配置された[ノード](#6qrxi1)から移動せず，置き換えは別のPodの作成による．
 
 <a id="uaym9q"></a>
 
@@ -1148,9 +1604,7 @@ IEEE 802の規格に従う[リンク](#xy3alb)において，[ネットワーク
 
 ## QoSクラス
 
-[Pod](#k4ef3z)の[資源要求と制限](#le79r6)の指定から決まる分類．全ての[コンテナ](#uds0ak)がCPUとメモリの要求と制限を等しい値で指定するものはGuaranteed，いずれの[コンテナ](#uds0ak)もCPUとメモリの要求と制限を指定しないものはBestEffort，それ以外はBurstableである．[ノード](#6qrxi1)のメモリが逼迫したとき，BestEffort，Burstable，Guaranteedの順に強制終了されやすい．
-
-ToDo: [72](todo.md#todo-72)
+[Pod](#k4ef3z)の[資源要求と制限](#le79r6)の指定から決まる分類．全ての[コンテナ](#uds0ak)が[プロセッサ](#4ad6s1)の時間と[物理メモリ](#svua87)の要求と制限を等しい値で指定するものはGuaranteed，いずれの[コンテナ](#uds0ak)もそれらの要求と制限を指定しないものはBestEffort，それ以外はBurstableである．[ノード](#6qrxi1)の[物理メモリ](#svua87)が逼迫したとき，BestEffort，Burstable，Guaranteedの順に強制終了されやすい．
 
 <a id="1bon32"></a>
 
@@ -1258,21 +1712,31 @@ ToDo: [72](todo.md#todo-72)
 
 ## S3バケット
 
-[S3オブジェクト](#o1ut81)を格納する[AWSリソース](#78qg7h)．1つの[リージョン](#1df8fw)に属し，その名前は[AWSパーティション](#5q5a61)内で一意である．
+[S3オブジェクト](#o1ut81)を格納する[リージョンリソース](#tynhcw)．その名前は[AWSパーティション](#5q5a61)内で一意である．
+
+<a id="yoebmp"></a>
+
+## SAML
+
+Security Assertion Markup Language．[SAMLアサーション](#m7caca)を用いて，[アイデンティティプロバイダ](#3z77qd)が[サービスプロバイダ](#l5pssm)に[認証](#l2zofw)の結果を伝える仕様．現行の版は2.0である．
+
+<a id="m7caca"></a>
+
+## SAMLアサーション
+
+[SAML](#yoebmp)において[アイデンティティプロバイダ](#3z77qd)が発行する，[主体](#pyjgmb)についての主張を表す[XML](#wjqbo3)のデータ．[認証](#l2zofw)の結果を表すものは[認証アサーション](#ki350n)である．
 
 <a id="m38dhg"></a>
 
 ## SCTP
 
-[SCTPアソシエーション](#sd7szm)を確立し，端点の間でメッセージの境界を保って到達を保証する[トランスポートプロトコル](#dayw7g)．順序を要しないと指定したメッセージは，[ストリーム](#wmv9lk)の順序によらずに渡される．
+[SCTPアソシエーション](#sd7szm)を確立し，[端点](#b084uv)の間でメッセージの境界を保って到達を保証する[トランスポートプロトコル](#dayw7g)．順序を要しないと指定したメッセージは，[ストリーム](#wmv9lk)の順序によらずに渡される．
 
 <a id="sd7szm"></a>
 
 ## SCTPアソシエーション
 
-[SCTP](#m38dhg)の接続．各端点は複数の[IPアドレス](#3ksnfe)をもて，互いに独立した複数の[ストリーム](#wmv9lk)を運ぶ．
-
-ToDo: [67](todo.md#todo-67)
+[SCTP](#m38dhg)の[接続](#st4cz5)．各[端点](#b084uv)は複数の[IPアドレス](#3ksnfe)をもて，互いに独立した複数の[ストリーム](#wmv9lk)を運ぶ．
 
 <a id="xdzan2"></a>
 
@@ -1285,6 +1749,12 @@ ToDo: [67](todo.md#todo-67)
 ## SNAT
 
 送信元の[IPアドレス](#3ksnfe)を書き換える[NAT](#4blq8k)．
+
+<a id="3i22kd"></a>
+
+## SNMPエージェント
+
+[監視主体](#90keyj)がSNMPで値を取得する[アイテムタイプ](#ugi5pv)．
 
 <a id="sktwnj"></a>
 
@@ -1303,6 +1773,12 @@ ToDo: [67](todo.md#todo-67)
 ## SSID
 
 [Wi-Fi](#r9it7l)において，[アクセスポイント](#tzn2n7)が収容する[ネットワーク](#uy18d2)を示す，32[オクテット](#yimp6h)以下の名前．
+
+<a id="vfgxw6"></a>
+
+## SSOサービス
+
+[SAML](#yoebmp)において，[サービスプロバイダ](#l5pssm)からの認証要求を受け付ける[アイデンティティプロバイダ](#3z77qd)の[エンドポイント](#9i1lg3)．
 
 <a id="w8962q"></a>
 
@@ -1380,15 +1856,57 @@ ToDo: [67](todo.md#todo-67)
 
 ## TCP
 
-接続を確立し，端点の間で，到達を保証したバイト列の[ストリーム](#wmv9lk)を各方向に1つずつ運ぶ[トランスポートプロトコル](#dayw7g)．
+[接続](#st4cz5)を確立し，[端点](#b084uv)の間で，到達を保証したバイト列の[ストリーム](#wmv9lk)を各方向に1つずつ運ぶ[トランスポートプロトコル](#dayw7g)．
 
-ToDo: [67](todo.md#todo-67)
+<a id="lnr2ip"></a>
+
+## TEB
+
+[Windows NT](#jzpnq4)において，所属する[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)のうち[ユーザーモード](#v7n2z8)から読み書きできる位置に置かれ，[スレッド](#ou7dup)の情報を保持する[データ構造](#y9ua1k)．その[スレッド](#ou7dup)が[ユーザーモード](#v7n2z8)で用いる[スタック](#hfx60b)の範囲，[Windows API](#fg2wal)の直近のエラー値，スレッドローカル記憶域，[PEB](#hfgg6x)のアドレスをもつ．[ユーザーモード](#v7n2z8)では，x64ではGSセグメントが，x86ではFSセグメントがこれを指す．
+
+ToDo: [136](todo.md#todo-136)
 
 <a id="xqkfhy"></a>
 
 ## TLS
 
-到達と順序を保証する接続の上で，通信の[暗号化](#e382sn)，[MAC](#u6gjh1)または[認証付き暗号](#p3b37s)による改ざんの検出，[証明書](#30mc00)による通信相手の[認証](#l2zofw)を提供するプロトコル．
+到達と順序を保証する[接続](#st4cz5)の上で，通信の[暗号化](#e382sn)，[MAC](#u6gjh1)または[認証付き暗号](#p3b37s)による改ざんの検出，[証明書](#30mc00)による通信相手の[認証](#l2zofw)を提供する[プロトコル](#bhk5im)．
+
+<a id="i3c7fx"></a>
+
+## Terraform
+
+[Terraformモジュール](#tfnkcp)に宣言された[Terraformリソース](#65q92o)を，[Terraformプロバイダ](#5nckv0)を介して作成，更新，削除する[Infrastructure as Code](#gq4l0t)のツール．宣言，[Terraform状態](#ufk7we)，実在する実体の属性を比較して実行計画を作り，それを適用して実体を宣言に一致させる．[Terraformリソース](#65q92o)間の参照から依存関係を求め，その順序で操作する．HashiCorp, Inc.が開発し，1.6以降の版はBusiness Source License 1.1で提供される．
+
+ToDo: [104](todo.md#todo-104)
+
+<a id="5nckv0"></a>
+
+## Terraformプロバイダ
+
+特定の[API](#9e509k)を操作して[Terraformリソース](#65q92o)の種類を実装する，[Terraform](#i3c7fx)の[プラグイン](#dz7dp9)．
+
+ToDo: [104](todo.md#todo-104)
+
+<a id="tfnkcp"></a>
+
+## Terraformモジュール
+
+1つの[ディレクトリ](#j1d7gn)に置かれた，[HCL](#cqjacl)で書かれたファイルの集合．[Terraformリソース](#65q92o)を宣言し，他のTerraformモジュールを呼び出せる．[Terraform](#i3c7fx)を実行するディレクトリのものをルートモジュールと呼ぶ．
+
+<a id="65q92o"></a>
+
+## Terraformリソース
+
+[Terraformモジュール](#tfnkcp)のresourceブロックで宣言され，[Terraformプロバイダ](#5nckv0)が作成，更新，削除する実体．種類と名前で識別される．
+
+<a id="ufk7we"></a>
+
+## Terraform状態
+
+[Terraform](#i3c7fx)が記録する，[Terraformリソース](#65q92o)と実在する実体との対応，および実体の最後に把握された属性．ローカルのファイル，またはバックエンドと呼ぶ遠隔の保存先に保存される．
+
+ToDo: [104](todo.md#todo-104)
 
 <a id="7mvj8m"></a>
 
@@ -1408,6 +1926,12 @@ ToDo: [67](todo.md#todo-67)
 
 [3GPP](#8hltrb)が策定した，[GSM](#c27kel)の後継となる第3世代の[セルラー通信](#fibo1z)の規格．
 
+<a id="flb10w"></a>
+
+## UNICODE_STRING
+
+[Windows NT](#jzpnq4)の[ネイティブAPI](#kdca50)と[カーネル](#cktjwx)が用いる，UTF-16の文字列を表す[データ構造](#y9ua1k)．バイト単位の文字列の長さとバッファの容量，バッファへの参照をもつ．文字列の終端に零を必要としない．
+
 <a id="zqwllr"></a>
 
 ## UPDATEメッセージ
@@ -1424,19 +1948,25 @@ ToDo: [67](todo.md#todo-67)
 
 ## V8
 
-[Chromium](#2aag3y)の[JavaScript](#y8ql3q)エンジン．ソースを[バイトコード](#47l5g8)に変換して[インタプリタ](#8e4tig)のIgnitionで実行し，実行回数の多い[サブルーチン](#y825lm)を，Sparkplug，Maglev，TurboFanの順に段階的に[JITコンパイル](#2t5b12)する．最適化したコードは実行中に観測した[データ型](#w7t735)を前提とし，前提が崩れると最適化前のコードに戻る．メモリは[ガベージコレクション](#6exqbl)で管理する．Node.jsにも用いられる．
+[Chromium](#2aag3y)の[JavaScript](#y8ql3q)エンジン．ソースを[バイトコード](#47l5g8)に変換して[インタプリタ](#8e4tig)のIgnitionで実行し，実行回数の多い[サブルーチン](#y825lm)を，Sparkplug，Maglev，TurboFanの順に段階的に[JITコンパイル](#2t5b12)する．最適化したコードは実行中に観測した[データ型](#w7t735)を前提とし，前提が崩れると最適化前のコードに戻る．メモリは[ガベージコレクション](#6exqbl)で管理する．
+
+<a id="pg1lac"></a>
+
+## VFSノード
+
+[仮想ファイルシステム](#gid8it)において，[ファイルシステム](#pp17bd)内の1つのファイルを表す[データ構造](#y9ua1k)．種別と，実装の[操作表](#xxcrwp)をもち，名前をもたない．
 
 <a id="4ln6ld"></a>
 
 ## VPC
 
-[Amazon Virtual Private Cloud](#mkyn41)が提供する，[リージョン](#1df8fw)内の[仮想ネットワーク](#cos7bu)である[AWSリソース](#78qg7h)．[IPv4](#un6pgt)の[IPプレフィックス](#6rwn5e)を1つ以上もち，[サブネット](#oygsrp)に分割される．
+[Amazon Virtual Private Cloud](#mkyn41)が提供する，[仮想ネットワーク](#cos7bu)である[リージョンリソース](#tynhcw)．[IPv4](#un6pgt)の[IPプレフィックス](#6rwn5e)を1つ以上もち，[サブネット](#oygsrp)に分割される．
 
 <a id="pguegu"></a>
 
 ## VPCエンドポイント
 
-[VPC](#4ln6ld)から[インターネットゲートウェイ](#qmmwja)を経ずに[AWSサービス](#40hiw9)等へ私的に接続する[AWSリソース](#78qg7h)．ゲートウェイ型は[経路表](#4m7c9r)の転送先として働き，インターフェース型は[サブネット](#oygsrp)に[Elastic Network Interface](#f5pqfi)を作成する．
+[VPC](#4ln6ld)から[インターネットゲートウェイ](#qmmwja)を経ずに[通信先](#b2znuk)へ私的に接続する[AWSリソース](#78qg7h)．ゲートウェイ型は[サブネット](#oygsrp)に関連付けられた[経路表](#dw7079)の転送先として働き，[Amazon Simple Storage Service](#u2wout)または[Amazon DynamoDB](#knkcrh)に接続する．ゲートウェイ型以外は[AWS PrivateLink](#8irydc)を用い，[サブネット](#oygsrp)に[リクエスターマネージド型ネットワークインターフェース](#8gfkr4)を作成する．
 
 <a id="z6xphd"></a>
 
@@ -1444,11 +1974,25 @@ ToDo: [67](todo.md#todo-67)
 
 2つの[VPC](#4ln6ld)を接続し，互いの[IPプレフィックス](#6rwn5e)に属する[IPアドレス](#3ksnfe)で直接通信できるようにする[AWSリソース](#78qg7h)．推移的な[経路](#5433mk)を提供せず，[IPプレフィックス](#6rwn5e)が重なる[VPC](#4ln6ld)の間には作成できない．
 
+ToDo: [106](todo.md#todo-106)
+
 <a id="3a4xlv"></a>
 
 ## VRF
 
 1つの[ルータ](#5f2okm)内に独立して保持される[経路表](#dw7079)と，それを用いる転送の単位．
+
+<a id="uz3cja"></a>
+
+## Visual Studio
+
+Microsoftが開発する[統合開発環境](#wr7tbp)．[Visual Studio Code](#fqq24m)とは別の製品である．
+
+<a id="fqq24m"></a>
+
+## Visual Studio Code
+
+Microsoftが開発する[テキストエディタ](#nud9su)．[Electron](#fkvuw7)を基に構築され，[拡張機能](#1erfeu)により機能を追加できる．言語ごとの機能は[Language Server Protocol](#dfaxj3)で[言語サーバー](#69tuqj)から得て，[デバッガ](#49baql)は[Debug Adapter Protocol](#jt8i5n)で操作する．ソースコードは[Code - OSS](#9ng0n3)として公開される．
 
 <a id="f7cwfp"></a>
 
@@ -1478,9 +2022,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## Web文書
 
-[Webブラウザ](#gcly3z)が[フレーム](#mtx2pq)に表示する内容の単位．[HTML](#n9liw2)等から構築され，[DOM](#mtrvw2)で表される．
-
-ToDo: [66](todo.md#todo-66)
+[Webブラウザ](#gcly3z)が[フレーム](#mtx2pq)に表示する内容の単位．[HTML](#n9liw2)を含む形式の文書から構築され，[DOM](#mtrvw2)で表される．
 
 <a id="r9it7l"></a>
 
@@ -1492,7 +2034,7 @@ IEEE 802.11に基づき，免許を要しない[周波数帯](#utnq9w)の[無線
 
 ## Windows API
 
-[Windows NT](#jzpnq4)において，kernel32.dll，user32.dll等の[ダイナミックリンクライブラリ](#2vuoon)を通じてアプリケーションに公開される，文書化された[API](#9e509k)．
+[Windows NT](#jzpnq4)において，kernel32.dllとuser32.dllを含む[ダイナミックリンクライブラリ](#2vuoon)を通じて[アプリケーション](#zxvj73)に公開される，文書化された[API](#9e509k)．
 
 <a id="jzpnq4"></a>
 
@@ -1500,7 +2042,7 @@ IEEE 802.11に基づき，免許を要しない[周波数帯](#utnq9w)の[無線
 
 [ntoskrnl.exe](#tguf9f)を[カーネル](#cktjwx)の中核とする[オペレーティングシステム](#c8v8vw)の系統．
 
-ToDo: [65](todo.md#todo-65)
+ToDo: [136](todo.md#todo-136)，[102](todo.md#todo-102)
 
 <a id="s709hz"></a>
 
@@ -1512,7 +2054,7 @@ ToDo: [65](todo.md#todo-65)
 
 ## Windowsセッション
 
-[Windows NT](#jzpnq4)において，[プロセス](#lm3iq5)と，それらが用いる[ウィンドウ](#zbv6hc)と画面と入力装置の[資源](#k7gc81)を包み，[資源の隔離](#1sgoxr)を行う単位．ユーザーが対話的に[認証](#l2zofw)されるたびに作成される．セッション0は[Windowsサービス](#s709hz)とシステムの[プロセス](#lm3iq5)が用い，対話的に[認証](#l2zofw)されたユーザーには割り当てられない．
+[Windows NT](#jzpnq4)において，[プロセス](#lm3iq5)と，それらが用いる[ウィンドウ](#zbv6hc)と画面と入力装置の[資源](#k7gc81)を包み，[資源隔離](#1sgoxr)を行う単位．ユーザーが対話的に[認証](#l2zofw)されるたびに作成される．セッション0は[Windowsサービス](#s709hz)とシステムの[プロセス](#lm3iq5)が用い，対話的に[認証](#l2zofw)されたユーザーには割り当てられない．
 
 <a id="cyz8ys"></a>
 
@@ -1520,11 +2062,51 @@ ToDo: [65](todo.md#todo-65)
 
 64ビットの[Windows NT](#jzpnq4)において，32ビットの[Portable Executable形式](#uaym9q)のプログラムを実行させる[ユーザーモード](#v7n2z8)の互換層．
 
+ToDo: [136](todo.md#todo-136)
+
+<a id="wjqbo3"></a>
+
+## XML
+
+開始タグと終了タグで囲んだ要素を入れ子にして，[木](#dj2zcx)の構造のデータを表すテキストの形式．
+
 <a id="fg7rfz"></a>
 
 ## Zab
 
 [ZooKeeperアンサンブル](#csow5k)が用いる[合意アルゴリズム](#eo61p5)．[リーダー](#v8js9k)が状態の変更を，エポックと計数からなるzxidで全順序付けて提案し，[クォーラム](#225nin)の[フォロワー](#telc65)が記録したのち確定させる．[リーダー](#v8js9k)の故障時には，[リーダー選出](#brj8ci)により最も新しいzxidをもつ[サーバー](#uteg7y)を新しい[リーダー](#v8js9k)とする．
+
+<a id="o6myi6"></a>
+
+## Zabbix
+
+[ホスト](#y3ka2w)から値を収集し，[障害](#ilz3yu)を判定して通知する，[オープンソースライセンス](#kv40ye)で配布される監視ソフトウェア．
+
+ToDo: [103](todo.md#todo-103)
+
+<a id="5l6oih"></a>
+
+## Zabbix Agent
+
+[ホスト](#y3ka2w)上で動作し，そのホストの値を[パッシブチェック](#n8ur2q)または[アクティブチェック](#v4p3tn)で[監視主体](#90keyj)に提供する[プロセス](#lm3iq5)．
+
+<a id="pjiioj"></a>
+
+## Zabbix Proxy
+
+[Zabbix Server](#tm6l00)に代わって値を収集し，一時保存してから[Zabbix Server](#tm6l00)へ送る[監視主体](#90keyj)．[Zabbix Agent](#5l6oih)との通信手順は[Zabbix Server](#tm6l00)と同一である．高々1つの[プロキシグループ](#t7lw5k)に属する．
+
+<a id="tm6l00"></a>
+
+## Zabbix Server
+
+[Zabbix](#o6myi6)の中核である[監視主体](#90keyj)．自ら収集した値と[Zabbix Proxy](#pjiioj)から受けた値を[データベース](#vlgsmo)に格納し，[トリガー](#3gz3w5)の評価と[アクション](#pfbsnf)の実行を行う．
+
+<a id="ait45t"></a>
+
+## Zabbixトラッパー
+
+外部から[監視主体](#90keyj)に送られた値を受け取る[アイテムタイプ](#ugi5pv)．
 
 <a id="csow5k"></a>
 
@@ -1548,9 +2130,7 @@ ToDo: [65](todo.md#todo-65)
 
 ## Zygote
 
-[Linux](#eh8l2u)上の[Chromium](#2aag3y)において，起動時に共通の初期化を済ませ，自身を複製して[レンダラープロセス](#53ckw6)等を作る[プロセス](#lm3iq5)．複製された[プロセス](#lm3iq5)は，初期化済みの[ページ](#05by8w)を[コピーオンライト](#q33a7g)で共有する．
-
-ToDo: [66](todo.md#todo-66)
+[Linux](#eh8l2u)上の[Chromium](#2aag3y)において，起動時に共通の初期化を済ませ，自身を複製して[レンダラープロセス](#53ckw6)を含む子の[プロセス](#lm3iq5)を作る[プロセス](#lm3iq5)．複製された[プロセス](#lm3iq5)は，初期化済みの[ページ](#05by8w)を[コピーオンライト](#q33a7g)で共有する．
 
 <a id="rh5dah"></a>
 
@@ -1558,23 +2138,27 @@ ToDo: [66](todo.md#todo-66)
 
 [Linux](#eh8l2u)において，[プロセス](#lm3iq5)を階層的な集合に組織し，集合ごとに[資源](#k7gc81)の使用を計測して[資源制限](#g9mkrr)を課す機構．
 
+ToDo: [126](todo.md#todo-126)
+
 <a id="64p7b9"></a>
 
 ## clone
 
-[Linux](#eh8l2u)において新しい[タスク](#wt431k)を作成する[システムコール](#saksfm)．呼び出し元の[タスク](#wt431k)と共有する[資源](#k7gc81)を引数で指定する．
+[Linux](#eh8l2u)において新しい[スレッド](#ou7dup)を作成する[システムコール](#saksfm)．呼び出し元の[スレッド](#ou7dup)と共有する[資源](#k7gc81)を引数で指定する．
 
 <a id="e7u8nm"></a>
 
 ## contentモジュール
 
-[Chromium](#2aag3y)のソースのうち，[サンドボックス](#2xz9pb)と複数の[プロセス](#lm3iq5)からなる[Webブラウザ](#gcly3z)の中核を実装し，Google Chrome固有の機能を含まない層．埋め込み側にContent [API](#9e509k)を提供する．Electronはこれを用いる．
+[Chromium](#2aag3y)のソースのうち，[サンドボックス](#2xz9pb)と複数の[プロセス](#lm3iq5)からなる[Webブラウザ](#gcly3z)の中核を実装し，Google Chrome固有の機能を含まない層．埋め込み側にContent [API](#9e509k)を提供する．
 
 <a id="aqu8xq"></a>
 
 ## device-mapper
 
 [Linux](#eh8l2u)において，仮想的な[ブロックデバイス](#1frbzb)の各区間を，対応表に従って他の[ブロックデバイス](#1frbzb)の区間に対応付ける[カーネル](#cktjwx)の枠組み．対応付けの種類はターゲットとして実装される．
+
+ToDo: [130](todo.md#todo-130)，[126](todo.md#todo-126)
 
 <a id="vz4jtn"></a>
 
@@ -1610,9 +2194,21 @@ ToDo: [66](todo.md#todo-66)
 
 ## iptables
 
-[Netfilter](#feag1h)に規則を設定する手段．規則を，目的ごとのテーブル（filter，nat，mangle，raw，security）に属する[チェイン](#0jljvq)に並べる．組込みの[チェイン](#0jljvq)は[Netfilterフック](#ljpkdd)に結び付く．規則は先頭から照合し，一致した規則のターゲットを適用する．照合を終えるターゲットを適用せずに組込みの[チェイン](#0jljvq)の末尾に達すると，その[チェイン](#0jljvq)に定めた既定のターゲット（ACCEPTまたはDROP）を適用する．
+[Netfilter](#feag1h)に規則を設定する手段．規則を，目的ごとに固定された[Netfilterテーブル](#2tvkpf)（filter，nat，mangle，raw，security）に属する[チェイン](#0jljvq)に並べる．組込みの[チェイン](#0jljvq)は[Netfilterフック](#ljpkdd)に結び付く．規則は先頭から照合し，一致した規則の[iptablesターゲット](#n0xlay)を適用する．照合を終える[iptablesターゲット](#n0xlay)を適用せずに組込みの[チェイン](#0jljvq)の末尾に達すると，その[チェイン](#0jljvq)に定めた既定の[iptablesターゲット](#n0xlay)（ACCEPTまたはDROP）を適用する．
 
-ToDo: [72](todo.md#todo-72)
+<a id="n0xlay"></a>
+
+## iptablesターゲット
+
+[iptables](#134vyo)の規則が，一致した[IPパケット](#w9btgk)に適用する処理．
+
+<a id="xoam9f"></a>
+
+## jail
+
+[FreeBSD](#ofaawr)において[資源隔離](#1sgoxr)を行う機構．所属する[プロセス](#lm3iq5)に，[ファイルシステム](#pp17bd)の部分木を根として見せ，jailの外の[プロセス](#lm3iq5)を見えなくし，独自のホスト名を与える．jailの中にjailを作れる．
+
+ToDo: [147](todo.md#todo-147)，[130](todo.md#todo-130)
 
 <a id="yv6kx0"></a>
 
@@ -1654,15 +2250,13 @@ Appleが開発する，XNUを[カーネル](#cktjwx)とする[オペレーティ
 
 ## nftables
 
-[iptables](#134vyo)の後継として，[Netfilter](#feag1h)に規則を設定する手段．テーブル，[チェイン](#0jljvq)，規則を全て利用者が定義し，規則を[カーネル](#cktjwx)内の[インタプリタ](#8e4tig)が実行する[バイトコード](#47l5g8)に変換する．[IPv4](#un6pgt)と[IPv6](#4elryy)を1つの体系で扱う．
-
-ToDo: [72](todo.md#todo-72)
+[iptables](#134vyo)の後継として，[Netfilter](#feag1h)に規則を設定する手段．[Netfilterテーブル](#2tvkpf)，[チェイン](#0jljvq)，規則を全て利用者が定義し，規則を[カーネル](#cktjwx)内の[インタプリタ](#8e4tig)が実行する[バイトコード](#47l5g8)に変換する．[IPv4](#un6pgt)と[IPv6](#4elryy)を1つの体系で扱う．
 
 <a id="z6nvth"></a>
 
 ## ntdll.dll
 
-[Windows NT](#jzpnq4)において，[ネイティブAPI](#kdca50)の入口と，[ダイナミックリンクライブラリ](#2vuoon)を[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)に読み込んで[サブルーチン](#y825lm)の参照を解決する[ユーザーモード](#v7n2z8)の処理とを提供する[ダイナミックリンクライブラリ](#2vuoon)．
+[Windows NT](#jzpnq4)において，[ネイティブAPI](#kdca50)の入口と，[ユーザーモード](#v7n2z8)で動作する[動的リンカ](#sxisir)とを提供する[ダイナミックリンクライブラリ](#2vuoon)．
 
 <a id="tguf9f"></a>
 
@@ -1670,17 +2264,299 @@ ToDo: [72](todo.md#todo-72)
 
 [Windows NT](#jzpnq4)において，[エグゼクティブ](#s3eb1d)と[NTカーネル層](#oobie1)を収め，[特権モード](#uk5ihn)で動作する実行ファイル．
 
+<a id="ood9pc"></a>
+
+## propagationPolicy
+
+[オブジェクト](#8ot6zr)の削除時に指定する，それを[所有者参照](#zktekl)で指す[オブジェクト](#8ot6zr)の扱い．Orphanはそれらの[所有者参照](#zktekl)を除いて残し，Backgroundは所有者を直ちに削除してそれらを[ガベージコレクタ](#3x9bon)に削除させ，ForegroundはblockOwnerDeletionをもつものの削除を待ってから所有者を削除する．
+
 <a id="x4wvbi"></a>
 
 ## seccomp-BPF
 
 [Linux](#eh8l2u)において，[スレッド](#ou7dup)が発行する[システムコール](#saksfm)を，その番号と引数を検査する[バイトコード](#47l5g8)のフィルタにより許可または拒否する機構．フィルタは子孫に継承され，解除できない．
 
+<a id="zv7vha"></a>
+
+## setuidプログラム
+
+実行した[プロセス](#lm3iq5)に，そのファイルの所有者の[セキュリティ文脈](#lxnyp5)での[権限引受け](#5bn6hq)をさせるプログラム．
+
+ToDo: [125](todo.md#todo-125)
+
+<a id="6df5pk"></a>
+
+## struct address_space
+
+[Linux](#eh8l2u)の[仮想ファイルシステム](#gid8it)において，1つの[struct inode](#6a5x2m)の内容のうち[ページキャッシュ](#yobm0y)にある[struct folio](#x1g5fz)を，ファイル内の位置で索引する[データ構造](#y9ua1k)．
+
+<a id="k31ju1"></a>
+
+## struct bio
+
+[Linux](#eh8l2u)において，[ブロックデバイス](#1frbzb)への1つの入出力要求を表す[データ構造](#y9ua1k)．対象の[ブロックデバイス](#1frbzb)，開始位置，読み書きの別，データを置く[物理メモリ](#svua87)の区間の列をもつ．
+
+ToDo: [130](todo.md#todo-130)，[126](todo.md#todo-126)
+
+<a id="hotd7l"></a>
+
+## struct cred
+
+[Linux](#eh8l2u)において，[スレッド](#ou7dup)の[セキュリティ文脈](#lxnyp5)を表す[データ構造](#y9ua1k)．ユーザーとグループの識別番号，capability，ユーザー名前空間である[Linux名前空間](#rmoy1r)への参照をもつ．[置換更新](#gv4jmw)で更新される．
+
+ToDo: [127](todo.md#todo-127)
+
+<a id="5t7a17"></a>
+
+## struct dentry
+
+[Linux](#eh8l2u)における[名前キャッシュ](#lnizbx)の要素．名前を，親のstruct dentryと，その名前のファイルの[struct inode](#6a5x2m)に結び付ける．
+
+<a id="3gg1hf"></a>
+
+## struct file
+
+[Linux](#eh8l2u)において，1つの[開かれたファイル記述](#u8r1ic)を表す[データ構造](#y9ua1k)．対象の[struct dentry](#5t7a17)と[操作表](#xxcrwp)をもつ．
+
+<a id="o771j1"></a>
+
+## struct file
+
+[FreeBSD](#ofaawr)において，1つの[開かれたファイル記述](#u8r1ic)を表す[データ構造](#y9ua1k)．対象の種類，種類ごとの[操作表](#xxcrwp)，対象を表す[データ構造](#y9ua1k)への参照をもつ．対象が[ファイルシステム](#pp17bd)内のファイルであれば[struct vnode](#6qdkzg)を，[ソケット](#oscpon)であれば[struct socket](#os8s4h)を参照する．
+
+<a id="nij06r"></a>
+
+## struct filedesc
+
+[FreeBSD](#ofaawr)において，[プロセス](#lm3iq5)が用いる[ファイルディスクリプタ表](#rxedfi)．
+
+ToDo: [130](todo.md#todo-130)
+
+<a id="84r2z8"></a>
+
+## struct files_struct
+
+[Linux](#eh8l2u)において，[スレッド](#ou7dup)が用いる[ファイルディスクリプタ表](#rxedfi)．
+
+<a id="x1g5fz"></a>
+
+## struct folio
+
+[Linux](#eh8l2u)において，物理的に連続する2の冪個の[ページフレーム](#4qztd7)を1単位として表す[データ構造](#y9ua1k)．
+
+<a id="yve2sf"></a>
+
+## struct fs_struct
+
+[Linux](#eh8l2u)において，[スレッド](#ou7dup)が[パス名](#ymj65u)の解決の起点とする根ディレクトリと作業ディレクトリを保持する[データ構造](#y9ua1k)．
+
+ToDo: [153](todo.md#todo-153)
+
+<a id="0c72yy"></a>
+
+## struct hlist_node
+
+[Linux](#eh8l2u)において，双方向で環状でない[埋め込み連結リスト](#0qdj5m)をつくるために要素に埋め込む[構造体](#0fq59c)．次の要素のstruct hlist_nodeへの参照と，前の要素がもつ次への参照の欄への参照からなる．リストの先頭は，最初の要素への参照のみからなるstruct hlist_headで表す．
+
+<a id="wbs4wg"></a>
+
+## struct ifnet
+
+[FreeBSD](#ofaawr)における[ネットワークインターフェース記述子](#u4q636)．割り当てられたアドレスの一覧をもつ．
+
+<a id="6a5x2m"></a>
+
+## struct inode
+
+[Linux](#eh8l2u)における[VFSノード](#pg1lac)．許可，所有者，大きさ，時刻の[メタデータ](#f7of70)と，[struct address_space](#6df5pk)をもつ．複数の[struct dentry](#5t7a17)から参照されうる．
+
+<a id="bmh3mr"></a>
+
+## struct list_head
+
+[Linux](#eh8l2u)において，双方向の環状の[埋め込み連結リスト](#0qdj5m)をつくるために要素に埋め込む[構造体](#0fq59c)．前後のstruct list_headへの参照の組からなる．
+
+<a id="0btwul"></a>
+
+## struct mbuf
+
+[FreeBSD](#ofaawr)における[パケットバッファ](#ebra35)．連鎖して1つのパケットまたはデータ列を表す．データはstruct mbuf内の領域か，それが参照する外部の領域に格納される．パケットの先頭のstruct mbufは，パケット全体の長さと，受信した[struct ifnet](#wbs4wg)をもつ．
+
+<a id="3s221u"></a>
+
+## struct mm_struct
+
+[Linux](#eh8l2u)における[アドレス空間記述子](#sjz43t)．同じ[スレッドグループ](#qugvsb)に属する[スレッド](#ou7dup)はこれを共有する．
+
+<a id="zsv4ce"></a>
+
+## struct mount
+
+[FreeBSD](#ofaawr)の[仮想ファイルシステム](#gid8it)において，[ファイルシステム](#pp17bd)の1つの実体を表す[データ構造](#y9ua1k)．実装の[操作表](#xxcrwp)をもち，根の[struct vnode](#6qdkzg)はこれを通じて得る．[マウント](#96n6sj)されたものは，マウント先の[ディレクトリ](#j1d7gn)の[struct vnode](#6qdkzg)を参照する．
+
+ToDo: [144](todo.md#todo-144)
+
+<a id="ix9fth"></a>
+
+## struct namecache
+
+[FreeBSD](#ofaawr)における[名前キャッシュ](#lnizbx)の要素．[ディレクトリ](#j1d7gn)の[struct vnode](#6qdkzg)と名前の組を，その名前のファイルの[struct vnode](#6qdkzg)に結び付ける．
+
+<a id="bcbwbu"></a>
+
+## struct net_device
+
+[Linux](#eh8l2u)における[ネットワークインターフェース記述子](#u4q636)．[ハードウェアアドレス](#le1wss)をもつ．
+
+<a id="nsn2y1"></a>
+
+## struct nsproxy
+
+[Linux](#eh8l2u)において，[スレッド](#ou7dup)が用いる[Linux名前空間](#rmoy1r)への参照を束ね，同じ組をもつ[スレッド](#ou7dup)の間で共有される[データ構造](#y9ua1k)．ユーザー名前空間は含まず，[struct cred](#hotd7l)が参照する．PID名前空間は，自身の属するものでなく，作成する子の属するものを参照する．
+
+ToDo: [127](todo.md#todo-127)
+
+<a id="04vse1"></a>
+
+## struct page
+
+[Linux](#eh8l2u)における[ページフレーム記述子](#o7oik1)．
+
+<a id="kx0thl"></a>
+
+## struct pmap
+
+[FreeBSD](#ofaawr)において，1つの[アドレス空間](#rygcc4)の[仮想記憶](#ysrn1f)の対応付けのうち[プロセッサ](#4ad6s1)に設定するものを，機種依存の形式で保持する[データ構造](#y9ua1k)．失われた対応付けは[struct vm_map](#9j376u)から再構成される．
+
+<a id="zlzhsg"></a>
+
+## struct prison
+
+[FreeBSD](#ofaawr)において，1つの[jail](#xoam9f)を表す[データ構造](#y9ua1k)．識別番号，名前，親のstruct prison，根とする[ディレクトリ](#j1d7gn)，ホスト名をもつ．
+
+<a id="gt9zce"></a>
+
+## struct proc
+
+[FreeBSD](#ofaawr)における[プロセス記述子](#smq3zz)．識別番号をもち，所属する[struct thread](#u3ag9q)の集合，[struct vmspace](#1p4y2z)，[struct filedesc](#nij06r)，[struct ucred](#s1h4s6)を参照する．
+
+<a id="klvvmj"></a>
+
+## struct sk_buff
+
+[Linux](#eh8l2u)における[パケットバッファ](#ebra35)．1つで1つのパケットを表し，データを格納する領域と，その中の各層のヘッダの位置と，通過する[struct net_device](#bcbwbu)をもつ．
+
+ToDo: [153](todo.md#todo-153)，[126](todo.md#todo-126)
+
+<a id="cn7ia0"></a>
+
+## struct sock
+
+[struct socket](#8a9dsr)が参照する，[ソケット](#oscpon)の[プロトコル](#bhk5im)に依存する状態を保持する[データ構造](#y9ua1k)．送信と受信の[待ち行列](#lhxknx)に[struct sk_buff](#klvvmj)を保持する．
+
+ToDo: [144](todo.md#todo-144)
+
+<a id="8a9dsr"></a>
+
+## struct socket
+
+[Linux](#eh8l2u)において，1つの[ソケット](#oscpon)を[struct file](#3gg1hf)と結び付けて表し，[struct sock](#cn7ia0)を参照する[データ構造](#y9ua1k)．
+
+ToDo: [144](todo.md#todo-144)
+
+<a id="os8s4h"></a>
+
+## struct socket
+
+[FreeBSD](#ofaawr)において，1つの[ソケット](#oscpon)を表す[データ構造](#y9ua1k)．[プロトコル](#bhk5im)の[操作表](#xxcrwp)と，[プロトコル](#bhk5im)に依存する状態への参照をもつ．データを送受信するものは，送信と受信の[待ち行列](#lhxknx)に[struct mbuf](#0btwul)を保持する．
+
+ToDo: [144](todo.md#todo-144)，[130](todo.md#todo-130)
+
+<a id="7yjz2f"></a>
+
+## struct super_block
+
+[Linux](#eh8l2u)の[仮想ファイルシステム](#gid8it)において，[マウント](#96n6sj)された[ファイルシステム](#pp17bd)の1つの実体を表す[データ構造](#y9ua1k)．根の[struct dentry](#5t7a17)と[操作表](#xxcrwp)をもち，[ブロックデバイス](#1frbzb)に格納されるものはその[ブロックデバイス](#1frbzb)を参照する．
+
+ToDo: [144](todo.md#todo-144)
+
+<a id="1jy9hb"></a>
+
+## struct task_struct
+
+[Linux](#eh8l2u)における[スレッド記述子](#nehk4w)．[struct mm_struct](#3s221u)，[struct files_struct](#84r2z8)，[struct fs_struct](#yve2sf)，[struct nsproxy](#nsn2y1)を参照する．[clone](#64p7b9)で作られた[スレッド](#ou7dup)は，指定に応じてこれらを呼び出し元と共有するか，新たに作ったものを参照する．[セキュリティ文脈](#lxnyp5)は[struct cred](#hotd7l)を参照して得る．
+
+ToDo: [126](todo.md#todo-126)
+
+<a id="u3ag9q"></a>
+
+## struct thread
+
+[FreeBSD](#ofaawr)における[スレッド記述子](#nehk4w)．所属する[struct proc](#gt9zce)を参照する．所属する[struct proc](#gt9zce)の[struct ucred](#s1h4s6)への参照を自身でも保持し，[セキュリティ文脈](#lxnyp5)としてこれを用いる．
+
+<a id="s1h4s6"></a>
+
+## struct ucred
+
+[FreeBSD](#ofaawr)において，[セキュリティ文脈](#lxnyp5)を表す[データ構造](#y9ua1k)．ユーザーとグループの識別番号と，所属する[jail](#xoam9f)の[struct prison](#zlzhsg)への参照をもつ．[置換更新](#gv4jmw)で更新される．
+
+<a id="1yzl6g"></a>
+
+## struct vm_area_struct
+
+[Linux](#eh8l2u)における[メモリ領域記述子](#q3l4ki)．対応付け先は，ファイルの区間か，ファイルをもたない無名の領域である．
+
+<a id="9j376u"></a>
+
+## struct vm_map
+
+[FreeBSD](#ofaawr)において，[struct vm_map_entry](#xx4asa)の集合を保持する[データ構造](#y9ua1k)．[仮想記憶](#ysrn1f)の対応付けの正本である．
+
+<a id="xx4asa"></a>
+
+## struct vm_map_entry
+
+[FreeBSD](#ofaawr)における[メモリ領域記述子](#q3l4ki)で，[struct vm_map](#9j376u)の要素である．
+
+ToDo: [130](todo.md#todo-130)
+
+<a id="0prgra"></a>
+
+## struct vm_object
+
+[FreeBSD](#ofaawr)において，内容の中の位置で[struct vm_page](#8lled2)を索引して保持し，保持していない位置の内容を種類に応じた供給元から得る[データ構造](#y9ua1k)．[struct vm_map_entry](#xx4asa)は区間の内容を得るためにこれを参照する．[コピーオンライト](#q33a7g)による写しは，書き込まれた[ページ](#05by8w)を保持する新たなstruct vm_objectが元のstruct vm_objectを背後に参照する連鎖で表される．
+
+<a id="8lled2"></a>
+
+## struct vm_page
+
+[FreeBSD](#ofaawr)における[ページフレーム記述子](#o7oik1)．[struct vm_object](#0prgra)に属するものは，その[struct vm_object](#0prgra)と中の位置をもつ．
+
+<a id="1p4y2z"></a>
+
+## struct vmspace
+
+[FreeBSD](#ofaawr)における[アドレス空間記述子](#sjz43t)．[メモリ領域記述子](#q3l4ki)の集合を[struct vm_map](#9j376u)として，[プロセッサ](#4ad6s1)に設定する対応付けを[struct pmap](#kx0thl)として内包する．
+
+ToDo: [130](todo.md#todo-130)
+
+<a id="6qdkzg"></a>
+
+## struct vnode
+
+[FreeBSD](#ofaawr)における[VFSノード](#pg1lac)．属する[struct mount](#zsv4ce)と，[ファイルシステム](#pp17bd)の実装に固有のデータへの参照をもつ．許可，所有者，大きさの[メタデータ](#f7of70)は[操作表](#xxcrwp)を通じて実装から得る．ファイルの内容の[ページキャッシュ](#yobm0y)は，参照する[struct vm_object](#0prgra)が保持する．
+
 <a id="4665g9"></a>
 
 ## sync操作
 
 [Apache ZooKeeper](#o7jjj5)において，接続先の[サーバー](#uteg7y)の状態を[ZooKeeperアンサンブル](#csow5k)の[リーダー](#v8js9k)に追いつかせる操作．
+
+<a id="7js10f"></a>
+
+## sys/queue.h
+
+[FreeBSD](#ofaawr)において，[埋め込み連結リスト](#0qdj5m)をつくる[マクロ](#3llsmk)群を定めるヘッダ．リストは単方向のSLISTとSTAILQ，双方向のLISTとTAILQの4種である．
 
 <a id="87mh85"></a>
 
@@ -1700,11 +2576,63 @@ ToDo: [72](todo.md#todo-72)
 
 [Apache ZooKeeper](#o7jjj5)の[名前空間](#m7lbe4)の要素．スラッシュで区切ったパスで識別され，データと子のznodeをもつ．更新のたびに増えるバージョン番号をもち，書き込みは期待するバージョン番号を条件にできる．シーケンシャルの指定で作成すると，親ごとに単調増加する番号が名前に付加される．
 
+<a id="as86xt"></a>
+
+## アイテム
+
+[Zabbix](#o6myi6)において，[ホスト](#y3ka2w)から1系列の値を収集する定義．[アイテムタイプ](#ugi5pv)，[アイテムキー](#dfhotk)，更新間隔，値の型，[ヒストリ](#s04nt7)と[トレンド](#spfrm5)の保存期間，単位，[保存前処理](#zgnkho)をもつ．
+
+ToDo: [103](todo.md#todo-103)
+
+<a id="dfhotk"></a>
+
+## アイテムキー
+
+[アイテム](#as86xt)が収集する値を指定する，`キー[引数,…]`の形式の文字列．[ホスト](#y3ka2w)内で一意である．
+
+<a id="ugi5pv"></a>
+
+## アイテムタイプ
+
+[アイテム](#as86xt)の値の収集方式．
+
+<a id="8yx5pi"></a>
+
+## アイデンティティ
+
+[主体](#pyjgmb)を他の[主体](#pyjgmb)と区別する属性の集合．
+
+<a id="3z77qd"></a>
+
+## アイデンティティプロバイダ
+
+[主体](#pyjgmb)を[認証](#l2zofw)し，その結果を[認証アサーション](#ki350n)として[サービスプロバイダ](#l5pssm)に伝える[サーバー](#uteg7y)．
+
+ToDo: [122](todo.md#todo-122)
+
 <a id="feccnu"></a>
 
 ## アイデンティティベースポリシー
 
 [IAMアイデンティティ](#ix9em5)に付与される[主体側ポリシー](#r95ien)である[IAMポリシー](#let9u3)．
+
+<a id="2xbuy8"></a>
+
+## アカウントインスタンス
+
+単一の[AWSアカウント](#r2ghkv)を管理対象とする[Identity Centerインスタンス](#5mx2oh)．[アカウント割り当て](#n4iumx)をもたない．
+
+<a id="n4iumx"></a>
+
+## アカウント割り当て
+
+[組織インスタンス](#ljfr92)において，[Identity Centerユーザー](#ypfrjn)または[Identity Centerグループ](#97jks3)，[許可セット](#p7yj2k)，[AWSアカウント](#r2ghkv)の組．その[Identity Centerユーザー](#ypfrjn)に，[許可セット](#p7yj2k)から作成された[IAMロール](#k1a9js)の[IAMロール引受け](#0d235w)を許す．
+
+<a id="pfbsnf"></a>
+
+## アクション
+
+[Zabbix](#o6myi6)において，指定した発生源の[イベント](#przzj5)に対し，条件を満たすときに実行する処理の定義．[イベント](#przzj5)の発生時，[障害](#ilz3yu)の復旧時，[障害](#ilz3yu)の更新時のそれぞれに実行内容をもち，発生時の実行内容は[エスカレーション](#813is1)に従う．通知には[ユーザーメディア](#0dudjl)を用いる．
 
 <a id="6blyao"></a>
 
@@ -1712,13 +2640,17 @@ ToDo: [72](todo.md#todo-72)
 
 [シークレットアクセスキー](#f2nfys)と組で発行され，その組を識別する公開の文字列．
 
+<a id="8w6s21"></a>
+
+## アクセストークン
+
+[認可サーバー](#kvuagh)が発行し，[認可クライアント](#47yah2)が[リソースサーバー](#6lul9i)への要求に添えて，その操作の[認可](#8esn53)を示す[トークン](#qt96h9)．
+
 <a id="9ea3s0"></a>
 
 ## アクセストークン
 
 [Windows NT](#jzpnq4)において，[プロセス](#lm3iq5)または[スレッド](#ou7dup)の[セキュリティ文脈](#lxnyp5)を表す[カーネルオブジェクト](#4d5j7r)．ユーザーと所属グループの[セキュリティ識別子](#kzruy4)，個々の[保護対象](#qfjrzs)によらないシステム全体の操作の権利，[整合性レベル](#79uj26)を保持する．
-
-ToDo: [68](todo.md#todo-68)
 
 <a id="tzn2n7"></a>
 
@@ -1730,15 +2662,25 @@ ToDo: [68](todo.md#todo-68)
 
 ## アクセス制御エントリ
 
-[Windows NT](#jzpnq4)において，1つの[セキュリティ識別子](#kzruy4)とアクセス権の組に対し，許可，拒否，アクセスの試みの記録等の指定を記述する要素．
+[Windows NT](#jzpnq4)において，1つの[セキュリティ識別子](#kzruy4)とアクセス権の組に対し，許可，拒否，アクセスの試みの記録を含む種別のうち1つを指定する要素．
 
-ToDo: [66](todo.md#todo-66)
+<a id="1zwomz"></a>
+
+## アクセス許可モデル
+
+[スタックセット](#9hhp5i)が[スタック](#ib0gqz)を作成，更新，削除するときに[IAMロール引受け](#0d235w)の対象とする[IAMロール](#k1a9js)の用意の仕方を定める，[スタックセット](#9hhp5i)の設定．
 
 <a id="wnrx30"></a>
 
-## アクセス許可の境界
+## アクセス許可境界
 
-[IAMユーザー](#viavkt)または[IAMロール](#k1a9js)に設定され，その[アイデンティティベースポリシー](#feccnu)に対する[許可の上限](#id1pzp)を定める[IAMポリシー](#let9u3)．
+[IAMユーザー](#viavkt)または[IAMロール](#k1a9js)に設定され，その[アイデンティティベースポリシー](#feccnu)に対する[許可上限](#id1pzp)を定める[IAMポリシー](#let9u3)．
+
+<a id="v4p3tn"></a>
+
+## アクティブチェック
+
+[Zabbix Agent](#5l6oih)が[監視主体](#90keyj)から対象の[アイテム](#as86xt)の一覧を取得し，自ら値を収集して[監視主体](#90keyj)へ送る方式．送信先は既定で[TCP](#cndtkv)の[ポート番号](#avetpx)10051である．これによる[アイテムタイプ](#ugi5pv)をZabbixエージェント(アクティブ)と呼ぶ．
 
 <a id="w88wo5"></a>
 
@@ -1752,11 +2694,27 @@ ToDo: [66](todo.md#todo-66)
 
 AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す，[BGP](#0ey58g)で交換する[経路](#5433mk)の種類．
 
+<a id="k4ztwu"></a>
+
+## アドレス区間記述子
+
+[アドレス空間](#rygcc4)のうち，[ページ](#05by8w)の境界に揃った連続する区間1つと，その対応付け先を表す[データ構造](#y9ua1k)．
+
+ToDo: [148](todo.md#todo-148)
+
 <a id="rygcc4"></a>
 
 ## アドレス空間
 
 [プロセス](#lm3iq5)が参照できるアドレスの集合．
+
+<a id="sjz43t"></a>
+
+## アドレス空間記述子
+
+[カーネル](#cktjwx)において，1つの[アドレス空間](#rygcc4)を表す[データ構造](#y9ua1k)．[メモリ領域記述子](#q3l4ki)の集合と，[ページテーブル](#yd60a1)を保持する．
+
+ToDo: [148](todo.md#todo-148)
 
 <a id="t6j8bt"></a>
 
@@ -1770,6 +2728,12 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [Pod](#k4ef3z)の配置先を，[ノード](#6qrxi1)の[ラベル](#zugz1v)，または既に配置された他の[Pod](#k4ef3z)の[ラベル](#zugz1v)に基づいて，必須または優先の条件として制約する指定．後者には，同じ配置を避ける反アフィニティがある．
 
+<a id="zxvj73"></a>
+
+## アプリケーション
+
+利用者が目的の作業を行うために用いるプログラム．
+
 <a id="zb3vp3"></a>
 
 ## アベイラビリティゾーン
@@ -1780,13 +2744,21 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 ## アラーム
 
-[Amazon CloudWatch](#y77mp8)において，[メトリクス](#1s1rpf)を閾値と比較して状態を定め，状態の変化に応じて通知等の動作を実行するもの．
+[Amazon CloudWatch](#y77mp8)の[監視規則](#pvfe2i)．[メトリクス](#1s1rpf)を閾値と比較する方式をもつ．状態が変化したとき，指定された処理を実行する．
 
 <a id="35wv5r"></a>
 
 ## イベント
 
 システムで生じた出来事を表すデータ．
+
+<a id="przzj5"></a>
+
+## イベント
+
+[Zabbix](#o6myi6)において，[Zabbix Server](#tm6l00)が記録する[イベント](#35wv5r)．発生源は[トリガー](#3gz3w5)，[ネットワークディスカバリ](#1ffv8q)，[自動登録](#grye5m)，内部，[サービス](#8vi40f)のいずれかであり，内部の発生源は[アイテム](#as86xt)，[LLDルール](#dkfxg4)，[トリガー](#3gz3w5)の評価可否の変化である．発生時刻と[深刻度](#jcg0dk)をもち，[確認応答](#8zsqwg)の有無を記録する．
+
+ToDo: [103](todo.md#todo-103)
 
 <a id="aoy2yh"></a>
 
@@ -1836,6 +2808,12 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [ntoskrnl.exe](#tguf9f)のうち，[NTカーネル層](#oobie1)の上に位置し，[資源](#k7gc81)を管理する構成要素からなる層．
 
+<a id="813is1"></a>
+
+## エスカレーション
+
+[障害](#ilz3yu)が継続する間，[アクション](#pfbsnf)の発生時の実行内容をステップ順に，指定した間隔で実行する仕組み．
+
 <a id="r05bfh"></a>
 
 ## エッジロケーション
@@ -1854,6 +2832,24 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 作成した[ZooKeeperセッション](#z4pzpk)の終了時に自動で削除される[znode](#xus9ny)．子をもてない．
 
+<a id="9i1lg3"></a>
+
+## エンドポイント
+
+要求の宛先となる[URL](#ydpswy)．
+
+<a id="7rs9yk"></a>
+
+## エンドポイントサービス
+
+[AWS PrivateLink](#8irydc)の提供側で，[Network Load Balancer](#mddvjx)または[Gateway Load Balancer](#uou6rr)を，許可された[プリンシパル](#t8ujsy)の[VPCエンドポイント](#pguegu)から利用できるようにする[AWSリソース](#78qg7h)．
+
+<a id="ewuega"></a>
+
+## エンドユーザー検証URI
+
+[認可サーバー](#kvuagh)が公開する[URL](#ydpswy)．[主体](#pyjgmb)から[ユーザーコード](#xnr09h)の入力を受け付け，対の[デバイスコード](#74muqa)を得た[認可クライアント](#47yah2)への許可または拒否を問い合わせる．
+
 <a id="yimp6h"></a>
 
 ## オクテット
@@ -1864,7 +2860,7 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 ## オブジェクト
 
-[kube-apiserver](#yv6kx0)が管理する永続的な実体で，[クラスタ](#dx7pxd)の望ましい状態または実際の状態を表す．種類，名前，[ラベル](#zugz1v)，[アノテーション](#t6j8bt)，[所有者参照](#zktekl)を[メタデータ](#f7of70)としてもち，多くは望ましい状態を記したspecと，観測された状態を記したstatusをもつ．
+[kube-apiserver](#yv6kx0)が管理する永続的な実体で，[クラスタ](#dx7pxd)の望ましい状態または実際の状態を表す．種類，名前，[ラベル](#zugz1v)，[アノテーション](#t6j8bt)，[所有者参照](#zktekl)を[メタデータ](#f7of70)としてもつ．望ましい状態を記したspecと，観測された状態を記したstatusをもつかは，種類ごとに定まる．
 
 <a id="k4obt0"></a>
 
@@ -1878,6 +2874,12 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [Windows NT](#jzpnq4)において，[カーネルオブジェクト](#4d5j7r)を識別する[ハンドル](#ib1jow)．作成時に許可されたアクセス権を保持し，以後の操作はそのアクセス権の範囲に限られる．
 
+<a id="teluba"></a>
+
+## オブジェクトファイル
+
+[翻訳単位](#ncbdz9)の翻訳により作られる，[リンカ](#xbrsqq)の入力となるファイル．機械語とデータ，それらのうち外から参照できるものの名前，外の定義を参照する名前，参照の解決後に書き換える位置を含む．
+
 <a id="qwhtqy"></a>
 
 ## オブジェクトマネージャ
@@ -1889,6 +2891,12 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 ## オブジェクト名前空間
 
 [オブジェクトマネージャ](#qwhtqy)が管理する，[カーネルオブジェクト](#4d5j7r)の階層的な[名前空間](#m7lbe4)．[オブジェクトマネージャ](#qwhtqy)はこの中の名前から[カーネルオブジェクト](#4d5j7r)への[名前解決](#3or1pp)を行う．
+
+<a id="fm7edw"></a>
+
+## オペレーション設定
+
+[スタックセット](#9hhp5i)が各[スタックインスタンス](#hmll3k)の[スタック](#ib0gqz)を作成，更新，削除するときの実行方法を定める設定．
 
 <a id="qtnfg6"></a>
 
@@ -1902,6 +2910,8 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [資源](#k7gc81)を管理し，抽象化した[資源](#k7gc81)を[プロセス](#lm3iq5)に提供するソフトウェア．中核は[カーネル](#cktjwx)である．
 
+ToDo: [139](todo.md#todo-139)
+
 <a id="3f4vd8"></a>
 
 ## オリジン
@@ -1914,11 +2924,25 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 利用者が自ら管理する施設に設備を置いて運用する形態．
 
+<a id="kv40ye"></a>
+
+## オープンソースライセンス
+
+ソースコードの利用，改変，再配布を，相手と目的を問わず許す[ソフトウェアライセンス](#tae9qv)．
+
 <a id="xo9y6e"></a>
 
 ## カスタムリソース
 
 [CustomResourceDefinition](#b5ztot)により追加された種類の[オブジェクト](#8ot6zr)．
+
+<a id="oh434k"></a>
+
+## カプセル化
+
+ある[プロトコル](#bhk5im)のデータの単位を，別の[プロトコル](#bhk5im)のデータの単位の中身として包むこと．
+
+ToDo: [153](todo.md#todo-153)
 
 <a id="cktjwx"></a>
 
@@ -1932,17 +2956,19 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [Windows NT](#jzpnq4)において，[オブジェクトマネージャ](#qwhtqy)が管理する，[資源](#k7gc81)を表す[データ構造](#y9ua1k)．[ユーザーモード](#v7n2z8)からは[オブジェクトハンドル](#6onm6b)を介してのみ操作される．
 
+ToDo: [126](todo.md#todo-126)
+
 <a id="4995ja"></a>
 
 ## カーネルモジュール
 
-[Linux](#eh8l2u)の実行中に[カーネル](#cktjwx)への読み込みと取り外しができる，[カーネル](#cktjwx)の機能を実装したプログラム．
+[カーネル](#cktjwx)の実行中に読み込みと取り外しができる，[カーネル](#cktjwx)の[拡張プログラム](#iwj5fh)．
 
 <a id="fnr7ad"></a>
 
 ## カーネルモードドライバ
 
-[Windows NT](#jzpnq4)において，[特権モード](#uk5ihn)で動作して[I/O要求パケット](#dd3rvj)を処理する，実行時に読み込まれる[Portable Executable形式](#uaym9q)のモジュール．
+[Windows NT](#jzpnq4)において，[特権モード](#uk5ihn)で動作して[I/O要求パケット](#dd3rvj)を処理する，[カーネル](#cktjwx)の[拡張プログラム](#iwj5fh)．実行時に読み込まれる[Portable Executable形式](#uaym9q)のモジュールである．
 
 <a id="6exqbl"></a>
 
@@ -1986,6 +3012,18 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [サーバー](#uteg7y)に要求を送り，応答を受け取るプログラムまたは計算機．
 
+<a id="rhlnw8"></a>
+
+## クライアントID
+
+[認可サーバー](#kvuagh)が[認可クライアント](#47yah2)に割り当てる識別子．
+
+<a id="vhpaym"></a>
+
+## クライアントクレデンシャルグラント
+
+[認可クライアント](#47yah2)の[認証情報](#pyxpuc)のみを示し，[認可クライアント](#47yah2)自身が[主体](#pyjgmb)として[認可](#8esn53)を得る[認可グラント](#n1yjv8)．grant_typeはclient_credentialsである．
+
 <a id="yy3buk"></a>
 
 ## クラウドコンピューティング
@@ -2022,11 +3060,17 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 [BGPスピーカー](#v9rnch)の[BGP](#0ey58g)の処理の再起動中も，[ピア](#7wmnel)がその[BGPスピーカー](#v9rnch)から学習した[経路](#5433mk)を保持して転送を継続する[ケイパビリティ](#6vfi5n)．
 
+<a id="bdchaf"></a>
+
+## グローバルリソース
+
+[リージョン](#1df8fw)に属さない[AWSリソース](#78qg7h)．
+
 <a id="6vfi5n"></a>
 
 ## ケイパビリティ
 
-[BGPスピーカー](#v9rnch)が[OPENメッセージ](#x55k1n)で対応を通知する，[BGP](#0ey58g)の拡張機能．
+[BGPスピーカー](#v9rnch)が[OPENメッセージ](#x55k1n)で対応を通知する，[BGP](#0ey58g)の拡張．
 
 <a id="7ll5nd"></a>
 
@@ -2050,7 +3094,9 @@ AFI（アドレス体系）とSAFI（後続アドレス体系）の組で表す�
 
 ## コンテナ
 
-[カーネル](#cktjwx)を共有しつつ，[プロセス](#lm3iq5)の集合に[資源の隔離](#1sgoxr)と[資源制限](#g9mkrr)を施した実行環境．
+[カーネル](#cktjwx)を共有しつつ，[プロセス](#lm3iq5)の集合に[資源隔離](#1sgoxr)と[資源制限](#g9mkrr)を施した実行環境．
+
+ToDo: [147](todo.md#todo-147)
 
 <a id="ea366y"></a>
 
@@ -2128,7 +3174,7 @@ controllerフィールドが真である[所有者参照](#zktekl)で，1つの[
 
 ## サブネット
 
-[VPC](#4ln6ld)の[サブネット](#e9v7rv)．[VPC](#4ln6ld)の[IPプレフィックス](#6rwn5e)に含まれる[IPプレフィックス](#6rwn5e)をもち，1つの[アベイラビリティゾーン](#zb3vp3)に属する．1つの[経路表](#4m7c9r)と1つの[ネットワークACL](#eqsq3o)が関連付けられる．
+[VPC](#4ln6ld)の[サブネット](#e9v7rv)．[VPC](#4ln6ld)の[IPプレフィックス](#6rwn5e)に含まれる[IPプレフィックス](#6rwn5e)をもち，1つの[アベイラビリティゾーン](#zb3vp3)に属する．1つの[経路表](#dw7079)と1つの[ネットワークACL](#eqsq3o)が関連付けられる．
 
 <a id="y825lm"></a>
 
@@ -2142,7 +3188,7 @@ controllerフィールドが真である[所有者参照](#zktekl)で，1つの[
 
 [Chromium](#2aag3y)が子の[プロセス](#lm3iq5)に適用する[サンドボックス](#94k6ba)．[ブラウザプロセス](#ejqo3w)を[ブローカー](#9c98zu)とする．[Windows NT](#jzpnq4)では[制限付きトークン](#pjlcj6)，[ジョブオブジェクト](#mmivp1)，低い[整合性レベル](#79uj26)を，[Linux](#eh8l2u)では[Linux名前空間](#rmoy1r)による隔離と[seccomp-BPF](#x4wvbi)を，[macOS](#0ml2dc)では[Seatbelt](#w8962q)を用いる．
 
-ToDo: [65](todo.md#todo-65)
+ToDo: [102](todo.md#todo-102)
 
 <a id="94k6ba"></a>
 
@@ -2162,6 +3208,14 @@ ToDo: [65](todo.md#todo-65)
 
 利用者が[サーバー](#uteg7y)の用意，容量の計画，保守を行わずに機能を利用する[クラウドコンピューティング](#yy3buk)の形態．
 
+<a id="8vi40f"></a>
+
+## サービス
+
+[Zabbix](#o6myi6)において，タグで対応付けた[障害](#ilz3yu)から状態を算出する監視単位．階層をなす．
+
+ToDo: [103](todo.md#todo-103)
+
 <a id="8ytqi4"></a>
 
 ## サービス
@@ -2172,13 +3226,25 @@ ToDo: [65](todo.md#todo-65)
 
 ## サービスコントロールポリシー
 
-[AWS Organizations](#yj1k74)において，[組織単位](#1wx4ge)または[AWSアカウント](#r2ghkv)に付与され，[メンバーアカウント](#yd40pa)内の[プリンシパル](#t8ujsy)に対する[許可の上限](#id1pzp)を定める[IAMポリシー](#let9u3)．
+[組織](#sm4tb3)の頂点に付与され，その頂点を根とする部分木の[組織アカウント](#4q8oz8)が参照する[メンバーアカウント](#yd40pa)内の[プリンシパル](#t8ujsy)に対する[許可上限](#id1pzp)を定める[IAMポリシー](#let9u3)．[組織リソース](#b2lxzl)である．
 
 <a id="xvi8o5"></a>
 
 ## サービスプレフィックス
 
 [AWSサービス](#40hiw9)を一意に識別する短い文字列．[Amazon Resource Name](#c6b1z3)と[ポリシーステートメント](#bhslyd)で[AWSサービス](#40hiw9)を指定するのに用いる．
+
+<a id="l5pssm"></a>
+
+## サービスプロバイダ
+
+[アイデンティティプロバイダ](#3z77qd)が発行した[認証アサーション](#ki350n)を検証し，それに基づいて[主体](#pyjgmb)を[認証](#l2zofw)されたものとして扱うプログラム．
+
+<a id="m0e2aa"></a>
+
+## サービスマネージド型アクセス許可
+
+[AWS Organizations](#yj1k74)との連携により[IAMロール](#k1a9js)が自動で作成され，[組織アカウント](#4q8oz8)が参照する[AWSアカウント](#r2ghkv)を[スタックインスタンス](#hmll3k)とする[アクセス許可モデル](#1zwomz)．[組織単位](#1wx4ge)を[スタックインスタンス](#hmll3k)の指定に用いることができ，その[組織単位](#1wx4ge)に加わった[組織アカウント](#4q8oz8)への自動の作成を設定できる．[管理者アカウント](#kh4nz4)は[管理アカウント](#svvkiy)または[委任管理者](#qiqjj5)である．[管理アカウント](#svvkiy)は[ターゲットアカウント](#gjqg2o)とならない．
 
 <a id="k0p5vs"></a>
 
@@ -2197,6 +3263,8 @@ ToDo: [65](todo.md#todo-65)
 ## システムコール
 
 [ユーザーモード](#v7n2z8)で動作する[プロセス](#lm3iq5)が[カーネル](#cktjwx)に処理を要求する手段．要求の処理は[特権モード](#uk5ihn)で行われる．
+
+ToDo: [139](todo.md#todo-139)
 
 <a id="1upnid"></a>
 
@@ -2246,6 +3314,24 @@ ToDo: [65](todo.md#todo-65)
 
 最後に追加した要素を最初に取り出す[抽象データ型](#wlwn4m)．
 
+<a id="ib0gqz"></a>
+
+## スタック
+
+1つの[テンプレート](#iwvz04)に従って作成された[AWSリソース](#78qg7h)の集合を，1つの単位として管理する[リージョンリソース](#tynhcw)．
+
+<a id="hmll3k"></a>
+
+## スタックインスタンス
+
+[スタックセット](#9hhp5i)が[スタック](#ib0gqz)を作成する先として登録した，1つの[AWSアカウント](#r2ghkv)と1つの[リージョン](#1df8fw)の組．
+
+<a id="9hhp5i"></a>
+
+## スタックセット
+
+1つの[テンプレート](#iwvz04)に従う[スタック](#ib0gqz)を，各[スタックインスタンス](#hmll3k)に一括で作成，更新，削除する[リージョンリソース](#tynhcw)．1つの[管理者アカウント](#kh4nz4)に属し，1つの[アクセス許可モデル](#1zwomz)をもつ．
+
 <a id="5wdqsg"></a>
 
 ## スタブリゾルバ
@@ -2256,9 +3342,7 @@ ToDo: [65](todo.md#todo-65)
 
 ## ストリーム
 
-1つの接続の中で，送信の順序を保って受信側に渡される一連のデータ．
-
-ToDo: [67](todo.md#todo-67)
+1つの[接続](#st4cz5)の中で，送信の順序を保って受信側に渡される一連のデータ．
 
 <a id="ahlapd"></a>
 
@@ -2272,13 +3356,25 @@ ToDo: [67](todo.md#todo-67)
 
 1つの制御の流れをもち，[スケジューラ](#wpudzb)によって[プロセッサ](#4ad6s1)を割り当てられる実行の単位．
 
+<a id="qugvsb"></a>
+
+## スレッドグループ
+
+[Linux](#eh8l2u)において，1つの[プロセス](#lm3iq5)をなす[スレッド](#ou7dup)の集合．[clone](#64p7b9)でCLONE_THREADを指定して作成された[スレッド](#ou7dup)は，呼び出し元と同じスレッドグループに属する．最初の[スレッド](#ou7dup)の識別番号をスレッドグループの識別番号とし，[プロセス](#lm3iq5)の識別番号として用いる．
+
+ToDo: [144](todo.md#todo-144)
+
 <a id="4dqyyj"></a>
 
 ## スレッド優先度
 
-[Windows NT](#jzpnq4)において，[スケジューラ](#wpudzb)が[スレッド](#ou7dup)の選択に用いる0から31の整数．16から31の範囲は実時間優先度と呼ばれ，[スケジューラ](#wpudzb)が値を変えない．1から15の範囲は可変優先度と呼ばれ，[スケジューラ](#wpudzb)が入出力の完了等の際に一時的に引き上げる．0は解放済みの[物理メモリ](#svua87)を零で初期化する[スレッド](#ou7dup)のみが用いる．
+[Windows NT](#jzpnq4)において，[スケジューラ](#wpudzb)が[スレッド](#ou7dup)の選択に用いる0から31の整数．16から31の範囲は実時間優先度と呼ばれ，[スケジューラ](#wpudzb)が値を変えない．1から15の範囲は可変優先度と呼ばれ，[スケジューラ](#wpudzb)が入出力の完了を含む事象の際に一時的に引き上げる．0は解放済みの[物理メモリ](#svua87)を零で初期化する[スレッド](#ou7dup)のみが用いる．
 
-ToDo: [72](todo.md#todo-72)
+<a id="nehk4w"></a>
+
+## スレッド記述子
+
+[カーネル](#cktjwx)が[スレッド](#ou7dup)ごとに1つ保持する，その[スレッド](#ou7dup)を表す[データ構造](#y9ua1k)．[スケジューラ](#wpudzb)が用いる状態をもつ．
 
 <a id="zgzyka"></a>
 
@@ -2296,7 +3392,9 @@ ToDo: [72](todo.md#todo-72)
 
 ## セキュリティ文脈
 
-実行中の処理の要求に対する[認可](#8esn53)で用いられる，その処理が代理する[主体](#pyjgmb)の身元と権限の組．
+実行中の処理の要求に対する[認可](#8esn53)で用いられる，その処理が代理する[主体](#pyjgmb)の[アイデンティティ](#8yx5pi)と権限の組．
+
+ToDo: [125](todo.md#todo-125)
 
 <a id="28ts3b"></a>
 
@@ -2308,7 +3406,7 @@ ToDo: [72](todo.md#todo-72)
 
 ## セキュリティ識別子
 
-[Windows NT](#jzpnq4)において，ユーザー，グループ，計算機等の[主体](#pyjgmb)を識別する可変長の値．
+[Windows NT](#jzpnq4)において，[主体](#pyjgmb)を識別する可変長の値．
 
 <a id="frjmk2"></a>
 
@@ -2320,7 +3418,7 @@ ToDo: [72](todo.md#todo-72)
 
 ## セッショントークン
 
-[AWS Security Token Service](#q44rf3)が一時的な[認証情報](#pyxpuc)に含める値．要求に添えて送られ，その一時的な[認証情報](#pyxpuc)が有効であることを示す．
+[AWS Security Token Service](#q44rf3)が一時的な[認証情報](#pyxpuc)に含める[トークン](#qt96h9)．その一時的な[認証情報](#pyxpuc)が有効であることを示す．
 
 <a id="rvp82m"></a>
 
@@ -2340,11 +3438,29 @@ ToDo: [72](todo.md#todo-72)
 
 [セルラー通信](#fibo1z)において，[基地局](#00im0x)が[端末](#zw6tbw)を収容する地理的な範囲の単位．1つの[基地局](#00im0x)は1つ以上のセルを受け持つ．
 
+<a id="1hx920"></a>
+
+## セルフマネージド型アクセス許可
+
+利用者が[IAMロール](#k1a9js)を作成する[アクセス許可モデル](#1zwomz)．[管理者アカウント](#kh4nz4)自身も[ターゲットアカウント](#gjqg2o)とできる．
+
 <a id="fibo1z"></a>
 
 ## セルラー通信
 
 地域を[セル](#d9lgtj)に分けて[基地局](#00im0x)に受け持たせ，[移動体通信事業者](#em1w73)が免許を受けた[周波数帯](#utnq9w)で運用する[無線通信](#1zfkze)の方式．[端末](#zw6tbw)は移動に伴い[ハンドオーバー](#2frvtg)を行う．
+
+<a id="oscpon"></a>
+
+## ソケット
+
+[プロセス](#lm3iq5)が[ハンドル](#ib1jow)を通じてデータを送受信する，通信の[端点](#b084uv)を表す[資源](#k7gc81)．
+
+<a id="tae9qv"></a>
+
+## ソフトウェアライセンス
+
+ソフトウェアの著作権者が，その利用，複製，改変，再配布を許す範囲と条件を定める許諾．
 
 <a id="zil7hp"></a>
 
@@ -2352,23 +3468,23 @@ ToDo: [72](todo.md#todo-72)
 
 [DNSゾーン](#2eh0s0)の内容を，[リーダー](#v8js9k)であるプライマリの[権威DNSサーバー](#9es8da)から[フォロワー](#telc65)であるセカンダリの[権威DNSサーバー](#9es8da)へ[レプリケーション](#rv2ppc)する手続き．全体を転送するAXFRと差分を転送するIXFRがあり，[TCP](#cndtkv)で行う．セカンダリは[SOAレコード](#sktwnj)のシリアル番号の増加により更新を検知する．
 
-<a id="wt431k"></a>
-
-## タスク
-
-[Linux](#eh8l2u)において[スケジューラ](#wpudzb)が[プロセッサ](#4ad6s1)を割り当てる単位．[スレッド](#ou7dup)と1対1に対応する．
-
 <a id="u7pfjr"></a>
 
 ## タブ
 
 [Webブラウザ](#gcly3z)の[ウィンドウ](#zbv6hc)内で切り替えて表示される，最上位の[フレーム](#mtx2pq)をもつ単位．
 
+<a id="gjqg2o"></a>
+
+## ターゲットアカウント
+
+[スタックインスタンス](#hmll3k)の[AWSアカウント](#r2ghkv)．
+
 <a id="2vuoon"></a>
 
 ## ダイナミックリンクライブラリ
 
-[Windows NT](#jzpnq4)において，実行時に[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)に読み込まれ，[サブルーチン](#y825lm)とデータを提供する[Portable Executable形式](#uaym9q)のファイル．
+[Windows NT](#jzpnq4)における[動的ライブラリ](#imdjs3)で，[Portable Executable形式](#uaym9q)のファイル．
 
 <a id="ccg2j3"></a>
 
@@ -2388,17 +3504,75 @@ ToDo: [72](todo.md#todo-72)
 
 [ノード](#6qrxi1)に付けるキー，値，効果の組で，一致する[トレラーション](#ey9zls)をもたない[Pod](#k4ef3z)を，効果に応じて新たな配置の禁止，配置の回避，実行中のものの削除により拒むもの．
 
+<a id="nud9su"></a>
+
+## テキストエディタ
+
+文字の並びとして記述されたファイルを表示し，編集するソフトウェア．
+
+ToDo: [151](todo.md#todo-151)
+
+<a id="iwvz04"></a>
+
+## テンプレート
+
+[スタック](#ib0gqz)に含める[AWSリソース](#78qg7h)を[JSON](#o3ixrz)またはYAMLで宣言した文書．
+
+<a id="k4ea9r"></a>
+
+## テンプレート
+
+[Zabbix](#o6myi6)において，[ホスト](#y3ka2w)または他のテンプレートにリンクされ，含む設定をリンク先に継承させる設定の集合．リンク関係は循環しない．
+
 <a id="2zr71h"></a>
 
 ## ディスプレイリスト
 
 図形，文字，画像を描く命令の列．画素を含まず，[ラスタライズ](#3o1tma)により画素に変換される．
 
+<a id="j1d7gn"></a>
+
+## ディレクトリ
+
+[ファイルシステム](#pp17bd)において，[ハードリンク](#wgjpyk)の集合を保持するファイル．階層の根である根ディレクトリを除き，他のディレクトリに属する．
+
+ToDo: [153](todo.md#todo-153)
+
 <a id="rqm5zv"></a>
 
 ## デッドロック
 
 複数の処理が，それぞれ他の処理の保持する[ロック](#7x5us3)の解放を待ち，いずれも進めなくなる状態．
+
+<a id="74muqa"></a>
+
+## デバイスコード
+
+[デバイス認可エンドポイント](#v501wk)が発行し，[デバイス認可グラント](#7b6pse)で示す値．有効期限は発行時の応答のexpires_inで示される．
+
+<a id="v501wk"></a>
+
+## デバイス認可エンドポイント
+
+[認可サーバー](#kvuagh)の[エンドポイント](#9i1lg3)．[バックチャネル](#y4a9oj)で[クライアントID](#rhlnw8)を含む要求を受け付け，[デバイスコード](#74muqa)，[ユーザーコード](#xnr09h)，[エンドユーザー検証URI](#ewuega)を返す．
+
+<a id="7b6pse"></a>
+
+## デバイス認可グラント
+
+[デバイスコード](#74muqa)を示す[認可グラント](#n1yjv8)．grant_typeはurn:ietf:params:oauth:grant-type:device_codeである．[認可クライアント](#47yah2)は，[主体](#pyjgmb)が許可または拒否するか[デバイスコード](#74muqa)が失効するまで，これを繰り返し[トークンエンドポイント](#f9akzj)に示す．
+
+<a id="49baql"></a>
+
+## デバッガ
+
+実行中のプログラムを制御し，その内部状態を観察して欠陥を特定するプログラム．
+
+<a id="wvtf4u"></a>
+
+## データオブジェクト
+
+プログラムが作成，参照，破棄するメモリの領域で，作成から破棄までの寿命をもつもの．
 
 <a id="hymk0a"></a>
 
@@ -2429,6 +3603,8 @@ ToDo: [72](todo.md#todo-72)
 ## データ型
 
 [プログラミング言語](#nw9j2i)において，値のとりうる範囲と，値に適用できる操作を定める分類．
+
+ToDo: [149](todo.md#todo-149)
 
 <a id="y9ua1k"></a>
 
@@ -2464,15 +3640,51 @@ ToDo: [72](todo.md#todo-72)
 
 ## トランスポートプロトコル
 
-[IPパケット](#w9btgk)で運ばれ，[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)の組で通信の端点を識別するプロトコル．
+[IPパケット](#w9btgk)で運ばれ，[IPアドレス](#3ksnfe)と[ポート番号](#avetpx)の組で[端点](#b084uv)を識別する[プロトコル](#bhk5im)．
 
-ToDo: [67](todo.md#todo-67)
+<a id="3gz3w5"></a>
+
+## トリガー
+
+[Zabbix](#o6myi6)の[監視規則](#pvfe2i)．[トリガー関数](#7jm7xn)を含む条件式で[アイテム](#as86xt)の値から[トリガー値](#hxwb5z)を定める．[アイテム](#as86xt)の新しい値の受信時に評価され，時間に基づく[トリガー関数](#7jm7xn)を含む場合は定期的にも評価される．[深刻度](#jcg0dk)をもつ．復旧には条件式が偽であることを要し，復旧条件式が設定されていればそれも真であることを要する．自動復旧しない設定ももつ．
+
+<a id="hxwb5z"></a>
+
+## トリガー値
+
+[トリガー](#3gz3w5)の判定結果．障害なしを表す`OK`と，障害を表す`PROBLEM`のいずれかである．
+
+<a id="7jm7xn"></a>
+
+## トリガー関数
+
+[トリガー](#3gz3w5)の条件式で[アイテム](#as86xt)の[ヒストリ](#s04nt7)を評価する関数．評価期間を時間または件数で指定する．値が届かないことは`nodata`で検知する．
 
 <a id="ey9zls"></a>
 
 ## トレラーション
 
 [Pod](#k4ef3z)に付ける指定で，一致する[テイント](#r85zs1)をもつ[ノード](#6qrxi1)への配置を許すもの．その[ノード](#6qrxi1)への配置を強制しない．
+
+<a id="spfrm5"></a>
+
+## トレンド
+
+[数値型](#4e4la0)の[アイテム](#as86xt)の[ヒストリ](#s04nt7)を1時間ごとに集計した，最小，平均，最大，件数の系列．
+
+<a id="qt96h9"></a>
+
+## トークン
+
+発行者が発行し，要求に添えて提示され，[認証](#l2zofw)または[認可](#8esn53)の判断の根拠となる値．
+
+ToDo: [116](todo.md#todo-116)
+
+<a id="f9akzj"></a>
+
+## トークンエンドポイント
+
+[認可サーバー](#kvuagh)の[エンドポイント](#9i1lg3)．[バックチャネル](#y4a9oj)で[認可グラント](#n1yjv8)を受け付け，検証に成功すれば[アクセストークン](#8w6s21)を返す．
 
 <a id="rw3kg0"></a>
 
@@ -2522,13 +3734,23 @@ ToDo: [67](todo.md#todo-67)
 
 計算機が[ネットワーク](#uy18d2)に接続する点．[IPアドレス](#3ksnfe)が割り当てられる．
 
+<a id="u4q636"></a>
+
+## ネットワークインターフェース記述子
+
+[カーネル](#cktjwx)が[ネットワークインターフェース](#cufd0s)ごとに1つ保持する，その[ネットワークインターフェース](#cufd0s)を表す[データ構造](#y9ua1k)．名前と[操作表](#xxcrwp)をもつ．
+
 <a id="cxvq7l"></a>
 
 ## ネットワークサービス
 
-[Chromium](#2aag3y)において，[HTTP](#31abh6)等による通信と，[Cookie](#jhdprm)と[キャッシュ](#kj4w0z)の管理を行う[サービス](#8ytqi4)．[ユーティリティプロセス](#0lze03)または[ブラウザプロセス](#ejqo3w)で動作する．
+[Chromium](#2aag3y)において，[HTTP](#31abh6)を含む[プロトコル](#bhk5im)による通信と，[Cookie](#jhdprm)と[キャッシュ](#kj4w0z)の管理を行う[サービス](#8ytqi4)．[ユーティリティプロセス](#0lze03)または[ブラウザプロセス](#ejqo3w)で動作する．
 
-ToDo: [66](todo.md#todo-66)
+<a id="1ffv8q"></a>
+
+## ネットワークディスカバリ
+
+[Zabbix](#o6myi6)において，指定した[IPアドレス](#3ksnfe)の範囲に指定した検査を行い，応答した計算機を検出する機能．
 
 <a id="atp440"></a>
 
@@ -2546,7 +3768,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## ハイパーバイザ
 
-1台の物理計算機上で複数の[仮想マシン](#uwly1k)を実行し，物理計算機の[プロセッサ](#4ad6s1)，メモリ，入出力装置をそれらに配分するソフトウェア．
+1台の物理計算機上で複数の[仮想マシン](#uwly1k)を実行し，物理計算機の[プロセッサ](#4ad6s1)，[物理メモリ](#svua87)，入出力装置をそれらに配分するソフトウェア．
 
 <a id="76afpj"></a>
 
@@ -2578,19 +3800,35 @@ ToDo: [66](todo.md#todo-66)
 
 [プロセス](#lm3iq5)が開いている[資源](#k7gc81)を識別する，[プロセス](#lm3iq5)ごとの値．
 
+<a id="n9vofr"></a>
+
+## ハンドル表
+
+[ハンドル](#ib1jow)から，それが識別する[資源](#k7gc81)を表す[データ構造](#y9ua1k)への対応表．
+
 <a id="5urygr"></a>
 
 ## ハートビート
 
 送信元が動作していることを受信側に示すため，一定の間隔で送られるメッセージ．受信側は，これが一定時間届かないことで送信元の故障を判定する[故障検出](#iq5tpn)に用いる．
 
+<a id="le1wss"></a>
+
+## ハードウェアアドレス
+
+[リンク](#xy3alb)において[ネットワークインターフェース](#cufd0s)を識別する識別子．
+
 <a id="5ui5pq"></a>
 
 ## ハードウェア抽象化層
 
-[Windows NT](#jzpnq4)において，[割り込み](#owu45r)制御器やタイマ等のプラットフォーム依存のハードウェアの差異を[ntoskrnl.exe](#tguf9f)から隠す，[特権モード](#uk5ihn)で動作する層．
+[Windows NT](#jzpnq4)において，[割り込み](#owu45r)制御器とタイマを含む，プラットフォーム依存のハードウェアの差異を[ntoskrnl.exe](#tguf9f)から隠す，[特権モード](#uk5ihn)で動作する層．
 
-ToDo: [66](todo.md#todo-66)
+<a id="wgjpyk"></a>
+
+## ハードリンク
+
+[ディレクトリ](#j1d7gn)が保持する，名前とファイルの対応．1つのファイルは複数のハードリンクをもちうる．
 
 <a id="47l5g8"></a>
 
@@ -2598,17 +3836,43 @@ ToDo: [66](todo.md#todo-66)
 
 [インタプリタ](#8e4tig)による実行のために定められた，[プロセッサ](#4ad6s1)に依存しない命令の符号の体系．
 
+<a id="y4a9oj"></a>
+
+## バックチャネル
+
+[Webブラウザ](#gcly3z)を介さず，送り手が受け手に直接[HTTP](#31abh6)の要求を送る送受信の経路．
+
+<a id="ebra35"></a>
+
+## パケットバッファ
+
+[カーネル](#cktjwx)が，[ネットワーク](#uy18d2)で送受信するデータを格納し，[プロトコル](#bhk5im)の層の間で受け渡す[データ構造](#y9ua1k)．
+
 <a id="xj5xfp"></a>
 
 ## パスベクタ型
 
 [経路](#5433mk)ごとに，それが通過した[自律システム](#8wkkrz)の列を付して伝え，受信者が自身の[AS番号](#wvk6j6)を含む列をもつものを破棄することで，広告が同じ[自律システム](#8wkkrz)を再び通る循環を防ぐ方式．
 
+<a id="ymj65u"></a>
+
+## パス名
+
+[ディレクトリ](#j1d7gn)をたどる名前の列で，[ファイルシステム](#pp17bd)内のファイルを指す文字列．根ディレクトリを起点とする絶対パス名と，作業ディレクトリを起点とする相対パス名がある．
+
+ToDo: [153](todo.md#todo-153)
+
 <a id="q885vr"></a>
 
 ## パス属性
 
 [BGP](#0ey58g)の[経路](#5433mk)に付される属性．周知必須，周知任意，オプション推移，オプション非推移のいずれかに分類される．[BGPスピーカー](#v9rnch)は未知のオプション推移属性を保持して他の[ピア](#7wmnel)へ伝え，未知のオプション非推移属性を破棄する．
+
+<a id="n8ur2q"></a>
+
+## パッシブチェック
+
+[監視主体](#90keyj)が[Zabbix Agent](#5l6oih)に[アイテムキー](#dfhotk)を送って要求し，[Zabbix Agent](#5l6oih)が値を応答する方式．[Zabbix Agent](#5l6oih)は既定で[TCP](#cndtkv)の[ポート番号](#avetpx)10050で待ち受ける．これによる[アイテムタイプ](#ugi5pv)をZabbixエージェントと呼ぶ．
 
 <a id="kwufcq"></a>
 
@@ -2620,13 +3884,25 @@ ToDo: [66](todo.md#todo-66)
 
 ## パブリックサブネット
 
-[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を[経路表](#4m7c9r)にもつ[サブネット](#oygsrp)．
+[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を，関連付けられた[経路表](#dw7079)にもつ[サブネット](#oygsrp)．
 
 <a id="8rrdgi"></a>
 
 ## パブリッシュ/サブスクライブ型
 
 送信者がメッセージを受信者でなく[トピック](#qiadm1)に発行し，その[トピック](#qiadm1)を購読する全ての受信者へメッセージが配信される通信の方式．
+
+<a id="s04nt7"></a>
+
+## ヒストリ
+
+[Zabbix Server](#tm6l00)が保存する，[アイテム](#as86xt)の値と収集時刻の組の系列．[数値型](#4e4la0)の[アイテム](#as86xt)のヒストリは[メトリクス](#1s1rpf)である．
+
+<a id="ouc72p"></a>
+
+## ビットフィールド
+
+[構造体](#0fq59c)または[共用体](#ms7tuh)のメンバーのうち，幅をビット数で指定したもの．アドレスをとれない．
 
 <a id="ci6jok"></a>
 
@@ -2650,13 +3926,19 @@ ToDo: [66](todo.md#todo-66)
 
 ## ファイルシステム
 
-データを，名前の付いたファイルとして，ディレクトリからなる階層的な[名前空間](#m7lbe4)に格納する[記憶域](#kltl5m)の提供形態．
+データを，名前の付いたファイルとして，[ディレクトリ](#j1d7gn)からなる階層的な[名前空間](#m7lbe4)に格納する[記憶域](#kltl5m)の提供形態．
 
 <a id="rb2704"></a>
 
 ## ファイルディスクリプタ
 
 ファイルを識別する，非負整数の[ハンドル](#ib1jow)．
+
+<a id="rxedfi"></a>
+
+## ファイルディスクリプタ表
+
+[ファイルディスクリプタ](#rb2704)から，それが参照する[開かれたファイル記述](#u8r1ic)を表す[データ構造](#y9ua1k)への[ハンドル表](#n9vofr)．
 
 <a id="wgkq3s"></a>
 
@@ -2694,6 +3976,12 @@ ToDo: [66](todo.md#todo-66)
 
 [Webブラウザ](#gcly3z)において，1つの[Web文書](#qbtpp4)を表示する領域．[タブ](#u7pfjr)の最上位のフレームを根とし，[Web文書](#qbtpp4)に埋め込まれたフレームを子とする[木](#dj2zcx)をなす．
 
+<a id="xjb5je"></a>
+
+## フロントチャネル
+
+[Webブラウザ](#gcly3z)を介する送受信の経路．送り手は[Webブラウザ](#gcly3z)への応答により，[Webブラウザ](#gcly3z)に受け手への要求を送らせ，情報をその要求に含める．
+
 <a id="ejqo3w"></a>
 
 ## ブラウザプロセス
@@ -2722,15 +4010,25 @@ ToDo: [66](todo.md#todo-66)
 
 ## ブローカー
 
-[サンドボックス](#94k6ba)内の[プロセス](#lm3iq5)の要求を受け，その可否を判定した上で，代わりに[資源](#k7gc81)にアクセスする，より高い権限の[プロセス](#lm3iq5)．
-
-ToDo: [68](todo.md#todo-68)
+[サンドボックス](#94k6ba)内の[プロセス](#lm3iq5)の要求に対して[権限代行](#lti67d)を行い，[資源](#k7gc81)にアクセスする，より高い権限の[プロセス](#lm3iq5)．
 
 <a id="vds2br"></a>
 
 ## プライベートサブネット
 
-[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を[経路表](#4m7c9r)にもたない[サブネット](#oygsrp)．
+[インターネットゲートウェイ](#qmmwja)への[経路](#5433mk)を，関連付けられた[経路表](#dw7079)にもたない[サブネット](#oygsrp)．
+
+<a id="dz7dp9"></a>
+
+## プラグイン
+
+あるプログラムとは別のプログラムとして動作し，そのプログラムが定める規約に従って呼び出される[拡張プログラム](#iwj5fh)．
+
+<a id="rewxde"></a>
+
+## プリプロセッサ
+
+[C言語](#4pg9c8)と[C++](#drl0oo)の翻訳の初めに，#で始まる指令に従ってソースを書き換える処理．指令はファイルの取り込み，[マクロ](#3llsmk)の展開，条件による部分の取捨を含む．
 
 <a id="t8ujsy"></a>
 
@@ -2742,7 +4040,15 @@ ToDo: [68](todo.md#todo-68)
 
 ## プロキシ
 
-要求元からの通信を終端し，自らを端点とする別の通信で[通信先](#b2znuk)へ[中継](#zgr0mv)する機構．
+要求元からの通信を終端し，自らを[端点](#b084uv)とする別の通信で[通信先](#b2znuk)へ[中継](#zgr0mv)する機構．
+
+<a id="t7lw5k"></a>
+
+## プロキシグループ
+
+[Zabbix](#o6myi6)において，[Zabbix Proxy](#pjiioj)の集合．監視を委ねられた[ホスト](#y3ka2w)を，属する[Zabbix Proxy](#pjiioj)の間で分配する．
+
+ToDo: [103](todo.md#todo-103)
 
 <a id="nw9j2i"></a>
 
@@ -2756,7 +4062,15 @@ ToDo: [68](todo.md#todo-68)
 
 [アドレス空間](#rygcc4)と1つ以上の[スレッド](#ou7dup)からなる，プログラムの実行の単位．
 
-ToDo: [68](todo.md#todo-68)，[65](todo.md#todo-65)
+ToDo: [136](todo.md#todo-136)，[102](todo.md#todo-102)
+
+<a id="smq3zz"></a>
+
+## プロセス記述子
+
+[カーネル](#cktjwx)が[プロセス](#lm3iq5)ごとに1つ保持する，その[プロセス](#lm3iq5)を表す[データ構造](#y9ua1k)．
+
+ToDo: [144](todo.md#todo-144)
 
 <a id="vjg5ws"></a>
 
@@ -2770,7 +4084,17 @@ ToDo: [68](todo.md#todo-68)，[65](todo.md#todo-65)
 
 命令の列を読み出し，順に実行する装置．
 
-ToDo: [72](todo.md#todo-72)
+<a id="bhk5im"></a>
+
+## プロトコル
+
+通信の[端点](#b084uv)の間で交換するメッセージの形式と，交換の手順の取り決め．
+
+<a id="r4wode"></a>
+
+## プロプライエタリライセンス
+
+[オープンソースライセンス](#kv40ye)でない[ソフトウェアライセンス](#tae9qv)．
 
 <a id="4ofscj"></a>
 
@@ -2790,17 +4114,59 @@ ToDo: [72](todo.md#todo-72)
 
 [仮想記憶](#ysrn1f)が対応付けの単位とする，固定長で境界の揃ったアドレスの区間．
 
+<a id="yobm0y"></a>
+
+## ページキャッシュ
+
+[カーネル](#cktjwx)が[物理メモリ](#svua87)に保持する，ファイルの内容の複製．ファイルを実行する[プロセス](#lm3iq5)は，この複製を[アドレス空間](#rygcc4)に対応付けて命令を読む．
+
+<a id="yd60a1"></a>
+
+## ページテーブル
+
+[仮想記憶](#ysrn1f)において，[ページ](#05by8w)ごとに，対応する[ページフレーム](#4qztd7)とアクセス権を保持する表．
+
 <a id="e43owm"></a>
 
 ## ページファイル
 
 [Windows NT](#jzpnq4)において，ファイルに対応付けられていない[ページ](#05by8w)の内容を，[物理メモリ](#svua87)から取り除いた後に保持するファイル．
 
+<a id="4qztd7"></a>
+
+## ページフレーム
+
+[ページ](#05by8w)と同じ長さで境界の揃った[物理メモリ](#svua87)の区間．
+
+<a id="o7oik1"></a>
+
+## ページフレーム記述子
+
+[カーネル](#cktjwx)が管理する[ページフレーム](#4qztd7)ごとに1つ保持する，その[ページフレーム](#4qztd7)を表す[データ構造](#y9ua1k)．
+
 <a id="0qt5x4"></a>
 
 ## ホスト
 
 [URL](#ydpswy)のうち，対象を提供する計算機を示す部分．[ドメイン名](#d8xx9q)または[IPアドレス](#3ksnfe)である．
+
+<a id="y3ka2w"></a>
+
+## ホスト
+
+[Zabbix](#o6myi6)において，監視対象の管理単位．1つ以上の[ホストグループ](#72maxq)に属する．値を収集する[監視主体](#90keyj)は，[Zabbix Server](#tm6l00)，指定した[Zabbix Proxy](#pjiioj)，[プロキシグループ](#t7lw5k)が割り当てた[Zabbix Proxy](#pjiioj)のいずれかである．
+
+<a id="tyn5dk"></a>
+
+## ホストインターフェース
+
+[ホスト](#y3ka2w)への接続先．[IPアドレス](#3ksnfe)または[ドメイン名](#d8xx9q)と，[ポート番号](#avetpx)をもつ．種別は[Zabbix Agent](#5l6oih)，SNMP，IPMI，JMXのいずれかである．
+
+<a id="72maxq"></a>
+
+## ホストグループ
+
+[Zabbix](#o6myi6)において，[ホスト](#y3ka2w)の集合の管理単位．
 
 <a id="ptmib9"></a>
 
@@ -2812,13 +4178,19 @@ ToDo: [72](todo.md#todo-72)
 
 ## ボリューム
 
-[Pod](#k4ef3z)内の[コンテナ](#uds0ak)の[ファイルシステム](#pp17bd)に[マウント](#96n6sj)されるディレクトリで，[コンテナ](#uds0ak)の再起動を越えて内容が保たれるもの．emptyDirのように[Pod](#k4ef3z)と寿命を共にするものと，[PersistentVolumeClaim](#3b8umf)を介して[Pod](#k4ef3z)より長く存続するものがある．
+[Pod](#k4ef3z)内の[コンテナ](#uds0ak)の[ファイルシステム](#pp17bd)に[マウント](#96n6sj)される[ディレクトリ](#j1d7gn)で，[コンテナ](#uds0ak)の再起動を越えて内容が保たれるもの．emptyDirのように[Pod](#k4ef3z)と寿命を共にするものと，[PersistentVolumeClaim](#3b8umf)を介して[Pod](#k4ef3z)より長く存続するものがある．
 
 <a id="um9c12"></a>
 
 ## ボリュームグループ
 
 1つ以上の[物理ボリューム](#uj3w47)の[物理エクステント](#six0ds)を集めた，[LVM](#9tfla3)の[記憶域](#kltl5m)の集まり．[物理ボリューム](#uj3w47)の追加と除去により容量を変えられる．
+
+<a id="ubm34x"></a>
+
+## ポインタ
+
+[データオブジェクト](#wvtf4u)または[サブルーチン](#y825lm)のアドレスを値とし，それを通じて参照先にアクセスするための値．
 
 <a id="d3j3nj"></a>
 
@@ -2830,21 +4202,25 @@ ToDo: [72](todo.md#todo-72)
 
 ## ポリシーステートメント
 
-[IAMポリシー](#let9u3)の要素で，Effect，Action，Resource，Principal，Condition等により1つの許可または拒否を記述するもの．Actionは[サービスプレフィックス](#xvi8o5)と操作名を`:`で連結した形式で[AWSサービス](#40hiw9)の操作を，Resourceは[Amazon Resource Name](#c6b1z3)で対象を指定する．
-
-ToDo: [66](todo.md#todo-66)
+[IAMポリシー](#let9u3)の要素で，Sid，Effect，Principal，NotPrincipal，Action，NotAction，Resource，NotResource，Conditionの要素により1つの許可または拒否を記述するもの．Actionは[サービスプレフィックス](#xvi8o5)と操作名を`:`で連結した形式で[AWSサービス](#40hiw9)の操作を，Resourceは[Amazon Resource Name](#c6b1z3)で対象を指定する．
 
 <a id="avetpx"></a>
 
 ## ポート番号
 
-[トランスポートプロトコル](#dayw7g)において，同じ[IPアドレス](#3ksnfe)上の端点を区別する16ビットの値．
+[トランスポートプロトコル](#dayw7g)において，同じ[IPアドレス](#3ksnfe)上の[端点](#b084uv)を区別する16ビットの値．
 
 <a id="96n6sj"></a>
 
 ## マウント
 
-[ファイルシステム](#pp17bd)を，既存の[ファイルシステム](#pp17bd)の1つのディレクトリに接続し，その下で参照できるようにすること．
+[ファイルシステム](#pp17bd)を，既存の[ファイルシステム](#pp17bd)の1つの[ディレクトリ](#j1d7gn)に接続し，その下で参照できるようにすること．
+
+<a id="3llsmk"></a>
+
+## マクロ
+
+[プリプロセッサ](#rewxde)において，#define指令で定義される識別子と置換の字句列の組．以降のソース中に現れたその識別子を置換の字句列に展開する．引数をとるものを関数形式マクロと呼ぶ．
 
 <a id="biu4lz"></a>
 
@@ -2856,7 +4232,7 @@ ToDo: [66](todo.md#todo-66)
 
 ## マスターファイルテーブル
 
-[NTFS](#42ymz9)において，各ファイルとディレクトリについて1つ以上のレコードをもつ表．それ自身もファイルとして格納される．
+[NTFS](#42ymz9)において，各ファイルと[ディレクトリ](#j1d7gn)について1つ以上のレコードをもつ表．それ自身もファイルとして格納される．
 
 <a id="ufkar7"></a>
 
@@ -2886,13 +4262,19 @@ ToDo: [66](todo.md#todo-66)
 
 ## メタデータ
 
-データの内容ではなく，その名前，属性，構造等を記述するデータ．
+他のデータを記述するデータ．
 
 <a id="xnwjk2"></a>
 
 ## メッセージパイプ
 
 [Mojo](#n32mlc)において，2つの端点の間で双方向にメッセージを運ぶ通路．端点はメッセージに載せて他の[プロセス](#lm3iq5)へ渡せる．
+
+<a id="egz05p"></a>
+
+## メディアタイプ
+
+[アクション](#pfbsnf)が通知に用いる送信方式．
 
 <a id="1s1rpf"></a>
 
@@ -2916,13 +4298,21 @@ ToDo: [66](todo.md#todo-66)
 
 ## メモリ安全性
 
-プログラムが，確保された範囲の外のメモリと，解放されたメモリにアクセスしないことの保証．
+プログラムが[範囲外アクセス](#l0kw7s)と[解放後使用](#onqz9u)を起こさないことの保証．
+
+<a id="q3l4ki"></a>
+
+## メモリ領域記述子
+
+区間内でアクセス権が一様な[アドレス区間記述子](#k4ztwu)．
+
+ToDo: [148](todo.md#todo-148)
 
 <a id="yd40pa"></a>
 
 ## メンバーアカウント
 
-[AWS Organizations](#yj1k74)の組織に属する，[管理アカウント](#svvkiy)以外の[AWSアカウント](#r2ghkv)．
+[組織](#sm4tb3)に属する，[管理アカウント](#svvkiy)以外の[AWSアカウント](#r2ghkv)．
 
 <a id="ezqe8s"></a>
 
@@ -2934,9 +4324,25 @@ ToDo: [66](todo.md#todo-66)
 
 ## ユーザーアカウント制御
 
-[Windows NT](#jzpnq4)において，管理者のグループに属するユーザーが[認証](#l2zofw)されたときに，管理者の権限を除いた[アクセストークン](#9ea3s0)と完全な[アクセストークン](#9ea3s0)を対で作成し，通常は前者で[プロセス](#lm3iq5)を起動し，ユーザーが承認した場合にのみ後者で起動する機構．
+[Windows NT](#jzpnq4)において，管理者のグループに属するユーザーが[認証](#l2zofw)されたときに，管理者の権限を除いた[アクセストークン](#9ea3s0)と完全な[アクセストークン](#9ea3s0)を対で作成し，前者で[プロセス](#lm3iq5)を起動し，ユーザーが昇格を承認した場合にのみ後者で起動する機構．
 
-ToDo: [68](todo.md#todo-68)
+<a id="xnr09h"></a>
+
+## ユーザーコード
+
+[デバイス認可エンドポイント](#v501wk)が[デバイスコード](#74muqa)と対で発行し，[主体](#pyjgmb)が[エンドユーザー検証URI](#ewuega)で入力する短い文字列．有効期限は対の[デバイスコード](#74muqa)と同じである．
+
+<a id="1k4gbg"></a>
+
+## ユーザーマクロ
+
+[Zabbix](#o6myi6)において，`{$NAME}`の形式で参照する変数．グローバル，[テンプレート](#k4ea9r)，[ホスト](#y3ka2w)の単位で定義する．
+
+<a id="0dudjl"></a>
+
+## ユーザーメディア
+
+ユーザーに設定された，[メディアタイプ](#egz05p)ごとの通知先．
 
 <a id="v7n2z8"></a>
 
@@ -2980,17 +4386,61 @@ ToDo: [68](todo.md#todo-68)
 
 広告者の[AS番号](#wvk6j6)を格納する4[オクテット](#yimp6h)のグローバル管理者の欄と，その[自律システム](#8wkkrz)が意味を定める4[オクテット](#yimp6h)のローカルデータの欄2つとからなる，12[オクテット](#yimp6h)のタグで表す[コミュニティ](#ib4lx9)の拡張．
 
+<a id="8gfkr4"></a>
+
+## リクエスターマネージド型ネットワークインターフェース
+
+[AWSサービス](#40hiw9)が利用者の[サブネット](#oygsrp)に作成して管理し，その[AWSサービス](#40hiw9)の通信の口とする[Elastic Network Interface](#f5pqfi)．利用者はこれを変更も切り離しもできない．
+
+ToDo: [123](todo.md#todo-123)
+
+<a id="ia2trf"></a>
+
+## リソースゲートウェイ
+
+[サブネット](#oygsrp)に[リクエスターマネージド型ネットワークインターフェース](#8gfkr4)をもち，[AWS PrivateLink](#8irydc)または[Amazon VPC Lattice](#i24o70)を経て届いた通信を，その[リクエスターマネージド型ネットワークインターフェース](#8gfkr4)を送信元として，[IPアドレス](#3ksnfe)，[ドメイン名](#d8xx9q)，または[Amazon Resource Name](#c6b1z3)で指定された[通信先](#b2znuk)へ[中継](#zgr0mv)する[AWSリソース](#78qg7h)．[エンドポイントサービス](#7rs9yk)と異なり，[ロードバランサー](#v7r0tg)を要しない．
+
+<a id="6lul9i"></a>
+
+## リソースサーバー
+
+[OAuth](#2epxko)において，[保護対象](#qfjrzs)を保持し，[アクセストークン](#8w6s21)を添えた要求を受け付ける[サーバー](#uteg7y)．
+
 <a id="z6oh15"></a>
 
 ## リソースベースポリシー
 
 [AWSリソース](#78qg7h)に付与される[保護対象側ポリシー](#4xq8sn)である[IAMポリシー](#let9u3)．対象の[プリンシパル](#t8ujsy)をPrincipal要素で指定する．他の[AWSアカウント](#r2ghkv)の[プリンシパル](#t8ujsy)からの要求は，その[プリンシパル](#t8ujsy)の[アイデンティティベースポリシー](#feccnu)とリソースベースポリシーの双方が許可する場合に限り許可される．
 
+<a id="aodeq1"></a>
+
+## リダイレクトエンドポイント
+
+[認可クライアント](#47yah2)の[エンドポイント](#9i1lg3)．[認可エンドポイント](#17zvxp)の結果を[フロントチャネル](#xjb5je)で受け付ける．
+
 <a id="dnckyf"></a>
 
 ## リバースプロキシ
 
 [通信先](#b2znuk)の側に置かれ，要求元からは[通信先](#b2znuk)そのものとして見える[プロキシ](#2f8683)．
+
+<a id="df5trk"></a>
+
+## リフレッシュトークン
+
+[トークンエンドポイント](#f9akzj)が[アクセストークン](#8w6s21)と共に任意で発行し，[リフレッシュトークングラント](#8m372x)で示す[トークン](#qt96h9)．
+
+<a id="8m372x"></a>
+
+## リフレッシュトークングラント
+
+[リフレッシュトークン](#df5trk)を示す[認可グラント](#n1yjv8)．grant_typeはrefresh_tokenである．
+
+<a id="25f1g6"></a>
+
+## リライングパーティ
+
+[OpenID Connect](#9pzzlk)において，[認可クライアント](#47yah2)を兼ねる[サービスプロバイダ](#l5pssm)．
 
 <a id="ev8ocv"></a>
 
@@ -3004,17 +4454,47 @@ ToDo: [68](todo.md#todo-68)
 
 データを，同じ属性の並びをもつタプルの集合であるリレーションの集まりとして表す[データモデル](#7qyeyy)．
 
+<a id="xbrsqq"></a>
+
+## リンカ
+
+[オブジェクトファイル](#teluba)を結合し，名前の参照を定義に解決して，実行ファイルまたは[動的ライブラリ](#imdjs3)を出力するプログラム．
+
 <a id="xy3alb"></a>
 
 ## リンク
 
 [ネットワークインターフェース](#cufd0s)どうしが，[ルータ](#5f2okm)を介さずに直接データを交換できる[ネットワーク](#uy18d2)の範囲．
 
+<a id="7dib68"></a>
+
+## リンケージ
+
+[C言語](#4pg9c8)において，異なる[有効範囲](#c7221m)または[翻訳単位](#ncbdz9)で宣言された同じ識別子が同じ[Cオブジェクト](#rq1bpp)または関数を表すかを定める，識別子の性質．外部リンケージの識別子はプログラム全体で，内部リンケージの識別子は1つの[翻訳単位](#ncbdz9)内で同じ実体を表し，リンケージのない識別子は宣言ごとに別の実体を表す．
+
 <a id="1df8fw"></a>
 
 ## リージョン
 
 [Amazon Web Services](#totant)の基盤を地理的に区分した[障害ドメイン](#84djzd)．複数の[アベイラビリティゾーン](#zb3vp3)からなる．
+
+<a id="kgn0vn"></a>
+
+## リージョンの順序
+
+[オペレーション設定](#fm7edw)の項目．[リージョン](#1df8fw)を処理する順序を定める．[リージョン並行度](#dnamdr)が逐次のとき，[リージョン](#1df8fw)はこの順に1つずつ処理される．
+
+<a id="tynhcw"></a>
+
+## リージョンリソース
+
+1つの[リージョン](#1df8fw)に属する[AWSリソース](#78qg7h)．
+
+<a id="dnamdr"></a>
+
+## リージョン並行度
+
+[オペレーション設定](#fm7edw)の項目．複数の[リージョン](#1df8fw)を逐次に処理するか，並列に処理するかを定める．既定は逐次である．
 
 <a id="v8js9k"></a>
 
@@ -3038,7 +4518,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## ルーティングプロトコル
 
-[ルータ](#5f2okm)の間で[経路](#5433mk)を交換し，それぞれの[経路表](#dw7079)を構築する手順．
+[ルータ](#5f2okm)の間で[経路](#5433mk)を交換し，それぞれの[経路表](#dw7079)を構築する[プロトコル](#bhk5im)．
 
 <a id="4bwmon"></a>
 
@@ -3062,7 +4542,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## レジストリ
 
-[Windows NT](#jzpnq4)において，システムとアプリケーションの設定を，キーと値からなる階層として保持する[データベース](#vlgsmo)．
+[Windows NT](#jzpnq4)において，システムと[アプリケーション](#zxvj73)の設定を，キーと値からなる階層として保持する[データベース](#vlgsmo)．
 
 <a id="filo46"></a>
 
@@ -3094,6 +4574,12 @@ ToDo: [68](todo.md#todo-68)
 
 記録を追記のみにより発生順に並べた列．
 
+<a id="gkygc9"></a>
+
+## ログアイテム
+
+[ログ](#9rxwgw)を記録したファイルを監視する[アイテム](#as86xt)．`log[]`，`logrt[]`キーは行を，`log.count[]`，`logrt.count[]`キーは行数を値とし，正規表現を指定すると一致した行のみを対象とする．[アクティブチェック](#v4p3tn)でのみ動作する．
+
 <a id="w0f35w"></a>
 
 ## ログ先行書き込み
@@ -3105,6 +4591,8 @@ ToDo: [68](todo.md#todo-68)
 ## ロック
 
 並行するアクセスを調停するため，対象へのアクセスに先立って獲得し，後に解放する権利．同時に1者のみが獲得できる排他的なものと，複数者が同時に獲得できる共有のものがあり，両者は同時には獲得できない．
+
+ToDo: [104](todo.md#todo-104)
 
 <a id="sjrv0s"></a>
 
@@ -3146,9 +4634,7 @@ ToDo: [68](todo.md#todo-68)
 
 ## 中継
 
-受信した通信を[通信先](#b2znuk)へ向けて送り出すこと．中継するものは，通信を終端して自らを端点とする別の通信で送り出すか，通信の端点を変えずに送り出す．前者では，[通信先](#b2znuk)から見た通信の相手は中継するものである．
-
-ToDo: [67](todo.md#todo-67)
+受信した通信を[通信先](#b2znuk)へ向けて送り出すこと．
 
 <a id="7ckf0e"></a>
 
@@ -3204,6 +4690,18 @@ ToDo: [67](todo.md#todo-67)
 
 [NTFS](#42ymz9)において，ファイルが既定の無名のデータの列に加えてもつ，名前の付いたデータの列．
 
+<a id="h318rh"></a>
+
+## 仮想アドレス記述子
+
+[Windows NT](#jzpnq4)における[アドレス区間記述子](#k4ztwu)で，予約された区間を表す．対応付け先は[セクションオブジェクト](#frjmk2)と[プロセス](#lm3iq5)固有のメモリのいずれかである．区間内のアクセス権は[ページ](#05by8w)ごとに異なりうる．[EPROCESS](#ops4d2)はこれらを区間の位置で順序付けた[二分探索木](#n28uic)として保持する．
+
+<a id="cmoqun"></a>
+
+## 仮想アプライアンス
+
+[ネットワーク](#uy18d2)の機能を提供するソフトウェアを動かす[仮想マシン](#uwly1k)．
+
 <a id="cos7bu"></a>
 
 ## 仮想ネットワーク
@@ -3214,7 +4712,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 仮想ファイルシステム
 
-[Linux](#eh8l2u)において，個々の[ファイルシステム](#pp17bd)の実装の差異を隠し，ファイル操作の[システムコール](#saksfm)に統一的なインターフェースを提供する層．
+[カーネル](#cktjwx)において，個々の[ファイルシステム](#pp17bd)の実装の差異を隠し，ファイル操作の[システムコール](#saksfm)に統一的なインターフェースを提供する層．実装ごとの処理は[操作表](#xxcrwp)を通じて呼び出す．
 
 <a id="uwly1k"></a>
 
@@ -3226,13 +4724,25 @@ ToDo: [67](todo.md#todo-67)
 
 ## 仮想記憶
 
-[アドレス空間](#rygcc4)のアドレスを，[ページ](#05by8w)を単位として[物理メモリ](#svua87)の位置に対応付ける機構．
+[アドレス空間](#rygcc4)の[ページ](#05by8w)を[ページフレーム](#4qztd7)に対応付ける機構．
 
 <a id="zyyhvv"></a>
 
 ## 例外
 
 [割り込み](#owu45r)と異なり，実行中の命令に起因して同期的に発生し，[プロセッサ](#4ad6s1)に対応する処理を実行させる事象．
+
+<a id="qh1hz5"></a>
+
+## 依存アイテム
+
+マスタアイテムと呼ぶ他の[アイテム](#as86xt)の値から，[保存前処理](#zgnkho)で値を派生させる[アイテムタイプ](#ugi5pv)．
+
+<a id="zgnkho"></a>
+
+## 保存前処理
+
+[アイテム](#as86xt)の値を[ヒストリ](#s04nt7)に格納する前に適用する，変換手順の列．
 
 <a id="qfjrzs"></a>
 
@@ -3248,7 +4758,7 @@ ToDo: [67](todo.md#todo-67)
 
 <a id="l7b2yn"></a>
 
-## 信頼の連鎖
+## 信頼チェーン
 
 予め信頼する[公開鍵](#7xb1uk)を起点とし，各[公開鍵](#7xb1uk)をその上位の[公開鍵](#7xb1uk)で[電子署名](#wr3566)を検証して順に信頼し，対象の[公開鍵](#7xb1uk)の信頼に至る手続き．
 
@@ -3256,13 +4766,13 @@ ToDo: [67](todo.md#todo-67)
 
 ## 信頼ポリシー
 
-[IAMロール](#k1a9js)に付与され，そのロールを引き受けられる[プリンシパル](#t8ujsy)を定める[リソースベースポリシー](#z6oh15)．
+[IAMロール](#k1a9js)に付与され，そのロールの[IAMロール引受け](#0d235w)を許す[プリンシパル](#t8ujsy)と[アイデンティティプロバイダ](#3z77qd)を定める[リソースベースポリシー](#z6oh15)．
 
 <a id="w6gowu"></a>
 
 ## 偽装
 
-[Windows NT](#jzpnq4)において，[スレッド](#ou7dup)が所属する[プロセス](#lm3iq5)とは異なる[アクセストークン](#9ea3s0)で動作する[権限の引受け](#5bn6hq)．
+[Windows NT](#jzpnq4)において，[スレッド](#ou7dup)が所属する[プロセス](#lm3iq5)とは異なる[アクセストークン](#9ea3s0)で動作する[権限引受け](#5bn6hq)．
 
 <a id="twldru"></a>
 
@@ -3312,6 +4822,12 @@ ToDo: [67](todo.md#todo-67)
 
 複数の[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)に対応付けられた，同一の[物理メモリ](#svua87)の区域．[プロセス間通信](#vjg5ws)の手段となる．
 
+<a id="ms7tuh"></a>
+
+## 共用体
+
+[C言語](#4pg9c8)において，それぞれ[データ型](#w7t735)をもつメンバーが記憶域を重ねて共有する[データ型](#w7t735)．全てのメンバーは共用体の先頭に置かれ，共用体の大きさは最大のメンバーを格納できる大きさ以上である．
+
 <a id="sie28z"></a>
 
 ## 共通鍵
@@ -3348,12 +4864,6 @@ ToDo: [67](todo.md#todo-67)
 
 [Windows NT](#jzpnq4)において，既存の[アクセストークン](#9ea3s0)から，グループの無効化，権利の削除，制限する[セキュリティ識別子](#kzruy4)の追加により権限を減らして作る[アクセストークン](#9ea3s0)．
 
-<a id="ood9pc"></a>
-
-## 削除の伝播方針
-
-[オブジェクト](#8ot6zr)の削除時に指定する，それを[所有者参照](#zktekl)で指す[オブジェクト](#8ot6zr)の扱い．Orphanはそれらの[所有者参照](#zktekl)を除いて残し，Backgroundは所有者を直ちに削除してそれらを[ガベージコレクタ](#3x9bon)に削除させ，ForegroundはblockOwnerDeletionをもつものの削除を待ってから所有者を削除する．
-
 <a id="owu45r"></a>
 
 ## 割り込み
@@ -3365,6 +4875,24 @@ ToDo: [67](todo.md#todo-67)
 ## 割り込み要求レベル
 
 [Windows NT](#jzpnq4)において，[プロセッサ](#4ad6s1)ごとに設定される優先度．現在の値以下の[割り込み](#owu45r)は遮断される．0をPASSIVE_LEVEL，1をAPC_LEVEL，2をDISPATCH_LEVELと呼び，3以上の値はハードウェアの[割り込み](#owu45r)に用いられる．APC_LEVEL以上では[非同期プロシージャ呼び出し](#zlguzf)の実行が遮断される．DISPATCH_LEVEL以上では[スケジューラ](#wpudzb)による[スレッド](#ou7dup)の切り替えが起こらず，[物理メモリ](#svua87)に存在しない[ページ](#05by8w)を参照できない．
+
+<a id="imdjs3"></a>
+
+## 動的ライブラリ
+
+実行時に[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)に読み込まれ，[サブルーチン](#y825lm)とデータを提供するファイル．
+
+<a id="sxisir"></a>
+
+## 動的リンカ
+
+実行時に[動的ライブラリ](#imdjs3)を[プロセス](#lm3iq5)の[アドレス空間](#rygcc4)に読み込み，名前の参照を定義に解決する機構．
+
+<a id="zdjtf4"></a>
+
+## 動的型付け
+
+変数でなく値が[データ型](#w7t735)をもち，操作との整合を実行時に検査する方式．
 
 <a id="uo5htx"></a>
 
@@ -3408,6 +4936,12 @@ ToDo: [67](todo.md#todo-67)
 
 [Webブラウザ](#gcly3z)が，[Web文書](#qbtpp4)中の[JavaScript](#y8ql3q)に，異なる[オリジン](#3f4vd8)の[Web文書](#qbtpp4)と応答の内容の読み取りを既定で許さない規則．
 
+<a id="lnizbx"></a>
+
+## 名前キャッシュ
+
+[仮想ファイルシステム](#gid8it)において，[ディレクトリ](#j1d7gn)と名前の組からその名前のファイルの[VFSノード](#pg1lac)を得る検索の結果を保持し，[パス名](#ymj65u)の解決に用いる[キャッシュ](#kj4w0z)．名前が存在しないという結果は，[VFSノード](#pg1lac)を参照しない要素で表す．
+
 <a id="6bdul4"></a>
 
 ## 名前空間
@@ -3438,6 +4972,12 @@ ToDo: [67](todo.md#todo-67)
 
 [電波](#diiab2)の周波数の連続した範囲．範囲ごとに，利用の用途と免許の要否が法令で定められる．
 
+<a id="0qdj5m"></a>
+
+## 埋め込み連結リスト
+
+要素となる[構造体](#0fq59c)に，他の要素への参照をもつ[構造体](#0fq59c)をメンバーとして埋め込んでつくる[連結リスト](#zhodwh)．要素のアドレスは，埋め込んだメンバーのアドレスから，要素内でのそのメンバーの位置を引いて得る．1つの要素は，埋め込むメンバーを複数もつことで，同時に複数のリストに属する．
+
 <a id="00im0x"></a>
 
 ## 基地局
@@ -3456,11 +4996,25 @@ ToDo: [67](todo.md#todo-67)
 
 データの更新のたびに新しい版を作り，各[トランザクション](#v5hhix)に，定められた時点の[スナップショット](#ahlapd)に属する版を読ませる[並行制御](#0brxik)の方式．読み取りが書き込みを待たせない．
 
+<a id="q89hwf"></a>
+
+## 大規模言語モデル
+
+大量のテキストで訓練され，与えられた文章に続く文章を生成するモデル．
+
+ToDo: [150](todo.md#todo-150)，[116](todo.md#todo-116)
+
+<a id="qiqjj5"></a>
+
+## 委任管理者
+
+[管理アカウント](#svvkiy)が，特定の[AWSサービス](#40hiw9)について[組織](#sm4tb3)の管理を委ねるために登録した[メンバーアカウント](#yd40pa)．
+
 <a id="rkn7hg"></a>
 
 ## 実行ロール
 
-[Lambda関数](#v7xjp0)に関連付けられ，その実行時に引き受けられる[IAMロール](#k1a9js)．
+[Lambda関数](#v7xjp0)に関連付けられ，その実行時に[IAMロール引受け](#0d235w)の対象となる[IAMロール](#k1a9js)．
 
 <a id="duers5"></a>
 
@@ -3478,7 +5032,7 @@ ToDo: [67](todo.md#todo-67)
 
 ## 所有者参照
 
-[オブジェクト](#8ot6zr)の[メタデータ](#f7of70)に含まれ，所有者である他の[オブジェクト](#8ot6zr)を種類，名前，[UID](#w2fhil)で指す参照．[名前空間](#6bdul4)に属する[オブジェクト](#8ot6zr)の所有者は，同じ[名前空間](#6bdul4)に属するか，[名前空間](#6bdul4)に属さない．所有者が削除されたとき，[削除の伝播方針](#ood9pc)がOrphanでなければ，これをもつ[オブジェクト](#8ot6zr)も削除される．
+[オブジェクト](#8ot6zr)の[メタデータ](#f7of70)に含まれ，所有者である他の[オブジェクト](#8ot6zr)を種類，名前，[UID](#w2fhil)で指す参照．[名前空間](#6bdul4)に属する[オブジェクト](#8ot6zr)の所有者は，同じ[名前空間](#6bdul4)に属するか，[名前空間](#6bdul4)に属さない．所有者が削除されたとき，[propagationPolicy](#ood9pc)がOrphanでなければ，これをもつ[オブジェクト](#8ot6zr)も削除される．
 
 <a id="wxs2uf"></a>
 
@@ -3504,25 +5058,53 @@ ToDo: [67](todo.md#todo-67)
 
 型の欄をもつ8[オクテット](#yimp6h)のタグで表す[コミュニティ](#ib4lx9)の拡張．
 
+<a id="iwj5fh"></a>
+
+## 拡張プログラム
+
+既存のプログラムを作り直さずに，そのプログラムに後から機能を追加するプログラム．
+
+<a id="1erfeu"></a>
+
+## 拡張機能
+
+[アプリケーション](#zxvj73)に組み込む[拡張プログラム](#iwj5fh)．組み込み先が提供する[API](#9e509k)を通じて動作する．
+
 <a id="jp0l0f"></a>
 
 ## 探索木
 
 キーの順序に従って頂点にキーを配置し，根から比較により辿る頂点を選んでキーを探す[木](#dj2zcx)．検索，挿入，削除は高さに比例する時間を要し，[連想配列](#lkmji4)と，キーの順序に従う走査を実現する．
 
+<a id="st4cz5"></a>
+
+## 接続
+
+2つの[端点](#b084uv)がデータの交換に先立って確立し，交換の間それぞれが状態を保持する関係．
+
 <a id="d1bl1o"></a>
 
 ## 接続追跡
 
-通過する[IPパケット](#w9btgk)を，送信元と宛先の[IPアドレス](#3ksnfe)，[ポート番号](#avetpx)，プロトコルの組により接続に対応付け，接続ごとの状態を保持する機構．
+通過する[IPパケット](#w9btgk)を，送信元と宛先の[IPアドレス](#3ksnfe)，[ポート番号](#avetpx)，[プロトコル](#bhk5im)の組ごとに束ね，組ごとの通信の状態を保持する機構．[接続](#st4cz5)を確立しない[プロトコル](#bhk5im)の通信も束ねる．
 
-ToDo: [67](todo.md#todo-67)
+<a id="xxcrwp"></a>
+
+## 操作表
+
+[サブルーチン](#y825lm)への参照を並べた[データ構造](#y9ua1k)．同じ役割を異なる実装で果たす対象がそれぞれの実装の操作表を参照し，呼び出し側は実装を区別せずに操作表を通じて処理を呼び出す．
 
 <a id="iq5tpn"></a>
 
 ## 故障検出
 
 対象が正常に動作しているかを，対象から届くメッセージの有無と内容により判定すること．
+
+<a id="4e4la0"></a>
+
+## 数値型
+
+[アイテム](#as86xt)の値の型のうち，浮動小数または符号なし整数であるもの．
 
 <a id="79uj26"></a>
 
@@ -3554,11 +5136,17 @@ ToDo: [67](todo.md#todo-67)
 
 復号に用いる[鍵](#atfb8r)を知る者のみが元に戻せるようにデータを変換すること．逆の変換を復号と呼ぶ．
 
+<a id="lk5maz"></a>
+
+## 最大同時アカウント数
+
+[オペレーション設定](#fm7edw)の項目．1つの[リージョン](#1df8fw)で同時に処理する[ターゲットアカウント](#gjqg2o)の最大数を，数または割合で定める．
+
 <a id="avov3h"></a>
 
 ## 最小接続
 
-確立中の接続が最も少ない[通信先](#b2znuk)を選ぶ[ロードバランサー](#v7r0tg)の方式．
+確立中の[接続](#st4cz5)が最も少ない[通信先](#b2znuk)を選ぶ[ロードバランサー](#v7r0tg)の方式．
 
 <a id="raisax"></a>
 
@@ -3572,11 +5160,23 @@ ToDo: [67](todo.md#todo-67)
 
 与えられた[IPアドレス](#3ksnfe)を含む[IPプレフィックス](#6rwn5e)のうち，プレフィックス長が最大のものを選ぶ規則．
 
+<a id="c7221m"></a>
+
+## 有効範囲
+
+[C言語](#4pg9c8)において，識別子がその宣言の表す実体を表す，プログラムのテキストの範囲．ファイル，ブロック，関数，関数原型の4種がある．
+
 <a id="dj2zcx"></a>
 
 ## 木
 
 閉路をもたない連結な無向の[グラフ](#ypg0zz)．1つの頂点を根と定め，辺で隣接する2頂点のうち根に近い方を親，遠い方を子と呼ぶ．子のない頂点を葉，根から頂点までの辺の数を深さ，深さの最大値を高さと呼ぶ．
+
+<a id="1d4gs1"></a>
+
+## 未定義動作
+
+[プログラミング言語](#nw9j2i)の規格が，結果に何の要件も課さないプログラムの振る舞い．[コンパイラ](#a2nw9z)はこれが生じない前提で翻訳してよい．
 
 <a id="tva20i"></a>
 
@@ -3584,19 +5184,37 @@ ToDo: [67](todo.md#todo-67)
 
 [エグゼクティブ](#s3eb1d)において，[レジストリ](#0w2o91)を実装する構成要素．
 
+<a id="0fq59c"></a>
+
+## 構造体
+
+[C言語](#4pg9c8)において，それぞれ[データ型](#w7t735)をもつメンバーの，宣言の順の並びからなる[データ型](#w7t735)．[ビットフィールド](#ouc72p)を除くメンバーは宣言の順にアドレスが増える位置に置かれ，最初のメンバーは構造体の先頭に置かれる．メンバーの間と末尾に詰め物を置くことを規格は許す．
+
 <a id="9es8da"></a>
 
 ## 権威DNSサーバー
 
 [DNSゾーン](#2eh0s0)の[資源レコード](#syx2b4)を保持し，その[DNSゾーン](#2eh0s0)についての問合せに権威ある応答を返す[サーバー](#uteg7y)．1つの[DNSゾーン](#2eh0s0)を複数の権威DNSサーバーが保持し，[ゾーン転送](#zil7hp)で内容を揃える．
 
+<a id="lti67d"></a>
+
+## 権限代行
+
+処理が，別の処理の要求を受け，その可否を判定した上で，自身の[セキュリティ文脈](#lxnyp5)の下で要求された操作を行うこと．[権限引受け](#5bn6hq)と異なり，要求した処理の[セキュリティ文脈](#lxnyp5)は変わらない．
+
 <a id="5bn6hq"></a>
 
-## 権限の引受け
+## 権限引受け
 
 処理が，それを開始した[主体](#pyjgmb)の[セキュリティ文脈](#lxnyp5)と異なる[セキュリティ文脈](#lxnyp5)を得て，その下で動作すること．
 
-ToDo: [68](todo.md#todo-68)
+<a id="rzi1ck"></a>
+
+## 権限昇格
+
+[主体](#pyjgmb)が，本来許されない操作を行える[セキュリティ文脈](#lxnyp5)を得ること．
+
+ToDo: [125](todo.md#todo-125)
 
 <a id="ky7oww"></a>
 
@@ -3615,6 +5233,12 @@ ToDo: [68](todo.md#todo-68)
 ## 永続性
 
 コミットした[トランザクション](#v5hhix)の結果が障害後も失われないという性質．
+
+<a id="jcg0dk"></a>
+
+## 深刻度
+
+[Zabbix](#o6myi6)において，[トリガー](#3gz3w5)と[イベント](#przzj5)がもつ重大さの段階．低い順に未分類，情報，警告，軽度の障害，重度の障害，致命的な障害の6段階である．
 
 <a id="1zfkze"></a>
 
@@ -3640,13 +5264,13 @@ ToDo: [68](todo.md#todo-68)
 
 [プロセッサ](#4ad6s1)が命令とデータを直接読み書きする記憶装置．
 
-ToDo: [72](todo.md#todo-72)
-
 <a id="uk5ihn"></a>
 
 ## 特権モード
 
 [ユーザーモード](#v7n2z8)では禁止される命令の実行が許される，[プロセッサ](#4ad6s1)の実行状態．
+
+ToDo: [139](todo.md#todo-139)
 
 <a id="u90lkn"></a>
 
@@ -3660,11 +5284,35 @@ ToDo: [72](todo.md#todo-72)
 
 [ドメイン名](#d8xx9q)の末尾に一致する最長の[公開接尾辞](#vs10rb)に，その直前の[DNSラベル](#7siuzh)を1つ加えた[ドメイン名](#d8xx9q)．
 
+<a id="7slqlb"></a>
+
+## 監査
+
+対象が基準に適合しているかを，証拠に基づいて評価すること．
+
+<a id="90keyj"></a>
+
+## 監視主体
+
+[Zabbix](#o6myi6)において，[ホスト](#y3ka2w)の[アイテム](#as86xt)の値を収集する[プロセス](#lm3iq5)．
+
+<a id="pvfe2i"></a>
+
+## 監視規則
+
+監視対象の値または状態を条件で評価し，監視状態を定める規則．
+
 <a id="p0wpt2"></a>
 
 ## 直列化可能性
 
 並行に実行された[トランザクション](#v5hhix)の結果が，それらをある順序で1つずつ実行した結果と等しいという条件．
+
+<a id="8zsqwg"></a>
+
+## 確認応答
+
+[障害](#ilz3yu)をユーザーが確認したことを記録する操作．
 
 <a id="dak54j"></a>
 
@@ -3682,19 +5330,67 @@ ToDo: [72](todo.md#todo-72)
 
 ## 端末
 
-通信を[中継](#zgr0mv)せず，利用者が通信の端点として用いる機器．
+通信を[中継](#zgr0mv)せず，利用者が通信の[端点](#b084uv)として用いる機器．
+
+<a id="b084uv"></a>
+
+## 端点
+
+通信の両端にあって，データを送り出し，受け取るもの．
 
 <a id="svvkiy"></a>
 
 ## 管理アカウント
 
-[AWS Organizations](#yj1k74)の組織を作成し，その組織を管理する[AWSアカウント](#r2ghkv)．組織ごとに1つであり，[サービスコントロールポリシー](#stc42v)は適用されない．
+[組織](#sm4tb3)を作成し，所有する[AWSアカウント](#r2ghkv)．[組織](#sm4tb3)ごとに1つであり，[サービスコントロールポリシー](#stc42v)は適用されない．
+
+<a id="kh4nz4"></a>
+
+## 管理者アカウント
+
+[スタックセット](#9hhp5i)を作成する[AWSアカウント](#r2ghkv)．
+
+<a id="l0kw7s"></a>
+
+## 範囲外アクセス
+
+[データオブジェクト](#wvtf4u)への参照を通じて，その[データオブジェクト](#wvtf4u)の範囲の外のメモリにアクセスする誤り．
+
+<a id="sm4tb3"></a>
+
+## 組織
+
+[組織ルート](#9kuc7i)を根とし，[組織単位](#1wx4ge)と[組織アカウント](#4q8oz8)を根以外の頂点とする[木](#dj2zcx)である[組織リソース](#b2lxzl)．
+
+<a id="4q8oz8"></a>
+
+## 組織アカウント
+
+[組織](#sm4tb3)の葉であり，1つの[AWSアカウント](#r2ghkv)を参照する[組織リソース](#b2lxzl)．
+
+<a id="ljfr92"></a>
+
+## 組織インスタンス
+
+[組織](#sm4tb3)全体を管理対象とし，[管理アカウント](#svvkiy)が所有する[Identity Centerインスタンス](#5mx2oh)．[組織](#sm4tb3)ごとに最大1つ．プライマリリージョン以外の[リージョン](#1df8fw)に複製できる．
+
+<a id="b2lxzl"></a>
+
+## 組織リソース
+
+[AWS Organizations](#yj1k74)の[AWSリソース](#78qg7h)．[管理アカウント](#svvkiy)が所有する[グローバルリソース](#bdchaf)である．
+
+<a id="9kuc7i"></a>
+
+## 組織ルート
+
+[組織](#sm4tb3)の根である[組織リソース](#b2lxzl)．
 
 <a id="1wx4ge"></a>
 
 ## 組織単位
 
-[AWS Organizations](#yj1k74)の組織において，[AWSアカウント](#r2ghkv)をまとめる入れ子可能な容器．付与された[サービスコントロールポリシー](#stc42v)は配下の全ての組織単位と[AWSアカウント](#r2ghkv)に及ぶ．
+[組織](#sm4tb3)の根以外の頂点であり，子をもちうる[組織リソース](#b2lxzl)．
 
 <a id="5433mk"></a>
 
@@ -3750,12 +5446,6 @@ ToDo: [72](todo.md#todo-72)
 
 [ROA](#xmhp27)に基づき[経路](#5433mk)を分類する手順．その[IPプレフィックス](#6rwn5e)を包含する[ROA](#xmhp27)がなければNotFound，包含しプレフィックス長が最大プレフィックス長以下である[ROA](#xmhp27)のいずれかの[AS番号](#wvk6j6)が[AS_PATH](#my3zbg)の示す発生源に一致すればValid，それ以外はInvalidとする．
 
-<a id="4m7c9r"></a>
-
-## 経路表
-
-[サブネット](#oygsrp)に関連付けられる[経路表](#dw7079)．
-
 <a id="dw7079"></a>
 
 ## 経路表
@@ -3774,11 +5464,37 @@ ToDo: [72](todo.md#todo-72)
 
 複数の[IPプレフィックス](#6rwn5e)を，それらを包含する1つの短い[IPプレフィックス](#6rwn5e)として広告すること．集約により[AS_PATH](#my3zbg)の情報が失われる場合はATOMIC_AGGREGATE属性を付す．集約した[BGPスピーカー](#v9rnch)は，AGGREGATOR属性で自身の[AS番号](#wvk6j6)とアドレスを示す．
 
+<a id="wr7tbp"></a>
+
+## 統合開発環境
+
+[テキストエディタ](#nud9su)による編集，[ビルドシステム](#ci6jok)による変換，[デバッガ](#49baql)による欠陥の特定を，1つの[アプリケーション](#zxvj73)で行うソフトウェア開発の環境．
+
 <a id="q83z5h"></a>
 
 ## 線形化可能性
 
 並行に実行される各操作が，その開始から完了までの間のある一時点で瞬時に実行されたかのように見えるという，操作の結果に対する条件．
+
+<a id="gv4jmw"></a>
+
+## 置換更新
+
+共有される[データ構造](#y9ua1k)を書き換えず，変更を加えた写しを作って参照を置き換えることで更新する方式．置換の前に参照を得た処理は，変更前の内容を一貫して読む．
+
+ToDo: [144](todo.md#todo-144)
+
+<a id="ncbdz9"></a>
+
+## 翻訳単位
+
+1つのソースファイルを[プリプロセッサ](#rewxde)で処理した結果．[コンパイラ](#a2nw9z)はこれを単位に翻訳する．
+
+<a id="grye5m"></a>
+
+## 自動登録
+
+[Zabbix](#o6myi6)において，[アクティブチェック](#v4p3tn)を要求した[Zabbix Agent](#5l6oih)の情報に基づき，[アクション](#pfbsnf)で[ホスト](#y3ka2w)を登録する機能．
 
 <a id="8wkkrz"></a>
 
@@ -3802,7 +5518,19 @@ ToDo: [72](todo.md#todo-72)
 
 ## 解放後使用
 
-解放されたメモリの領域を，解放前に得た参照を通じて使用する誤り．[メモリ安全性](#qbsksa)の違反である．
+解放されたメモリの領域を，解放前に得た参照を通じて使用する誤り．
+
+<a id="69tuqj"></a>
+
+## 言語サーバー
+
+[プログラミング言語](#nw9j2i)の意味を解析し，その言語に固有の編集支援の機能を[Language Server Protocol](#dfaxj3)で[テキストエディタ](#nud9su)に提供するプログラム．
+
+<a id="z1b6lv"></a>
+
+## 計算アイテム
+
+他の[アイテム](#as86xt)の値から数式で値を算出する[アイテムタイプ](#ugi5pv)．
 
 <a id="tl94hx"></a>
 
@@ -3816,9 +5544,23 @@ ToDo: [72](todo.md#todo-72)
 
 データを書き込み，後に読み出すために保持する容量．
 
+<a id="uvaml5"></a>
+
+## 記憶域期間
+
+[Cオブジェクト](#rq1bpp)の寿命を定める区分．静的，スレッド，自動，割付けの4種があり，寿命はそれぞれ，プログラムの実行の全体，[スレッド](#ou7dup)の実行の全体，宣言を含むブロックへの進入から実行の終了まで（可変長配列は宣言から[有効範囲](#c7221m)を出るまで），[C標準ライブラリ](#oyypas)のaligned_alloc，calloc，malloc，reallocによる確保から解放までである．
+
+ToDo: [141](todo.md#todo-141)
+
+<a id="p7yj2k"></a>
+
+## 許可セット
+
+[組織インスタンス](#ljfr92)において，[AWSアカウント](#r2ghkv)で与える権限を[IAMポリシー](#let9u3)の集まりとして定めたもの．[アカウント割り当て](#n4iumx)に用いると，割り当て先の[AWSアカウント](#r2ghkv)にその権限をもつ[IAMロール](#k1a9js)が作成される．
+
 <a id="id1pzp"></a>
 
-## 許可の上限
+## 許可上限
 
 それ自体は許可を与えず，他の手段で与えられた許可のうち，その範囲を超えるものを無効にする制約．
 
@@ -3832,7 +5574,7 @@ ToDo: [72](todo.md#todo-72)
 
 ## 証明書
 
-[公開鍵](#7xb1uk)とその保持者を結び付ける主張に，発行者が[電子署名](#wr3566)を付したデータ．[信頼の連鎖](#l7b2yn)により検証される．
+[公開鍵](#7xb1uk)とその保持者を結び付ける主張に，発行者が[電子署名](#wr3566)を付したデータ．[信頼チェーン](#l7b2yn)により検証される．
 
 <a id="8esn53"></a>
 
@@ -3840,11 +5582,53 @@ ToDo: [72](todo.md#todo-72)
 
 [主体](#pyjgmb)の要求を許可するか拒否するかを決めること．
 
+<a id="17zvxp"></a>
+
+## 認可エンドポイント
+
+[認可サーバー](#kvuagh)の[エンドポイント](#9i1lg3)．[フロントチャネル](#xjb5je)で[クライアントID](#rhlnw8)を含む要求を受け付け，[主体](#pyjgmb)に[認可クライアント](#47yah2)への許可または拒否を問い合わせ，結果を[フロントチャネル](#xjb5je)で[リダイレクトエンドポイント](#aodeq1)に送る．許可された場合，結果に[認可コード](#cnospa)を含める．
+
+<a id="47yah2"></a>
+
+## 認可クライアント
+
+[OAuth](#2epxko)において，[認可サーバー](#kvuagh)から[アクセストークン](#8w6s21)を得て[リソースサーバー](#6lul9i)に要求を送る[クライアント](#xv4m3d)．[クライアントID](#rhlnw8)で識別される．
+
+<a id="n1yjv8"></a>
+
+## 認可グラント
+
+[認可クライアント](#47yah2)が[トークンエンドポイント](#f9akzj)に示す，[アクセストークン](#8w6s21)の発行の根拠．種類は要求のgrant_typeで指定する．
+
+<a id="cnospa"></a>
+
+## 認可コード
+
+[認可エンドポイント](#17zvxp)が発行し，[認可コードグラント](#sdvdsn)で一度だけ示せる短命の値．
+
+<a id="sdvdsn"></a>
+
+## 認可コードグラント
+
+[認可コード](#cnospa)を示す[認可グラント](#n1yjv8)．grant_typeはauthorization_codeである．
+
+<a id="kvuagh"></a>
+
+## 認可サーバー
+
+[OAuth](#2epxko)において，[リソースサーバー](#6lul9i)に代わって[認可](#8esn53)し，[認可クライアント](#47yah2)に[アクセストークン](#8w6s21)を発行する[サーバー](#uteg7y)．
+
 <a id="l2zofw"></a>
 
 ## 認証
 
-[主体](#pyjgmb)が主張する身元を確かめること．
+[識別](#mo69ip)で主張された[アイデンティティ](#8yx5pi)を確かめること．
+
+<a id="ki350n"></a>
+
+## 認証アサーション
+
+[アイデンティティプロバイダ](#3z77qd)が発行し，[主体](#pyjgmb)の[認証](#l2zofw)の結果を，その[主体](#pyjgmb)を示す識別子と共に表すデータ．
 
 <a id="p3b37s"></a>
 
@@ -3862,7 +5646,7 @@ ToDo: [72](todo.md#todo-72)
 
 ## 認証情報
 
-[認証](#l2zofw)において[主体](#pyjgmb)が身元の証明として示す情報．
+[認証](#l2zofw)において[主体](#pyjgmb)が[アイデンティティ](#8yx5pi)の証明として示す情報．
 
 <a id="gibl6s"></a>
 
@@ -3870,11 +5654,19 @@ ToDo: [72](todo.md#todo-72)
 
 対象の望ましい状態を保持し，実際の状態を観測して望ましい状態との差を減らす操作を繰り返す制御の方式．
 
+ToDo: [104](todo.md#todo-104)
+
 <a id="es46jv"></a>
 
 ## 論理ボリューム
 
 [ボリュームグループ](#um9c12)の[物理エクステント](#six0ds)を割り当てて構成され，[ブロックデバイス](#1frbzb)として見える[LVM](#9tfla3)の単位．複数の[物理ボリューム](#uj3w47)にまたがり，稼働中に容量を変えられる．[物理エクステント](#six0ds)の配置に，連続，複数の[物理ボリューム](#uj3w47)への交互の分散，[RAID](#1bon32)がある．シンプールと呼ぶ論理ボリュームからは，[シンプロビジョニング](#twt6a6)による論理ボリュームを切り出せる．
+
+<a id="mo69ip"></a>
+
+## 識別
+
+[主体](#pyjgmb)が自身の[アイデンティティ](#8yx5pi)を主張すること．
 
 <a id="lhc0wp"></a>
 
@@ -3888,17 +5680,11 @@ ToDo: [72](todo.md#todo-72)
 
 [プロセス](#lm3iq5)の実行に用いられ，複数の[プロセス](#lm3iq5)の間で配分される有限の対象．
 
-<a id="1sgoxr"></a>
-
-## 資源の隔離
-
-[プロセス](#lm3iq5)の集合ごとに，見える[資源](#k7gc81)を分け，他の集合の[資源](#k7gc81)を見えなくすること．
-
 <a id="syx2b4"></a>
 
 ## 資源レコード
 
-[DNS](#v0yvpo)において，[ドメイン名](#d8xx9q)に対応付けられる情報の単位．所有者の[ドメイン名](#d8xx9q)，型，クラス，TTL，型に応じたデータからなる．クラスはプロトコルの体系を示す値であり，[インターネット](#3qoztf)ではINを用いる．TTLは[キャッシュ](#kj4w0z)に保持してよい秒数である．所有者，型，クラスの等しい資源レコードの集合を資源レコードセットと呼ぶ．
+[DNS](#v0yvpo)において，[ドメイン名](#d8xx9q)に対応付けられる情報の単位．所有者の[ドメイン名](#d8xx9q)，型，クラス，TTL，型に応じたデータからなる．クラスは[プロトコル](#bhk5im)の体系を示す値であり，[インターネット](#3qoztf)ではINを用いる．TTLは[キャッシュ](#kj4w0z)に保持してよい秒数である．所有者，型，クラスの等しい資源レコードの集合を資源レコードセットと呼ぶ．
 
 <a id="g9mkrr"></a>
 
@@ -3910,9 +5696,13 @@ ToDo: [72](todo.md#todo-72)
 
 ## 資源要求と制限
 
-[コンテナ](#uds0ak)ごとに指定する[資源](#k7gc81)の量．要求は[kube-scheduler](#62x28a)が[ノード](#6qrxi1)の選択に用い，制限は[cgroup](#rh5dah)により実行時に課される．メモリの制限を超えた[コンテナ](#uds0ak)は強制終了され，CPUの制限を超える使用は抑制される．
+[コンテナ](#uds0ak)ごとに指定する[資源](#k7gc81)の量．要求は[kube-scheduler](#62x28a)が[ノード](#6qrxi1)の選択に用い，制限は[cgroup](#rh5dah)により実行時に課される．[物理メモリ](#svua87)の制限を超えた[コンテナ](#uds0ak)は強制終了され，[プロセッサ](#4ad6s1)の時間の制限を超える使用は抑制される．
 
-ToDo: [72](todo.md#todo-72)
+<a id="1sgoxr"></a>
+
+## 資源隔離
+
+[プロセス](#lm3iq5)の集合ごとに，見える[資源](#k7gc81)を分け，他の集合の[資源](#k7gc81)を見えなくすること．
 
 <a id="aesepi"></a>
 
@@ -3924,9 +5714,7 @@ ToDo: [72](todo.md#todo-72)
 
 ## 通信先
 
-要求元からの通信が最終的に届けられる端点．
-
-ToDo: [67](todo.md#todo-67)
+要求元からの通信が最終的に届けられる[端点](#b084uv)．
 
 <a id="lkmji4"></a>
 
@@ -3946,6 +5734,8 @@ ToDo: [67](todo.md#todo-67)
 
 [Windows NT](#jzpnq4)において，DISPATCH_LEVELの[割り込み要求レベル](#aiwf2j)で実行されるよう[待ち行列](#lhxknx)に入れられる手続き．[割り込み](#owu45r)の処理のうち，より高い[割り込み要求レベル](#aiwf2j)を要しない部分の実行に用いられる．
 
+ToDo: [136](todo.md#todo-136)
+
 <a id="mwtuz5"></a>
 
 ## 遅延割り当て
@@ -3964,6 +5754,12 @@ ToDo: [67](todo.md#todo-67)
 
 [暗号](#o5aaif)の演算において，入力のデータとともに出力を定める値．
 
+<a id="u8r1ic"></a>
+
+## 開かれたファイル記述
+
+[ハンドル](#ib1jow)が参照する，開かれたファイルの状態．読み書きの位置と，開いたときのアクセスモードを保持し，複製された[ハンドル](#ib1jow)の間で共有される．
+
 <a id="egp00x"></a>
 
 ## 関数
@@ -3976,11 +5772,25 @@ ToDo: [67](todo.md#todo-67)
 
 [セキュリティ記述子](#28ts3b)において，アクセスの許可と拒否を指定する[アクセス制御エントリ](#gyqv5u)の順序付きリストである[保護対象側ポリシー](#4xq8sn)．これが存在しない場合は全てのアクセスが許可され，存在する場合は[既定拒否](#kfuctl)が適用される．
 
+<a id="ilz3yu"></a>
+
+## 障害
+
+[Zabbix](#o6myi6)において，[トリガー値](#hxwb5z)が`PROBLEM`であるときに[トリガー](#3gz3w5)が生成した[イベント](#przzj5)．[トリガー](#3gz3w5)の生成モードが単一なら`PROBLEM`への変化時にのみ，複数なら条件式が真となる評価のたびに生成される．[トリガー](#3gz3w5)が許す場合は手動でクローズできる．
+
+ToDo: [103](todo.md#todo-103)
+
 <a id="84djzd"></a>
 
 ## 障害ドメイン
 
-障害の影響範囲を限るため，電源や[ネットワーク](#uy18d2)等の基盤を他と独立にもつ区画．
+障害が他の区画に波及しないよう，電源と[ネットワーク](#uy18d2)を含む基盤を他の区画と共有しない区画．
+
+<a id="oo8lsi"></a>
+
+## 障害耐性
+
+[オペレーション設定](#fm7edw)の項目．[リージョン](#1df8fw)ごとに，処理の失敗を許容する[ターゲットアカウント](#gjqg2o)の数を，数または割合で定める．失敗がこれを超えた[リージョン](#1df8fw)では処理を止め，後続の[リージョン](#1df8fw)では処理を試みない．
 
 <a id="wr3566"></a>
 
@@ -3993,6 +5803,12 @@ ToDo: [67](todo.md#todo-67)
 ## 電波
 
 空間を伝わる，周波数3THz以下の電磁波．
+
+<a id="c7sqk0"></a>
+
+## 静的型付け
+
+変数と式の[データ型](#w7t735)をプログラムの実行前に定め，操作との整合を実行前に検査する方式．
 
 <a id="zlguzf"></a>
 
